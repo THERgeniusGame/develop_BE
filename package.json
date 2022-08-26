@@ -1,0 +1,32 @@
+{
+  "name": "thergeiusgame",
+  "version": "1.0.0",
+  "description": "back-end git",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/THERgeniusGame/develop_BE.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/THERgeniusGame/develop_BE/issues"
+  },
+  "homepage": "https://github.com/THERgeniusGame/develop_BE#readme",
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.4",
+    "sequelize-cli": "^6.4.1"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1203.0",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
