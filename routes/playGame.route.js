@@ -5,7 +5,7 @@ const io = require('socket.io')(server);
 
 const gameController=require("../controllers/playGame.controller")
 const GameController=new gameController();
-router.get('/socket', function(req, res) {
+router.get('/random', function(req, res) {
     res.sendFile(__dirname + '/static/index.html');
 });
 router.get("/:roomId",GameController.visitGame)
