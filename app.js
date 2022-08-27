@@ -9,7 +9,7 @@ class App {
     this.app = express();
     this.setMiddleWare();
     this.setRouter();
-    // this.setErrorHandler();
+    this.setErrorHandler();
   }
   setMiddleWare() {
     this.app.use(express.json());
