@@ -11,7 +11,7 @@ class App {
     this.setMiddleWare();
     this.setRouter();
     this.setIo(app);
-    // this.setErrorHandler();
+    this.setErrorHandler();
   }
   setMiddleWare() {
     this.app.use(express.json());
