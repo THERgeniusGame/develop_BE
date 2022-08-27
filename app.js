@@ -1,6 +1,6 @@
 const express = require("express");
 const { sequelize } = require("./models");
-// const indexRouter = require("./routes");
+ const indexRouter = require("./routes");
 const { error404, error } = require("./middlewares/error");
 const cors = require("cors");
 
@@ -9,7 +9,7 @@ class App {
     this.app = express();
     this.setMiddleWare();
     this.setRouter();
-    // this.setErrorHandler();
+    this.setErrorHandler();
   }
   setMiddleWare() {
     this.app.use(express.json());
@@ -17,7 +17,7 @@ class App {
     this.app.use(cors());
   }
   setRouter() {
-    // this.app.use("/api", indexRouter);
+     this.app.use("/api", indexRouter);
   }
   setErrorHandler() {
     this.app.use(error404);
