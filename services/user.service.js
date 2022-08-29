@@ -41,7 +41,9 @@ class UserService {
         if (!userInfo) {
           return { status: 400, message: "아이디 혹은 비밀번호가 일치하지 않습니다." };
         } else {
-          const isSame = bcrypt.compareSync(password, userInfo.password);
+          const isSame = bcrypt.compareSync(password, userInfo.password,{
+            expiresIn: '7d', //1분
+          });
           if (!isSame) {
             return { status: 400, message: "아이디 혹은 비밀번호가 일치하지 않습니다." };
           } else {
