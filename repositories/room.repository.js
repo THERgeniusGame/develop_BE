@@ -2,8 +2,10 @@ const { Rooms, Users } = require("../models");
 
 module.exports = class RoomRepository {
   //로비화면
-  getRoomsInfo = async () => {
+  getRoomsInfo = async (offset) => {
     const roomsInfo = await Rooms.findAll({
+      offset: offset,
+      limit: 6,
       raw: true,
     });
     const getUserId = await roomsInfo.map((roomInfo) => roomInfo.userId);
