@@ -22,7 +22,7 @@ module.exports = class RoomController {
     //const userId = 1; //test용
     const { roomTitle, roomCategory, roomLock, roomPw } = req.body;
 
-    if (!roomTitle || !roomCategory) {
+    if (!roomTitle /* || !roomCategory */) {
       return res.status(400).send({ success: false, msg: "Invalid-Datatype" });
     }
 
