@@ -22,7 +22,7 @@
   <script>
   $(function(){
     // socket.io 서버에 접속한다
-    const socket = io.connect();
+    const socket = io.connect('http://localhost:8000/1');
     // 서버로 자신의 정보를 전송한다.
     socket.emit("login", {
       // name: "ungmo2",
