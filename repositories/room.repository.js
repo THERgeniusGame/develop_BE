@@ -54,4 +54,15 @@ module.exports = class RoomRepository {
     });
     return roomsInfo
   }
+  //roomId find
+  findRoomId=async(roomId)=>{
+    const roomsInfo = await Rooms.findOne({
+      attributes: ["roomId"],
+      where:{
+        roomId:roomId
+      },
+    });
+    return roomsInfo
+  }
+
 };
