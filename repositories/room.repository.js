@@ -45,4 +45,12 @@ module.exports = class RoomRepository {
     });
     return createRoom;
   };
+  
+  //roomIdList
+  getRoomList=async()=>{
+    const roomsInfo = await Rooms.findAll({
+      attributes: ["roomId"],
+      raw: true,
+    });
+  }
 };
