@@ -4,8 +4,8 @@ module.exports = class RoomService {
   roomRepository = new RoomRepository();
 
   //로비화면
-  getRoomsInfo = async () => {
-    const roomsInfo = await this.roomRepository.getRoomsInfo();
+  getRoomsInfo = async (offset) => {
+    const roomsInfo = await this.roomRepository.getRoomsInfo(offset);
     let RoomInfoResult;
 
     if (roomsInfo.roomsInfo.length === 0) {
