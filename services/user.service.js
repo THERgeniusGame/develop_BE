@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const UserRepository = require("../repositories/user.repository");
 const bcrypt = require('bcrypt');
+require("dotenv").config();
 const env = process.env;
 
 class UserService {
@@ -37,7 +38,6 @@ class UserService {
           return { status: 400, message: "모두 입력하세요." };
         };
         
-        console.log(userInfo)
         if (!userInfo) {
           return { status: 400, message: "아이디 혹은 비밀번호가 일치하지 않습니다." };
         } else {
@@ -49,7 +49,9 @@ class UserService {
               userId: userInfo.userId,
               nickname: userInfo.nickname,
             };
-            const token = jwt.sign(payload, env.SECRET_KEY);
+            const token = jwt.sign(payload, env.SECRET_KEY,{
+              expiresIn: '7d', //1분
+            });
             return { status: 201, dete: token };
           };
         };
