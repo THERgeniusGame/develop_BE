@@ -1,7 +1,6 @@
 const http=require('http')
 const {Server}=require('socket.io')
 const { error404, error } = require("../middlewares/error.socket");
-const session=require("express-session");
 class IO{
   constructor(app){ 
     this.server = http.createServer(app);
@@ -38,7 +37,6 @@ class IO{
         // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
         if(msg.msg!==""){
           console.log('Message from %s: %s', socket.name, data.msg);
-          console.log(msg);
           nsp.emit('msg', msg);
         }
       
