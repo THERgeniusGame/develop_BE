@@ -52,5 +52,6 @@ module.exports = class RoomRepository {
       attributes: ["roomId"],
       raw: true,
     });
+    return roomsInfo
   }
 };
