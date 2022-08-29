@@ -40,7 +40,7 @@
 
     // 서버로부터의 메시지가 수신되면
     socket.on("server_msg", function(data) {
-      $("#chatLogs").append("<div>" + data.msg + " : from <strong>" + data.from.name + "</strong></div>");
+      $("#chatLogs").append("<div>" + data.msg + " : from <strong>" + data.from.nickname + "</strong></div>");
     });
 
     // Send 버튼이 클릭되면
