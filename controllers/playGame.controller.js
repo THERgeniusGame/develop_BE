@@ -1,7 +1,8 @@
-
 class PlayGameController{
-    visitGame=(req,res,next)=>{
-        res.send("test")
+    visitGame=async(req,res,next)=>{
+        const roomId=req.params
+        const userId=1;
+        res.sendFile(__dirname + '/static/index.html');
     }
 }
 

@@ -47,4 +47,24 @@ module.exports = class RoomRepository {
     });
     return createRoom;
   };
+  
+  //roomIdList
+  getRoomList=async()=>{
+    const roomsInfo = await Rooms.findAll({
+      attributes: ["roomId"],
+      raw: true,
+    });
+    return roomsInfo
+  }
+  //roomId find
+  findRoomId=async(roomId)=>{
+    const roomsInfo = await Rooms.findOne({
+      attributes: ["roomId"],
+      where:{
+        roomId:roomId
+      },
+    });
+    return roomsInfo
+  }
+
 };
