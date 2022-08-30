@@ -55,7 +55,8 @@ module.exports = class RoomService {
       roomPw,
       userId
     );
+    const result = createRoom.dataValues.roomId;
 
-    return { createRoom, success: true };
+    return { result, success: true };
   };
 };
