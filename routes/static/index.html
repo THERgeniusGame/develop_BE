@@ -21,7 +21,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
   $(function(){
-    const room=window.location.pathname.split('/')[3].toString(0);
+    const room=window.location.pathname.split('/')[4].toString(0);
     console.log(room)
     // socket.io 서버에 접속한다
     const socket = io.connect('http://localhost:8000/');

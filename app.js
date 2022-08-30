@@ -3,7 +3,7 @@ const { sequelize } = require("./models");
 const indexRouter = require("./routes");
 const { error404, error } = require("./middlewares/error");
 const cors = require("cors");
-const IO=require("./socket/io")
+const IO=require("./socket/socket")
 
 class App {
   app = express();
