@@ -13,13 +13,7 @@ module.exports = class RoomController {
     }
     const roomsInfo = await this.roomService.getRoomsInfo(offset);
 
-    if (roomsInfo.success !== false) {
-      res.status(200).json({ success: true, data: roomsInfo });
-    } else {
-      return res
-        .status(roomsInfo.status)
-        .send({ success: false, msg: roomsInfo.msg });
-    }
+    return res.json({ roomsInfo });
   };
 
   //방만들기
