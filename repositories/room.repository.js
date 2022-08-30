@@ -69,4 +69,13 @@ module.exports = class RoomRepository {
     });
     return roomsInfo;
   };
+  //room find
+  findRoomId = async (roomId) => {
+    const roomsInfo = await Rooms.findOne({
+      where: {
+        roomId: roomId,
+      },
+    });
+    return roomsInfo;
+  };
 };

@@ -21,7 +21,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script>
   $(function(){
-    const room=window.location.pathname.split('/')[3].toString(0);
+    const room=window.location.pathname.split('/')[4].toString(0);
     console.log(room)
     // socket.io 서버에 접속한다
     const socket = io.connect('http://localhost:8000/');
@@ -39,7 +39,7 @@
     });
 
     // 서버로부터의 메시지가 수신되면
-    socket.on("server_msg", function(data) {
+    socket.on("chat", function(data) {
       $("#chatLogs").append("<div>" + data.msg + " : from <strong>" + data.from.nickname + "</strong></div>");
     });
 
@@ -49,7 +49,7 @@
       var $msgForm = $("#msgForm");
 
       // 서버로 메시지를 전송한다.
-      socket.emit("client_msg", { msg: $msgForm.val()});
+      socket.emit("chat", { msg: $msgForm.val()});
       $msgForm.val("");
     });
 
