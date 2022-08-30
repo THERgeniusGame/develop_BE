@@ -1,7 +1,5 @@
 const http = require("http");
 const { Server } = require("socket.io");
-const { error404, error } = require("../middlewares/error.socket");
-const RoomRepository = require("../repositories/room.repository");
 const event_connection=require("./event/connection")
 class IO {
   constructor(app) {
@@ -10,7 +8,12 @@ class IO {
   }
   
   connectServer = async (server) => {
-    let io = new Server(server);
+    let io = new Server(server, {
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+      }
+    });
     event_connection(io)
   };
 }
