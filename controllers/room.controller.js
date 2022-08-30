@@ -39,12 +39,16 @@ module.exports = class RoomController {
       roomPw,
       userId
     );
+
     if (createRoom.success === true) {
-      res.status(201).json({ success: true });
+      res
+        .status(201)
+        .json({ success: true, data: { roomId: createRoom.result } });
     } else {
-      return res
-        .status(createRoom.status)
-        .send({ success: false, msg: createRoom.msg });
+      return res.status(createRoom.status).send({
+        success: false,
+        msg: createRoom.msg,
+      });
     }
   };
 };
