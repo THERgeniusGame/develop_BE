@@ -16,6 +16,11 @@ module.exports = class RoomService {
       };
     } else {
       RoomInfoResult = roomsInfo.roomsInfo.map((roomInfo, index) => {
+        if (roomInfo.roomLock === 0) {
+          roomInfo.roomLock = false;
+        } else {
+          roomInfo.roomLock = true;
+        }
         return {
           roomId: roomInfo.roomId,
           roomTitle: roomInfo.roomTitle,
