@@ -48,6 +48,8 @@ class UserService {
             const payload = {
               userId: userInfo.userId,
               nickname: userInfo.nickname,
+              win: userInfo.win,
+              total: userInfo.total,
             };
             const token = jwt.sign(payload, env.SECRET_KEY,{
               expiresIn: '7d', //1분
@@ -80,6 +82,16 @@ class UserService {
             return { satus: 400, message: "사용 가능한 닉네임 입니다."};
         };
       };
+
+       userInfo = async (userId, nickname, win, total) => {
+        const loginUserInfo = {userId, nickname, win, total}
+        
+        if(!loginUserInfo) {
+          return { status: 200, message:"로그인정보가 없습니다."};
+        } else {
+          return {status: 200, data: loginUserInfo}
+        }
+       }
 };
 
 module.exports = UserService;
