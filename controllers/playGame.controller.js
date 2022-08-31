@@ -1,7 +1,11 @@
+const Service=require("../services/playGame.service")
 
 class PlayGameController{
-    visitGame=(req,res,next)=>{
-        res.send("test")
+    service=new Service();
+    visitGame=async(req,res,next)=>{
+        const {roomId}=req.params
+        const info=await this.service.getRoomInfo(roomId);
+        return res.json({info});
     }
 }
 

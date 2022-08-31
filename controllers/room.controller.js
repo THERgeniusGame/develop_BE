@@ -5,24 +5,24 @@ module.exports = class RoomController {
 
   //로비화면
   getRobby = async (req, res, next) => {
-    const roomsInfo = await this.roomService.getRoomsInfo();
+    let pageNum = req.query.page;
+    let offset = 0;
 
-    if (roomsInfo.success !== false) {
-      res.status(200).json({ success: true, data: roomsInfo });
-    } else {
-      return res
-        .status(roomsInfo.status)
-        .send({ success: false, msg: roomsInfo.msg });
+    if (pageNum > 1) {
+      offset = 6 * (pageNum - 1);
     }
+    const roomsInfo = await this.roomService.getRoomsInfo(offset);
+
+    return res.json({ roomsInfo });
   };
 
   //방만들기
   createRoom = async (req, res, next) => {
-    //const { userId } = res.locals;
-    const userId = 1; //test용
+    const { userId } = res.locals;
+    //const userId = 1; //test용
     const { roomTitle, roomCategory, roomLock, roomPw } = req.body;
 
-    if (!roomTitle || !roomCategory) {
+    if (!roomTitle) {
       return res.status(400).send({ success: false, msg: "Invalid-Datatype" });
     }
 
@@ -33,12 +33,16 @@ module.exports = class RoomController {
       roomPw,
       userId
     );
+
     if (createRoom.success === true) {
-      res.status(201).json({ success: true });
+      res
+        .status(201)
+        .json({ success: true, data: { roomId: createRoom.result } });
     } else {
-      return res
-        .status(createRoom.status)
-        .send({ success: false, msg: createRoom.msg });
+      return res.status(createRoom.status).send({
+        success: false,
+        msg: createRoom.msg,
+      });
     }
   };
 };
