@@ -53,6 +53,18 @@ class UserController {
         }
     };
 
+    userinfo = async (req, res, next) => {
+        const { userId, nickname, win, total } = res.locals;
+        
+        try {
+            const headerinfo = await this.userService.userInfo(userId, nickname, win, total);
+
+            return res.status(headerinfo.status).json(headerinfo.message);
+        } catch (err) {
+            next(err);
+        }
+    }
+
 };
 
 module.exports = UserController;
