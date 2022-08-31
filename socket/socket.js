@@ -1,20 +1,25 @@
 const http = require("http");
 const { Server } = require("socket.io");
-const event_connection=require("./event/connection")
+const EventConnection=require("./event/connection")
 class IO {
+  eventConnection=new EventConnection
   constructor(app) {
     this.server = http.createServer(app);
     this.connectServer(this.server);
   }
   
   connectServer = async (server) => {
-    let io = new Server(server, {
-      cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-      }
-    });
-    event_connection(io)
+    try{
+      let io = new Server(server, {
+        cors: {
+          origin: "*",
+          methods: ["GET", "POST"],
+        }
+      });
+      this.eventConnection.connection(io)
+    }catch(err){
+      
+    }
   };
 }
 
