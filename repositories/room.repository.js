@@ -51,6 +51,16 @@ module.exports = class RoomRepository {
     return createRoom;
   };
 
+  //delete rooomID
+  deleteRoom = async (roomId) => {
+    const roomsInfo = await Rooms.destroy({
+      where: {
+        roomId: roomId,
+      },
+    });
+    return roomsInfo;
+  };
+
   //roomIdList
   getRoomList = async () => {
     const roomsInfo = await Rooms.findAll({
@@ -59,6 +69,7 @@ module.exports = class RoomRepository {
     });
     return roomsInfo;
   };
+
   //roomId find
   findRoomId = async (roomId) => {
     const roomsInfo = await Rooms.findOne({
@@ -69,6 +80,7 @@ module.exports = class RoomRepository {
     });
     return roomsInfo;
   };
+
   //room find
   findRoomId = async (roomId) => {
     const roomsInfo = await Rooms.findOne({
