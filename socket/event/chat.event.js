@@ -3,14 +3,9 @@ const { error } = require("../middlewares/error");
 module.exports = (io, socket) => {
   socket.on("chat", (data) => {
     try {
-      let now = new Date();
       var msg = {
-        from: {
-          nickname: socket.nickname,
-          userid: socket.userid,
-        },
+        nickname: socket.nickname,
         msg: data.msg,
-        time: now.toLocaleDateString(),
       };
       // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
       if (msg.msg !== "") {

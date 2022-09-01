@@ -20,7 +20,14 @@ class EventConnection {
   };
   connection = async (io) => {
     let roomList = await this.getRoomList();
-    roomList.map((room) => (room.userCount = 0));
+    roomList.map(async (room) => await(
+      room.userCount = 0,
+      room.userList=[],
+      room.owenrId=room.userId,
+      room.owner=room["User.nickname"],
+      delete room["User.nickname"],
+      delete room.userId
+      ));
     console.log(roomList);
     io.on("connection", async (socket) => {
         try {

@@ -19,7 +19,6 @@ module.exports = class RoomRepository {
       include: [
         {
           model: Users,
-          as: "User",
           attributes: ["nickname"],
         },
       ],
@@ -64,8 +63,15 @@ module.exports = class RoomRepository {
   //roomIdList
   getRoomList = async () => {
     const roomsInfo = await Rooms.findAll({
-      attributes: ["roomId"],
+      attributes: ["roomId","userId"],
       raw: true,
+      include: [
+        {
+          model: Users,
+          as: "User",
+          attributes: ["nickname"],
+        },
+      ],
     });
     return roomsInfo;
   };
@@ -73,10 +79,16 @@ module.exports = class RoomRepository {
   //roomId find
   findRoomId = async (roomId) => {
     const roomsInfo = await Rooms.findOne({
-      attributes: ["roomId"],
+      attributes: ["roomId","userId"],
       where: {
         roomId: roomId,
       },
+      include: [
+        {
+          model: Users,
+          attributes: ["nickname"],
+        },
+      ],
     });
     return roomsInfo;
   };
