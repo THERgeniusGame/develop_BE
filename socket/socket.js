@@ -18,7 +18,6 @@ class IO {
       });
       this.eventConnection.connection(io)
     }catch(err){
-      
     }
   };
 }

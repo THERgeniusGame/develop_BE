@@ -1,7 +1,7 @@
 const Login = require("./login.evnet");
 const Chat = require("./chat.event");
 const Disconnect = require("./disconnect.event");
-const { error404, error } = require("../middlewares/error");
+const { error } = require("../middlewares/error");
 const RoomRepository = require("../../repositories/room.repository");
 const SocketLogin = require("./login.evnet");
 
@@ -15,20 +15,15 @@ class EventConnection {
   };
 
   getRoomId = (room) => {
-    try{
-        const roomId = this.roomRepository.findRoomId(room);
-        return roomId;
-    }catch(err){
-        console.log("6")
-        throw(err)
-    }
+    const roomId = this.roomRepository.findRoomId(room);
+    return roomId;
   };
   connection = async (io) => {
-    try {
-      let roomList = await this.getRoomList();
-      roomList.map((room) => (room.userCount = 0));
-      console.log(roomList);
-      io.on("connection", async (socket) => {
+    let roomList = await this.getRoomList();
+    roomList.map((room) => (room.userCount = 0));
+    console.log(roomList);
+    io.on("connection", async (socket) => {
+        try {
         // console.log(socket)
         // 접속한 클라이언트의 정보가 수신되면
         this.socketLogin.Login(io, socket, roomList);
@@ -36,10 +31,10 @@ class EventConnection {
         Chat(io, socket);
         // force client disconnect from server
         Disconnect(io, socket, roomList);
-      });
-    } catch (err) {
-      console.log(err)
-    }
+        } catch (err) {
+          error(err,socket)
+        }
+    });
   };
 }
 

@@ -1,4 +1,4 @@
-const { error404, error } = require("../middlewares/error");
+const { error } = require("../middlewares/error");
 
 module.exports = (io, socket) => {
   socket.on("chat", (data) => {
