@@ -109,7 +109,6 @@ class SocketLogin {
 
         //room으로 이동
         socket.join(socket.room);
-        console.log(roomList[index]);
         //roomList의 userList에 user 추가
 
         //전달 메시지 제작
