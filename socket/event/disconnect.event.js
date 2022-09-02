@@ -1,6 +1,6 @@
 const RoomRepository = require("../../repositories/room.repository");
-const roomRepository = new RoomRepository();
 const { error } = require("../middlewares/error");
+const roomRepository = new RoomRepository();
 
 module.exports = (io, socket,roomList,msg) => {
     
@@ -12,15 +12,15 @@ module.exports = (io, socket,roomList,msg) => {
         try{
             if(socket.nickname===undefined)return;
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
-            roomList[index].userCount--;
-            if(roomList[index].userCount<=0){
-                roomList.splice(index,1);
-                // const result=await deleteRoom(socket.room)
-                // console.log(result)
+            if(index!==-1){
+                roomList[index].userCount--;
+                if(roomList[index].userCount<=0){
+                    // roomList.splice(index,1);
+                    // const result=await roomRepository.deleteRoom(socket.room)
+                    console.log(result)
+                }
             }
-            console.log(socket.msg)
             console.log("user disconnected: " + socket.nickname);
-            socket.emit("discon", {msg:socket.msg});
         }catch(err){
             error(err,socket)
         }
