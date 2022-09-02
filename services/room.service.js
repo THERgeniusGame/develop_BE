@@ -7,6 +7,8 @@ module.exports = class RoomService {
   getRoomsInfo = async (offset) => {
     const roomsInfo = await this.roomRepository.getRoomsInfo(offset);
 
+    let RoomInfoResult;
+
     if (roomsInfo.length === 0) {
       return {
         success: false,
@@ -14,7 +16,26 @@ module.exports = class RoomService {
         msg: "Not-Exist-RoomInfo",
       };
     }
-    return roomsInfo;
+
+    RoomInfoResult = roomsInfo.map((roomInfo) => {
+      if (roomInfo.roomLock === 0) {
+        roomInfo.roomLock = false;
+      } else {
+        roomInfo.roomLock = true;
+      }
+    });
+
+    let result = roomsInfo.map((roomInfo) => ({
+      roomId: roomInfo.roomId,
+      roomTitle: roomInfo.roomTitle,
+      roomCategory: roomInfo.roomCategory,
+      roomLock: roomInfo.roomLock,
+      roomPw: roomInfo.roomPw,
+      userId: roomInfo.userId,
+      nickname: roomInfo["User.nickname"],
+    }));
+
+    return result;
   };
 
   //방만들기
