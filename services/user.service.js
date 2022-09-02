@@ -84,8 +84,8 @@ class UserService {
       };
 
        userInfo = async (userId, nickname, win, total) => {
-        const loginUserInfo = {userId, nickname, win, total}
-        
+        const loginUserInfo = {userId, nickname, win, total};
+        console.log(loginUserInfo)
         if(!loginUserInfo) {
           return { status: 200, message:"로그인정보가 없습니다."};
         } else {
