@@ -9,8 +9,8 @@ class SocketLogin {
   roomRepository = new RoomRepository();
   userRepository = new UserRepository();
   roomIdCheck = async (room) => {
-    const roomId = await this.roomRepository.findRoomId(room);
-    return roomId;
+    let roomInfo = await this.roomRepository.findRoomId(room);
+    return roomInfo;
   };
 
   roomListCheck = (roomId, roomList) => {
@@ -51,7 +51,7 @@ class SocketLogin {
         //room 검사
         if (this.roomListCheck(data.room, roomList)) {
           let roomInfo = await this.roomIdCheck(data.room);
-          if (roomInfo === undefined) {
+          if (roomInfo === undefined || roomInfo===null) {
             console.log("room: " + data.room + " is WRONG_URL");
             let msg = {
               from: {
@@ -63,13 +63,14 @@ class SocketLogin {
             return socket.disconnect();
           } else {
             socket.room = data.room;
-            (roomInfo.userCount = 0),
-              (roomInfo.userList = []),
-              (roomInfo.owenrId = roomInfo.userId),
-              (roomInfo.owner = roomInfo["User.nickname"]),
-              delete roomInfo["User.nickname"],
-              delete roomInfo.userId;
-            roomList.push(roomInfo.dataValues);
+            roomInfo.userCount = 0;
+            roomInfo.userList = [];
+            roomInfo.owenrId = roomInfo.userId;
+            roomInfo.owner = roomInfo["User.nickname"];
+            roomInfo.userList = [];
+            delete roomInfo["User.nickname"];
+            delete roomInfo.userId;
+            roomList.push(roomInfo);
           }
         } else {
           socket.room = data.room;
@@ -81,7 +82,6 @@ class SocketLogin {
           socket.msg = "인원수";
           return socket.disconnect();
         }
-        console.log(roomList[index]);
         roomList[index].userCount++;
         let user = {
           userId: socket.userId,
