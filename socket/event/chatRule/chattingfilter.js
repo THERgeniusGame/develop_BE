@@ -1,6 +1,7 @@
 //const filterList = ["fuck", "존나", "미친", "시발", "개새끼"];
 const fs = require("fs");
-const filterList = fs.readFileSync("forbidwords.txt").toString().split("\n");
+const path=require("path");
+const filterList = fs.readFileSync(path.resolve(__dirname, "./forbidwords.txt")).toString().split("\r\n");
 for (i in filterList) {
 }
 let message = [
@@ -12,29 +13,22 @@ let message = [
   //"fuck you",
   //"fuck",
 ];
-
-function filter4(message) {
+module.exports=function(message) {
   //금기어가 포함된 Msg
-  const filteredMsg = message.filter((el) =>
-    filterList.some((word) => el.includes(word))
-  );
   let badword = [];
   for (let i = 0; i < filterList.length; i++) {
-    if (message[0].includes(filterList[i]) === true) {
+    if (message.includes(filterList[i]) === true) {
       badword.push(filterList[i]);
     }
   }
-
-  console.log("badword", badword);
-  if (filteredMsg.length !== 0) {
+  if (badword.length !== 0) {
     let sendMsg = "";
     for (let j = 0; j < badword.length; j++) {
-      sendMsg = message[0].replace([badword[j]], "*".repeat(badword[j].length));
-      message[0] = sendMsg;
+      sendMsg = message.replace(badword[j], "*".repeat(badword[j].length));
+      message = sendMsg;
     }
     return { sendMsg, msg: "badword" };
   } else {
     return { message, msg: "goodword" };
   }
 }
-console.log(filter4(message));
