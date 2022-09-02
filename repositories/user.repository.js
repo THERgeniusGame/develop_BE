@@ -19,6 +19,13 @@ class UserRepository {
     checknickname = async (nickname) => {
         return await Users.findOne({ where: { nickname } });
     };
+
+    getUserInfo = async (userId)=>{
+        return await Users.findOne({ 
+            where: { nickname } ,
+            raw:true,
+        });
+    }
 };
 
 module.exports = UserRepository;

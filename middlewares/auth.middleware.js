@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const env = process.env;
+
 module.exports = (req, res, next) => {
     if (!req.headers.authorization) return res.send("로그인이 되어있지 않습니다.");
     const { authorization } = req.headers;
