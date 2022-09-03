@@ -4,10 +4,10 @@ module.exports = async (req, res, next) => {
   const body = req.body;
   const schema = Joi.object().keys({
     
-    email: Joi.string().email({minDomainSegments: 2, tlds:{allow:['com','net','co.kr']}}),
+    email: Joi.string().email({minDomainSegments: 2,tlds: { allow: ['com', 'net'] }}), //이메일 정규식
     nickname: Joi.string().min(2).max(10).required(), //특수문자 제외 2~10자
     password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{8,16}$')), // 8~16자 영문 숫자
-    confirmPw: Joi.string(),
+    confirmPw: Joi.ref('password'),
   });
 
   try {
