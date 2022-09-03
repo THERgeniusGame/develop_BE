@@ -7,7 +7,7 @@ module.exports = (io, socket,roomList,msg) => {
     socket.on("forceDisconnect", () => {
         socket.disconnect();
     });
-    
+    console.log()
     socket.on("disconnect", async() => {
         try{
             if(socket.nickname===undefined)return;
