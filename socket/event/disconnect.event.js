@@ -25,4 +25,6 @@ module.exports = (io, socket,roomList,msg) => {
             error(err,socket)
         }
     });
+
+    socket.on('kick', )
 };
