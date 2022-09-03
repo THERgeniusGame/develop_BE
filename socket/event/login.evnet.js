@@ -78,6 +78,7 @@ class SocketLogin {
 
         //room 정보 조정
         const index = roomList.findIndex((ele) => ele.roomId == socket.room);
+        socket.index=index;
         if (roomList[index].userCount == 2) {
           socket.msg = "인원수";
           return socket.disconnect();
