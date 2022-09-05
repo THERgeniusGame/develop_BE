@@ -3,15 +3,17 @@ const { sequelize } = require("./models");
 const indexRouter = require("./routes");
 const { error404, error } = require("./middlewares/error");
 const cors = require("cors");
-const IO=require("./socket/socket")
+const IO = require("./socket/socket");
+const swaggerUi = require("swagger-ui-express");
+const swaggerFile = require("./swagger-output");
 
 class App {
   app = express();
   constructor() {
-    this.app.use('/route/static', express.static('index.html'));  
+    this.app.use("/route/static", express.static("index.html"));
     this.setMiddleWare();
     this.setRouter();
-    this.socketIO=new IO(this.app);
+    this.socketIO = new IO(this.app);
     this.setErrorHandler();
   }
   setMiddleWare() {
@@ -19,10 +21,12 @@ class App {
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(cors());
   }
+
   setRouter() {
+    this.app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
     this.app.use("/api", indexRouter);
   }
-  
+
   setErrorHandler() {
     this.app.use(error404);
     this.app.use(error);
