@@ -45,15 +45,20 @@
     
     // 서버로부터의 메시지가 수신되면
     socket.on("chat", function(data) {
-      console.log(socket.id)
-      console.log(data)
+        console.log(data)
     });
 
-    // 서버로부터의 메시지가 수신되면
-    socket.on("discon", function(data) {
+    socket.on("route",(data)=>{
       console.log(data)
+      if(data.event=="gamestart"){
+        console.log("emit")
+        socket.emit("gamestart",{coin:100});
+      }
     });
-
+    socket.on("gamestart",data=>{
+      socket.game=data.game
+      console.log(socket.game)
+    })
     // Send 버튼이 클릭되면
     $("form").submit(function(e) {
       e.preventDefault();

@@ -12,12 +12,12 @@ module.exports = (io, socket,roomList,msg) => {
         try{
             if(socket.nickname===undefined)return;
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
+            console.log(roomList)
             if(index!==-1){
                 roomList[index].userCount--;
                 if(roomList[index].userCount<=0){
                     // roomList.splice(index,1);
                     // const result=await roomRepository.deleteRoom(socket.room)
-                    console.log(result)
                 }
             }
             console.log("user disconnected: " + socket.nickname);

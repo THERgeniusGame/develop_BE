@@ -19,6 +19,7 @@ class SocketLogin {
 
   Login = async (io, socket, roomList) => {
     socket.on("login", async (data) => {
+
       try {
         //data 검사,token,room
         const room = data.room;
@@ -53,13 +54,7 @@ class SocketLogin {
           let roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
             console.log("room: " + data.room + " is WRONG_URL");
-            let msg = {
-              from: {
-                userId: "server",
-                nickname: "server",
-              },
-              msg: "잘못된 접근",
-            };
+            // return
             return socket.disconnect();
           } else {
             socket.room = data.room;
