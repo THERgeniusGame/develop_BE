@@ -25,6 +25,12 @@ module.exports = (io, socket,roomList,msg) => {
             error(err,socket)
         }
     });
-
-    socket.on('kick', )
+    
+    socket.on('kick', (socketid)=> {
+        try{
+            socket.to(socketId).emit('kick');
+        } catch(err){
+            error(err, socket)
+    }
+    });
 };
