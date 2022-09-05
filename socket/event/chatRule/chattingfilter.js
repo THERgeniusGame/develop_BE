@@ -1,4 +1,3 @@
-//const filterList = ["fuck", "존나", "미친", "시발", "개새끼"];
 const fs = require("fs");
 const path=require("path");
 const filterList = fs.readFileSync(path.resolve(__dirname, "./forbidwords.txt")).toString().split("\r\n");

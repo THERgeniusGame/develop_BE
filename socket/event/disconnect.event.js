@@ -7,7 +7,7 @@ module.exports = (io, socket,roomList,msg) => {
     socket.on("forceDisconnect", () => {
         socket.disconnect();
     });
-    
+    console.log()
     socket.on("disconnect", async() => {
         try{
             if(socket.nickname===undefined)return;
@@ -24,5 +24,13 @@ module.exports = (io, socket,roomList,msg) => {
         }catch(err){
             error(err,socket)
         }
+    });
+    
+    socket.on('kick', (socketid)=> {
+        try{
+            socket.to(socketId).emit('kick');
+        } catch(err){
+            error(err, socket)
+    }
     });
 };
