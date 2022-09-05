@@ -7,7 +7,6 @@ const filterList = fs
 for (i in filterList) {
 }
 
-console.log(filterList);
 module.exports = function (message) {
   //금기어가 포함된 Msg
   let badword = [];
