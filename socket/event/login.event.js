@@ -19,6 +19,7 @@ class SocketLogin {
 
   Login = async (io, socket, roomList) => {
     socket.on("login", async (data) => {
+
       try {
         //data 검사,token,room
         const room = data.room;
@@ -53,13 +54,7 @@ class SocketLogin {
           let roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
             console.log("room: " + data.room + " is WRONG_URL");
-            let msg = {
-              from: {
-                userId: "server",
-                nickname: "server",
-              },
-              msg: "잘못된 접근",
-            };
+            // return
             return socket.disconnect();
           } else {
             socket.room = data.room;
@@ -78,6 +73,7 @@ class SocketLogin {
 
         //room 정보 조정
         const index = roomList.findIndex((ele) => ele.roomId == socket.room);
+        socket.index=index;
         if (roomList[index].userCount == 2) {
           socket.msg = "인원수";
           return socket.disconnect();
@@ -109,7 +105,6 @@ class SocketLogin {
 
         //room으로 이동
         socket.join(socket.room);
-        console.log(roomList[index]);
         //roomList의 userList에 user 추가
 
         //전달 메시지 제작

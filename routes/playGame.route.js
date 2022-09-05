@@ -6,6 +6,9 @@ const GameController=new gameController();
 router.get('/testCode/:roomId', function(req, res) {
     res.sendFile(__dirname + '/static/index.html');
 });
+router.get('/testCode2/:roomId', function(req, res) {
+    res.sendFile(__dirname + '/static/index3.html');
+});
 router.get('/:roomId', GameController.visitGame);
 
 module.exports=router;

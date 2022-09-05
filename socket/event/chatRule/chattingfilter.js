@@ -1,14 +1,8 @@
 const fs = require("fs");
-const path = require("path");
-const filterList = fs
-  .readFileSync(path.resolve(__dirname, "./forbidwords.txt"))
-  .toString()
-  .split("\n");
-for (i in filterList) {
-}
+const path=require("path");
+const filterList = fs.readFileSync(path.resolve(__dirname, "./forbidwords.txt")).toString().split("\r\n");
 
-console.log(filterList);
-module.exports = function (message) {
+module.exports=function(message) {
   //금기어가 포함된 Msg
   let badword = [];
   for (let i = 0; i < filterList.length; i++) {
@@ -26,4 +20,4 @@ module.exports = function (message) {
   } else {
     return { message, msg: "goodword" };
   }
-};
+}
