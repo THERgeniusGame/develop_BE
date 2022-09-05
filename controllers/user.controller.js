@@ -35,8 +35,8 @@ class UserController {
         const { email } = req.body;
         try {
             const result = await this.userService.checkemail(email);
-
-            return res.status(result.status).json(result.message);
+            
+            return res.status(result.status).json(result.message,result.success);
         } catch(err) {
             next(err);
         }
@@ -47,7 +47,7 @@ class UserController {
         try {
             const result = await this.userService.checkemail(nickname);
 
-            return res.status(result.status).json(result.message);
+            return res.status(result.status).json(result.message,result.success);
         } catch(err) {
             next(err);
         }
