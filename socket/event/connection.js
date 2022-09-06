@@ -3,6 +3,7 @@ const Disconnect = require("./disconnect.event");
 const { error } = require("../middlewares/error");
 const RoomRepository = require("../../repositories/room.repository");
 const SocketLogin = require("./login.event");
+const GameEvent=require("./game.event")
 
 class EventConnection {
   roomRepository = new RoomRepository();
@@ -37,6 +38,7 @@ class EventConnection {
           Chat(io, socket);
           // force client disconnect from server
           Disconnect(io, socket, roomList);
+          new GameEvent(io,socket,roomList);
         } catch (err) {
           error(err,socket)
         }
