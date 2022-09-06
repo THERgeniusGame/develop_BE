@@ -36,7 +36,7 @@ class UserController {
         try {
             const result = await this.userService.checkemail(email);
             
-            return res.status(result.status).json(result.message,result.success);
+            return res.status(result.status).json({message:result.message,success:result.success});
         } catch(err) {
             next(err);
         }
@@ -45,9 +45,9 @@ class UserController {
     checknickname = async (req, res, next) => {
         const { nickname } = req.body;
         try {
-            const result = await this.userService.checkemail(nickname);
+            const result = await this.userService.checknickname(nickname);
 
-            return res.status(result.status).json(result.message,result.success);
+            return res.status(result.status).json({message:result.message,success:result.success});
         } catch(err) {
             next(err);
         }
