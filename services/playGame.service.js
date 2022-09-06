@@ -11,10 +11,10 @@ class Service{
         return getRoom;
     }
 
-    createGame=async (roomId,owner,guest,turn) => {
+    createGame=async (roomId,owner,guest) => {
         let ownerInfo=this.game.setPlayer(owner);
         let guestInfo=this.game.setPlayer(guest);
-        const createGame=await this.gameRepo.createGame(roomId,ownerInfo,guestInfo,turn);
+        const createGame=await this.gameRepo.createGame(roomId,ownerInfo,guestInfo);
         return createGame;
     }
     
@@ -33,9 +33,9 @@ class Service{
         return updateGuest;
     }
     
-    setUseCard=async(roomId,userInfo,card,check)=>{
+    setUseCard=async(roomId,userInfo,card,turn)=>{
         this.game.setUseCard(card,userInfo);
-        if(check){
+        if(turn==="owner"){
             var update=await this.gameRepo.setOwnerInfo(roomId,userInfo,turn);
         }else{
             var update=await this.gameRepo.setGuestInfo(roomId,userInfo,turn);
@@ -44,8 +44,8 @@ class Service{
     }
 
     setResultInfo=async(roomId,round,owner,guest)=>{
-        round++;
         this.game.roundResult(owner,guest)
+        round++;
         const updateResult=await this.gameRepo.setResultInfo(roomId,round,owner,guest);
         return updateResult;
     }
@@ -53,6 +53,10 @@ class Service{
     getGameInfo=async(roomId)=>{
         const getInfo=await this.gameRepo.getGameInfo(roomId);
         return getInfo;
+    }
+
+    EndGame=async(p1,p2)=>{
+        return this.game.endGame(p1,p2);
     }
 }
 

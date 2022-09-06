@@ -64,11 +64,12 @@ class UserService {
           return { status: 400, message: "입력값이 비어 있습니다." , success: false};
         };
         const check = await this.userRepository.checkemail(email);
-        if (check) {
+        if(check === null){
+          return  { status: 200, message: "사용가능한 이메일 입니다.", success: true };
+        }
+        if (check.email===email) {
           return { status: 400, message: "중복된 이메일입니다.", success: false };
-        } else {
-          return { status: 200, message: "사용가능한 이메일 입니다.", success: true };
-        };
+        } 
       };
 
       checknickname = async (nickname) => {
@@ -76,16 +77,16 @@ class UserService {
             return { status: 400, message: "입력값이 비어 있습니다.",success: false};
         };
         const checknn = await this.userRepository.checknickname(nickname);
-        if(checknn) {
+        if(checknn === null){
+          return { status: 200, message: "사용 가능한 닉네임 입니다.", success: true};
+        }
+        if(checknn.nickname===nickname) {
             return { status: 400, message: "중복된 닉네임입니다.", success: false};
-        } else {
-            return { satus: 400, message: "사용 가능한 닉네임 입니다.", success: true};
-        };
+        }
       };
 
        userInfo = async (userId, nickname, win, total) => {
         const loginUserInfo = {userId, nickname, win, total};
-        console.log(loginUserInfo)
         if(!loginUserInfo) {
           return { status: 200, message:"로그인정보가 없습니다."};
         } else {
