@@ -11,6 +11,20 @@ const options = {
     },
     host: "localhost:8000",
     basePath: "/",
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
   apis: ["./routes/*.js", "./swagger/*"],
 };
