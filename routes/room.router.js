@@ -52,11 +52,6 @@ const roomController = new RoomController();
  *   get:
  *     summary: Returns the list of all the rooms
  *     tags: [Rooms]
- *     parameters:
- *       - name: token
- *         in: header
- *         description: Token in header to check login
- *         require: true
  *     responses:
  *       200:
  *         description: The list of the rooms
@@ -70,7 +65,7 @@ const roomController = new RoomController();
  *         description: The rooms information does not exist
  */
 
-roomRouter.get("/", /* authMiddleware, */ roomController.getRobby);
+roomRouter.get("/", authMiddleware, roomController.getRobby);
 
 /**
  * @swagger
@@ -98,6 +93,6 @@ roomRouter.get("/", /* authMiddleware, */ roomController.getRobby);
  *
  */
 
-roomRouter.post("/", /* authMiddleware, */ roomController.createRoom);
+roomRouter.post("/", authMiddleware, roomController.createRoom);
 
 module.exports = roomRouter;
