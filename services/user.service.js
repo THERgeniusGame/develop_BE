@@ -78,7 +78,7 @@ class UserService {
         };
         const checknn = await this.userRepository.checknickname(nickname);
         if(checknn === null){
-          return { satus: 200, message: "사용 가능한 닉네임 입니다.", success: true};
+          return { status: 200, message: "사용 가능한 닉네임 입니다.", success: true};
         }
         if(checknn.nickname===nickname) {
             return { status: 400, message: "중복된 닉네임입니다.", success: false};
