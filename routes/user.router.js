@@ -7,7 +7,7 @@ const userController = new UserController();
 
 
 router.post("/signup",signupMiddleware , userController.signup);
-router.post("/login", signupMiddleware , userController.login);
+router.post("/login",  userController.login);
 router.post("/checkemail", userController.checkemail);
 router.post("/checknickname", userController.checknickname);
 router.get("/header", headerMiddleware , userController.userinfo);
