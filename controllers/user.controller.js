@@ -45,7 +45,7 @@ class UserController {
     checknickname = async (req, res, next) => {
         const { nickname } = req.body;
         try {
-            const result = await this.userService.checkemail(nickname);
+            const result = await this.userService.checknickname(nickname);
 
             return res.status(result.status).json(result.message,result.success);
         } catch(err) {
