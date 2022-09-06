@@ -66,13 +66,24 @@ class GameRule{
     }
     
     endGame=(p1,p2)=>{
-        if(this.lastWinner!==""){
-            return;
-        }
         if(p1.coin<p2.coin){
-            this.lastWinner=p2.user.nickname
+            return {
+                winner:p2.nickname,
+                loser:p1.nickname,
+                };
         }else if(p1.coin==p2.coin){
-            this.lastWinner="";
+            let p1Win=p1.result.filter(ele=>{
+                ele==="win"
+            }).length
+            let p2Win=p2.result.filter(ele=>{
+                ele==="win"
+            }).length
+            if(p1Win>p2Win){
+                return {
+                    winner:p1.nickname,
+                    loser:p2.nickname,
+                    };
+            }
         }else{
             this.endGame(p2,p1);
         }
