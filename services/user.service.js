@@ -64,7 +64,7 @@ class UserService {
           return { status: 400, message: "입력값이 비어 있습니다." , success: false};
         };
         const check = await this.userRepository.checkemail(email);
-        if (check) {
+        if (check!==email) {
           return { status: 400, message: "중복된 이메일입니다.", success: false };
         } else {
           return { status: 200, message: "사용가능한 이메일 입니다.", success: true };
@@ -76,10 +76,10 @@ class UserService {
             return { status: 400, message: "입력값이 비어 있습니다.",success: false};
         };
         const checknn = await this.userRepository.checknickname(nickname);
-        if(checknn) {
+        if(checknn!==nickname) {
             return { status: 400, message: "중복된 닉네임입니다.", success: false};
         } else {
-            return { satus: 400, message: "사용 가능한 닉네임 입니다.", success: true};
+            return { satus: 200, message: "사용 가능한 닉네임 입니다.", success: true};
         };
       };
 
