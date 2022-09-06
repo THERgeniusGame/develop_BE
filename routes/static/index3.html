@@ -29,7 +29,7 @@
     socket.emit("login", {
       // name: "ungmo2",
       //test1 :은나무
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi7J2A64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyMDE5MjU2LCJleHAiOjE2NjI2MjQwNTZ9.iCKWK2ZXAlSwzErq6aARvIhPwlEiJnYTK3h6K0xWa_w",
+    //   token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi7J2A64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyMDE5MjU2LCJleHAiOjE2NjI2MjQwNTZ9.iCKWK2ZXAlSwzErq6aARvIhPwlEiJnYTK3h6K0xWa_w",
       //test2: 금나무
       token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsIm5pY2tuYW1lIjoi6riI64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyMDI5MDM5LCJleHAiOjE2NjI2MzM4Mzl9.IICag_S5tiSy_OZIyVZZw-cOWxuTz1h4fzqoG4MY1oQ",
       //test3: 동나무
@@ -45,10 +45,7 @@
     
     // 서버로부터의 메시지가 수신되면
     socket.on("chat", function(data) {
-      console.log(data)
-      if(data.msg.split(" ")[0]==="event"){
-          socket.emit("forceDisconnect")
-      }
+        console.log(data)
     });
 
     socket.on("route",(data)=>{

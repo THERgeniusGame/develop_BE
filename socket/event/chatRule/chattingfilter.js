@@ -4,8 +4,6 @@ const filterList = fs
   .readFileSync(path.resolve(__dirname, "./forbidwords.txt"))
   .toString()
   .split("\n");
-for (i in filterList) {
-}
 
 module.exports = function (message) {
   //금기어가 포함된 Msg

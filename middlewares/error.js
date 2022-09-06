@@ -1,5 +1,3 @@
-const { CostExplorer } = require("aws-sdk");
-
 const error404 = (req, res, next) => {
   const error = new Error(`${req.url} ${req.method} 존재하지 않습니다.`);
   error.status = 404;
