@@ -1,6 +1,6 @@
 const error = (err, socket) => {
   socket.emit("error",{
-    error:err
+    error:err.msg
   })
   console.log(err)
 };

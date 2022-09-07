@@ -14,34 +14,48 @@ class Game{
                 let owner=userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
                 let guest=userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
-                let msg={
-                    owner:createInfo.owner,
-                    guest:createInfo.guest,
-                    turn:["owner","guest"],
-                }
-                socket.turn=[owner.userId,guest.userId];
-                io.to(socket.room).emit("gameStart",msg)
+                let turn=["owner","guest"]
+                let gameInfo=await gameService.getGameInfo(socket.room,turn);
+                io.to(socket.room).emit("gameStart",gameInfo)
             }catch(err){
                 error(err,socket)
             }
         });
     }
-    turnEnd=async(io,socket)=>{
+    turnEnd=async(io,socket,roomList)=>{
         socket.on("turnEnd", async(data) => {
             try{
-                let turn=socket.turn.shift()
-                socket.turn.push(turn);
+                let myTurn=data.turn.shift()
+                let turn=data.turn
+                turn.push(myTurn);
                 let player=data.player;
                 let batting=data.batting;
                 let card=data.card;
-                await gameService.setBatting(socket.room,batting)
-                await gameService.setUseCard(socket.room,player,card,turn)
-                let gameInfo=await gameService.getGameInfo(socket.room);
-                if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
-                    let result=await gameService.setResultInfo(socket.room,gameInfo.round,gameInfo.owner,gameInfo.guest);
-                    io.to(socket.room).emit("turnResult",result)
+                if(player===undefined || batting===undefined || card===undefined){
+                    let err=new Error("BAD_REQUEST");
+                    throw(err)
+                }
+                if(turn==="owner"){
+                    if(roomList[socket.index].ownerId!==player.userId){
+                        return io.to(player.socketId).emit("err",{
+                            msg:"NOT_YOUR_TURN"
+                        });
+                    }
                 }else{
-                    io.to(socket.room).emit("turnEnd",gameInfo)
+                    if(roomList[socket.index].ownerId===player.userId){
+                        return io.to(player.socketId).emit("err",{
+                            msg:"NOT_YOUR_TURN"
+                        });
+                    }
+                }
+                await gameService.setBatting(socket.room,batting)
+                await gameService.setUseCard(socket.room,player,card,myTurn)
+                let gameInfo=await gameService.getGameInfo(socket.room,turn);
+                io.to(socket.room).emit("turnEnd",gameInfo)
+                if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
+                    let update=await gameService.setResultInfo(socket.room,gameInfo.round,gameInfo.owner,gameInfo.guest);
+                    let result=await gameService.getGameInfo(roomId,turn);
+                    io.to(socket.room).emit("turnResult",result)
                 }
             }catch(err){
                 error(err,socket)
