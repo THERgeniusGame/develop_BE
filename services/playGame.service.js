@@ -10,12 +10,25 @@ class Service{
         const getRoom=await this.repo.findRoomId(roomId);
         return getRoom;
     }
-
+    error=(status,msg)=>{
+        let err=new Error(msg);
+        err.status=status;
+        return err
+    }
     createGame=async (roomId,owner,guest) => {
-        let ownerInfo=this.game.setPlayer(owner);
-        let guestInfo=this.game.setPlayer(guest);
-        const createGame=await this.gameRepo.createGame(roomId,ownerInfo,guestInfo);
-        return createGame;
+        try {
+            let ownerInfo=this.game.setPlayer(owner);
+            let guestInfo=this.game.setPlayer(guest);
+            let checkGame=this.getGameInfo(roomId);
+            if(checkGame===null || checkGame===undefined){
+                const newGame=await this.gameRepo.newGame(roomId,ownerInfo,guestInfo);
+                return newGame;    
+            }
+            const createGame=await this.gameRepo.createGame(roomId,ownerInfo,guestInfo);
+            return createGame;
+        } catch (error) {
+            throw(error)
+        }
     }
     
     setBatting=async(roomId,batting)=>{
@@ -50,8 +63,9 @@ class Service{
         return updateResult;
     }
     
-    getGameInfo=async(roomId)=>{
+    getGameInfo=async(roomId,turn)=>{
         const getInfo=await this.gameRepo.getGameInfo(roomId);
+        getInfo.turn=turn
         return getInfo;
     }
 
