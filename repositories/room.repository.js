@@ -7,7 +7,7 @@ module.exports = class RoomRepository {
   getRoomsInfo = async (offset) => {
     const roomsInfo = await Rooms.findAll({
       offset: offset,
-      limit: 6,
+      limit: 9,
       raw: true,
       //through: { attributes: ["createdAt", "updatedAt"] },
       attributes: [
