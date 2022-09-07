@@ -4,8 +4,16 @@ const indexRouter = require("./routes");
 const { error404, error } = require("./middlewares/error");
 const cors = require("cors");
 const IO = require("./socket/socket");
-const swaggerUi = require("swagger-ui-express");
-const swaggerFile = require("./swagger-output");
+const { swaggerUi, specs } = require("./modules/swagger");
+
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("데이터베이스 연결 성공");
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 
 class App {
   app = express();
@@ -23,7 +31,7 @@ class App {
   }
 
   setRouter() {
-    this.app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerFile));
+    this.app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
     this.app.use("/api", indexRouter);
   }
 
