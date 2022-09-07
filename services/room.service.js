@@ -12,9 +12,9 @@ module.exports = class RoomService {
         err.status = 400;
         throw err;
       }
-      let RoomInfoResult;
+      let roomInfoResult;
 
-      RoomInfoResult = roomsInfo.map((roomInfo) => {
+      roomInfoResult = roomsInfo.map((roomInfo) => {
         if (roomInfo.roomLock === 0) {
           roomInfo.roomLock = false;
         } else {
@@ -59,6 +59,50 @@ module.exports = class RoomService {
 
       return { result, success: true };
     } catch (err) {
+      throw err;
+    }
+  };
+
+  //검색기능
+  searchRoom = async (keyword) => {
+    try {
+      const searchInRooms = await this.roomRepository.searchInRooms(keyword);
+      console.log("searchInRooms", searchInRooms);
+      let roomInfoResult;
+
+      roomInfoResult = searchInRooms.map((roomInfo) => {
+        if (roomInfo.roomLock === 0) {
+          roomInfo.roomLock = false;
+        } else {
+          roomInfo.roomLock = true;
+        }
+      });
+      let roomInfoFromRooms = searchInRooms.map((roomInfo) => ({
+        roomId: roomInfo.roomId,
+        roomTitle: roomInfo.roomTitle,
+        roomCategory: roomInfo.roomCategory,
+        roomLock: roomInfo.roomLock,
+        roomPw: roomInfo.roomPw,
+        userId: roomInfo.userId,
+        nickname: roomInfo["User.nickname"],
+      }));
+      const searchInUsers = await this.roomRepository.searchInUsers(keyword);
+
+      let roomInfoFromUsers = searchInUsers.map((roomInfo) => ({
+        roomId: roomInfo["Rooms.roomId"],
+        roomTitle: roomInfo["Rooms.roomTitle"],
+        roomCategory: roomInfo["Rooms.roomCategory"],
+        roomLock: roomInfo["Rooms.roomLock"],
+        roomPw: roomInfo["Rooms.roomPw"],
+        userId: roomInfo["Rooms.userId"],
+        nickname: roomInfo.nickname,
+      }));
+
+      const result = roomInfoFromRooms.concat(roomInfoFromUsers);
+      console.log(result);
+      return result;
+    } catch (err) {
+      console.log("service error");
       throw err;
     }
   };

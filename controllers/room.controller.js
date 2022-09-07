@@ -50,4 +50,16 @@ module.exports = class RoomController {
       next(err);
     }
   };
+
+  //검색기능
+  searchRoom = async (req, res, next) => {
+    try {
+      const keyword = req.query;
+      const searchRoom = await this.roomService.searchRoom(keyword);
+      res.status(200).json({ success: true, searchRoom });
+    } catch (err) {
+      err.status, err.massage;
+      next(err);
+    }
+  };
 };
