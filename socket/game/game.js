@@ -10,7 +10,7 @@ class GameRule{
      */
     //시작 금액
     //플레이어의 기본정보
-    setPlayer=(u1,turn)=>{
+    setPlayer=(u1)=>{
         return {
             userId:u1.userId,
             nickname:u1.nickname,
@@ -20,7 +20,6 @@ class GameRule{
             coin:this.coin,
             result:[],
             win:0,
-            turn:turn
         }
 
     }

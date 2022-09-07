@@ -3,7 +3,7 @@ const { Games } = require("../models");
 module.exports = class GameRepository {
 
   createGame=async (roomId,owner,guest) => {
-    const createRoom = await Games.create({
+    const createGame = await Games.create({
         roomId:roomId,
         round:1,
         batting:0,
@@ -11,7 +11,23 @@ module.exports = class GameRepository {
         guest:guest,
         
     });
-    return createRoom;
+    return createGame;
+  }
+
+  newGame=async(roomId,owner,guest)=>{
+    const newGame = await Games.update({
+        round:1,
+        batting:0,
+        owner:owner,
+        guest:guest,
+        },
+        {
+            where:{
+                rooomId:roomId
+            }
+        }
+    );
+    return newGame
   }
 
   setBatting=async(roomId,batting)=>{
