@@ -95,4 +95,30 @@ roomRouter.get("/", authMiddleware, roomController.getRobby);
 
 roomRouter.post("/", authMiddleware, roomController.createRoom);
 
+/**
+ * @swagger
+ * /api/room/search:
+ *   get:
+ *     summary: Returns the list of the rooms searched
+ *     tags: [Rooms]
+ *     parameters:
+ *      - name: keyword
+ *        in: query
+ *        description: The keyword to search rooms
+ *        require: true
+
+ *     responses:
+ *       200:
+ *         description: The list of the rooms
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Room'
+ *       400:
+ *         description: The rooms information does not exist
+ */
+roomRouter.get("/search", authMiddleware, roomController.searchRoom);
+
 module.exports = roomRouter;
