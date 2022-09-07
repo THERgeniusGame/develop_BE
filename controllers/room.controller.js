@@ -10,7 +10,7 @@ module.exports = class RoomController {
       let offset = 0;
 
       if (pageNum > 1) {
-        offset = 6 * (pageNum - 1);
+        offset = 9 * (pageNum - 1);
       }
       const roomsInfo = await this.roomService.getRoomsInfo(offset);
 
@@ -45,6 +45,24 @@ module.exports = class RoomController {
           .status(201)
           .json({ success: true, data: { roomId: createRoom.result } });
       } else throw new Error();
+    } catch (err) {
+      err.status, err.massage;
+      next(err);
+    }
+  };
+
+  //검색기능
+  searchRoom = async (req, res, next) => {
+    try {
+      let pageNum = req.query.page;
+      let offset = 0;
+
+      if (pageNum > 1) {
+        offset = 9 * (pageNum - 1);
+      }
+      const keyword = req.query;
+      const searchRoom = await this.roomService.searchRoom(keyword);
+      res.status(200).json({ success: true, searchRoom });
     } catch (err) {
       err.status, err.massage;
       next(err);
