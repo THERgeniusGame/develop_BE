@@ -25,6 +25,7 @@ class EventConnection {
       room.userList=[],
       room.owenrId=room.userId,
       room.owner=room["User.nickname"],
+      room.ready=0,
       delete room["User.nickname"],
       delete room.userId
       ));
