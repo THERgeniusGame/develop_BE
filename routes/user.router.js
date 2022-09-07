@@ -39,7 +39,7 @@ const userController = new UserController();
  *         total: 10
  */
 
-router.post("/login", signupMiddleware, userController.login);
+router.post("/login", userController.login);
 /**
  * @swagger
  * /api/user/checkemail:
