@@ -64,10 +64,9 @@ module.exports = class RoomService {
   };
 
   //검색기능
-  searchRoom = async (keyword) => {
+  searchRoom = async (offset, keyword) => {
     try {
       const searchInRooms = await this.roomRepository.searchInRooms(keyword);
-      console.log("searchInRooms", searchInRooms);
       let roomInfoResult;
 
       roomInfoResult = searchInRooms.map((roomInfo) => {
@@ -77,6 +76,8 @@ module.exports = class RoomService {
           roomInfo.roomLock = true;
         }
       });
+      /* let roomInfoFromRooms = [];
+      mixArr(roomInfoFromRooms, searchInRooms); */
       let roomInfoFromRooms = searchInRooms.map((roomInfo) => ({
         roomId: roomInfo.roomId,
         roomTitle: roomInfo.roomTitle,
@@ -86,6 +87,7 @@ module.exports = class RoomService {
         userId: roomInfo.userId,
         nickname: roomInfo["User.nickname"],
       }));
+
       const searchInUsers = await this.roomRepository.searchInUsers(keyword);
 
       let roomInfoFromUsers = searchInUsers.map((roomInfo) => ({
@@ -99,7 +101,7 @@ module.exports = class RoomService {
       }));
 
       const result = roomInfoFromRooms.concat(roomInfoFromUsers);
-      console.log(result);
+
       return result;
     } catch (err) {
       console.log("service error");
@@ -107,3 +109,15 @@ module.exports = class RoomService {
     }
   };
 };
+function mixArr(newArr, oldArr) {
+  newArr = oldArr.map((roomInfo) => ({
+    roomId: roomInfo.roomId,
+    roomTitle: roomInfo.roomTitle,
+    roomCategory: roomInfo.roomCategory,
+    roomLock: roomInfo.roomLock,
+    roomPw: roomInfo.roomPw,
+    userId: roomInfo.userId,
+    nickname: roomInfo["User.nickname"],
+  }));
+  return newArr.push;
+}
