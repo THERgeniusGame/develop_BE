@@ -1,11 +1,13 @@
 const { Rooms, Users } = require("../models");
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 module.exports = class RoomRepository {
   //로비화면
   getRoomsInfo = async (offset) => {
     const roomsInfo = await Rooms.findAll({
       offset: offset,
-      limit: 6,
+      limit: 9,
       raw: true,
       //through: { attributes: ["createdAt", "updatedAt"] },
       attributes: [
@@ -83,7 +85,7 @@ module.exports = class RoomRepository {
       include: [
         {
           model: Users,
-          as:"User",
+          as: "User",
           attributes: ["nickname"],
         },
       ],
@@ -93,5 +95,65 @@ module.exports = class RoomRepository {
       raw: true,
     });
     return roomInfo;
+  };
+
+  //방이름으로 검색
+  searchInRooms = async (keyword) => {
+    try {
+      //방이름으로 찾기
+      const searchInRooms = await Rooms.findAll({
+        where: { roomTitle: { [Op.like]: `%${keyword.keyword}%` } },
+        attributes: [
+          "roomId",
+          "roomTitle",
+          "roomCategory",
+          "roomLock",
+          "roomPw",
+          "userId",
+        ],
+        include: [
+          {
+            model: Users,
+            attributes: ["nickname"],
+          },
+        ],
+        raw: true,
+      });
+
+      return searchInRooms;
+    } catch (err) {
+      console.log("re", err);
+      throw err;
+    }
+  };
+
+  //닉네임으로 검색
+  searchInUsers = async (keyword) => {
+    try {
+      //닉네임으로 찾기
+      const searchInUsers = await Users.findAll({
+        where: { nickname: { [Op.like]: `%${keyword.keyword}%` } },
+        attributes: ["nickname"],
+        include: [
+          {
+            model: Rooms,
+            attributes: [
+              "roomId",
+              "roomTitle",
+              "roomCategory",
+              "roomLock",
+              "roomPw",
+              "userId",
+            ],
+          },
+        ],
+        raw: true,
+      });
+
+      return searchInUsers;
+    } catch (err) {
+      console.log("re", err);
+      throw err;
+    }
   };
 };
