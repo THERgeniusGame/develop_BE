@@ -23,7 +23,7 @@ module.exports = class GameRepository {
         },
         {
             where:{
-                rooomId:roomId
+                roomId:roomId
             }
         }
     );

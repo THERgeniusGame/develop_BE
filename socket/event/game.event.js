@@ -3,13 +3,14 @@ const GameService=require("../../services/playGame.service.js")
 let gameService=new GameService()
 class Game{
     constructor(io,socket,roomList){
+        this.ready(io,socket,roomList)
         this.gameStart(io,socket,roomList);
         this.turnEnd(io,socket);
         this.gameEnd(io,socket)
     }
     ready=async(io,socket,roomList)=>{
         socket.on("ready",async(data)=>{
-            if(data.ready){
+            if(data.ready && roomList[socket.index].ready==0){
                 roomList[socket.index].ready++;
                 io.to(socket.room).emit("ready",{ready:true})
             }else if(!data.ready && roomList[socket.index].ready==1){
@@ -23,6 +24,7 @@ class Game{
     }
     gameStart= async(io, socket,roomList) => {
         socket.on("gameStart", async() => {
+            console.log("test")
             try{
                 if(roomList[socket.index].ready!==1){
                     let err=new Error("NONE_READY");
