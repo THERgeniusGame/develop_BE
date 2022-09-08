@@ -76,8 +76,7 @@ module.exports = class RoomService {
           roomInfo.roomLock = true;
         }
       });
-      /* let roomInfoFromRooms = [];
-      mixArr(roomInfoFromRooms, searchInRooms); */
+
       let roomInfoFromRooms = searchInRooms.map((roomInfo) => ({
         roomId: roomInfo.roomId,
         roomTitle: roomInfo.roomTitle,
@@ -111,8 +110,18 @@ module.exports = class RoomService {
       }));
 
       const searchResult = roomInfoFromRooms
-        .concat(roomInfoFromUsers)
+        .concat(
+          roomInfoFromUsers.filter(
+            (room) =>
+              roomInfoFromRooms.findIndex(
+                (Room) => Room.roomId === room.roomId
+              ) < 0
+          )
+        )
         .sort((a, b) => a["roomId"] - b["roomId"]);
+      console.log(searchResult);
+      console.log(roomInfoFromUsers[3].roomId); //9
+      console.log(roomInfoFromRooms.indexOf(roomInfoFromUsers[3].roomId));
 
       return searchResult;
     } catch (err) {
@@ -121,16 +130,3 @@ module.exports = class RoomService {
     }
   };
 };
-/* function mixArr(newArr, oldArr) {
-  newArr = oldArr.map((roomInfo) => ({
-    roomId: roomInfo.roomId,
-    roomTitle: roomInfo.roomTitle,
-    roomCategory: roomInfo.roomCategory,
-    roomLock: roomInfo.roomLock,
-    roomPw: roomInfo.roomPw,
-    userId: roomInfo.userId,
-    nickname: roomInfo["User.nickname"],
-  }));
-  return newArr.push;
-}
- */
