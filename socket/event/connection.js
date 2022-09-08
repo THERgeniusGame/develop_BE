@@ -23,8 +23,9 @@ class EventConnection {
     roomList.map(async (room) => await(
       room.userCount = 0,
       room.userList=[],
-      room.owenrId=room.userId,
+      room.ownerId=room.userId,
       room.owner=room["User.nickname"],
+      room.ready=0,
       delete room["User.nickname"],
       delete room.userId
       ));

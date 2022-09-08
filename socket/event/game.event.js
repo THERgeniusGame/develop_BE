@@ -3,13 +3,33 @@ const GameService=require("../../services/playGame.service.js")
 let gameService=new GameService()
 class Game{
     constructor(io,socket,roomList){
+        this.ready(io,socket,roomList)
         this.gameStart(io,socket,roomList);
         this.turnEnd(io,socket);
         this.gameEnd(io,socket)
     }
+    ready=async(io,socket,roomList)=>{
+        socket.on("ready",async(data)=>{
+            if(data.ready && roomList[socket.index].ready==0){
+                roomList[socket.index].ready++;
+                io.to(socket.room).emit("ready",{ready:true})
+            }else if(!data.ready && roomList[socket.index].ready==1){
+                roomList[socket.index].ready--;
+                io.to(socket.room).emit("ready",{ready:false})
+            }else{
+                return;
+            }
+
+        })
+    }
     gameStart= async(io, socket,roomList) => {
         socket.on("gameStart", async() => {
+            console.log("test")
             try{
+                if(roomList[socket.index].ready!==1){
+                    let err=new Error("NONE_READY");
+                    throw(err)
+                }
                 let userList=roomList[socket.index].userList;
                 let owner=userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
                 let guest=userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
@@ -64,13 +84,17 @@ class Game{
     }
 
     gameEnd=async(io,socket)=>{
-        socket.on("gameEnd", async(data) => {
-            let result=gameService.EndGame(data.owner,data.guest);
-            io.to(socket.room).emit("turnEnd",{
-                winner:result.winner,
-                loser:result.loser,
+        try{
+            socket.on("gameEnd", async(data) => {
+                let result=gameService.EndGame(data.owner,data.guest);
+                io.to(socket.room).emit("turnEnd",{
+                    winner:result.winner,
+                    loser:result.loser,
+                })
             })
-        })
+        }catch(err){
+            error(err,socket)
+        }   
     }
 
 }
