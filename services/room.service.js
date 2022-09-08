@@ -64,7 +64,7 @@ module.exports = class RoomService {
   };
 
   //검색기능
-  searchRoom = async (offset, keyword) => {
+  searchRoom = async (keyword) => {
     try {
       const searchInRooms = await this.roomRepository.searchInRooms(keyword);
       let roomInfoResult;
@@ -76,8 +76,7 @@ module.exports = class RoomService {
           roomInfo.roomLock = true;
         }
       });
-      /* let roomInfoFromRooms = [];
-      mixArr(roomInfoFromRooms, searchInRooms); */
+
       let roomInfoFromRooms = searchInRooms.map((roomInfo) => ({
         roomId: roomInfo.roomId,
         roomTitle: roomInfo.roomTitle,
@@ -90,6 +89,16 @@ module.exports = class RoomService {
 
       const searchInUsers = await this.roomRepository.searchInUsers(keyword);
 
+      let roomInfoResult2;
+
+      roomInfoResult2 = searchInUsers.map((roomInfo) => {
+        if (roomInfo["Rooms.roomLock"] === 0) {
+          roomInfo["Rooms.roomLock"] = false;
+        } else {
+          roomInfo["Rooms.roomLock"] = true;
+        }
+      });
+
       let roomInfoFromUsers = searchInUsers.map((roomInfo) => ({
         roomId: roomInfo["Rooms.roomId"],
         roomTitle: roomInfo["Rooms.roomTitle"],
@@ -100,24 +109,21 @@ module.exports = class RoomService {
         nickname: roomInfo.nickname,
       }));
 
-      const result = roomInfoFromRooms.concat(roomInfoFromUsers);
+      const searchResult = roomInfoFromRooms
+        .concat(
+          roomInfoFromUsers.filter(
+            (room) =>
+              roomInfoFromRooms.findIndex(
+                (Room) => Room.roomId === room.roomId
+              ) < 0
+          )
+        )
+        .sort((a, b) => a["roomId"] - b["roomId"]);
 
-      return result;
+      return searchResult;
     } catch (err) {
       console.log("service error");
       throw err;
     }
   };
 };
-function mixArr(newArr, oldArr) {
-  newArr = oldArr.map((roomInfo) => ({
-    roomId: roomInfo.roomId,
-    roomTitle: roomInfo.roomTitle,
-    roomCategory: roomInfo.roomCategory,
-    roomLock: roomInfo.roomLock,
-    roomPw: roomInfo.roomPw,
-    userId: roomInfo.userId,
-    nickname: roomInfo["User.nickname"],
-  }));
-  return newArr.push;
-}

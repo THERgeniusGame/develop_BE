@@ -38,8 +38,66 @@ const userController = new UserController();
  *         win: 5
  *         total: 10
  */
-router.post("/signup", userController.signup);
-router.post("/login", userController.login);
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: The Users managing API
+ */
+
+/**
+ * @swagger
+ * /api/user/signup:
+ *   post:
+ *     summary: Singup
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The user was successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       400:
+ *           description: Something is wrong
+ */
+
+router.post("/signup", signupMiddleware, userController.signup);
+/**
+ * @swagger
+ * /api/user/login:
+ *   post:
+ *     summary: Login
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: The user successfully logged in
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       400:
+ *           description: Something is wrong
+ */
+
+router.post("/login", signupMiddleware, userController.login);
 /**
  * @swagger
  * /api/user/checkemail:

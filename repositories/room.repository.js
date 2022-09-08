@@ -150,7 +150,11 @@ module.exports = class RoomRepository {
         raw: true,
       });
 
-      return searchInUsers;
+      const searchInNick = searchInUsers.filter(
+        (room) => room["Rooms.roomId"] !== null
+      );
+
+      return searchInNick;
     } catch (err) {
       console.log("re", err);
       throw err;
