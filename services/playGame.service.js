@@ -19,8 +19,9 @@ class Service{
         try {
             let ownerInfo=this.game.setPlayer(owner);
             let guestInfo=this.game.setPlayer(guest);
-            let checkGame=this.getGameInfo(roomId);
-            if(checkGame===null || checkGame===undefined){
+            let checkGame=await this.getGameInfo(roomId,1);
+            console.log(checkGame)
+            if(checkGame!==null || checkGame!==undefined){
                 const newGame=await this.gameRepo.newGame(roomId,ownerInfo,guestInfo);
                 return newGame;    
             }
@@ -64,9 +65,16 @@ class Service{
     }
     
     getGameInfo=async(roomId,turn)=>{
-        const getInfo=await this.gameRepo.getGameInfo(roomId);
-        getInfo.turn=turn
-        return getInfo;
+        try{
+            const getInfo=await this.gameRepo.getGameInfo(roomId);
+            if(getInfo===null){
+                return;
+            }
+            getInfo.turn=turn
+            return getInfo;
+        }catch(err){
+            throw(err)
+        }
     }
 
     EndGame=async(p1,p2)=>{
