@@ -38,7 +38,7 @@ const userController = new UserController();
  *         win: 5
  *         total: 10
  */
-
+router.post("/signup", userController.signup);
 router.post("/login", userController.login);
 /**
  * @swagger
