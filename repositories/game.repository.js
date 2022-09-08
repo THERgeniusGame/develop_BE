@@ -93,8 +93,10 @@ module.exports = class GameRepository {
     const info=await Games.findOne({
         where:{
             roomId:roomId
-        }
+        },
+        raw:true
     })
+    console.log(info)
     return info;
   }
 };
