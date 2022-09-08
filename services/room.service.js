@@ -119,9 +119,6 @@ module.exports = class RoomService {
           )
         )
         .sort((a, b) => a["roomId"] - b["roomId"]);
-      console.log(searchResult);
-      console.log(roomInfoFromUsers[3].roomId); //9
-      console.log(roomInfoFromRooms.indexOf(roomInfoFromUsers[3].roomId));
 
       return searchResult;
     } catch (err) {
