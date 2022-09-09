@@ -5,7 +5,7 @@ class Game{
     constructor(io,socket,roomList){
         this.ready(io,socket,roomList)
         this.gameStart(io,socket,roomList);
-        this.turnEnd(io,socket);
+        this.turnEnd(io,socket,roomList);
         this.gameEnd(io,socket)
     }
     ready=async(io,socket,roomList)=>{
@@ -45,8 +45,8 @@ class Game{
     turnEnd=async(io,socket,roomList)=>{
         socket.on("turnEnd", async(data) => {
             try{
-                let myTurn=data.turn.shift()
-                let turn=data.turn
+                let turn=data.turn;
+                let myTurn=turn.shift();
                 turn.push(myTurn);
                 let player=data.player;
                 let batting=data.batting;
@@ -55,7 +55,7 @@ class Game{
                     let err=new Error("BAD_REQUEST");
                     throw(err)
                 }
-                if(turn==="owner"){
+                if(myTurn==="owner"){
                     if(roomList[socket.index].ownerId!==player.userId){
                         return io.to(player.socketId).emit("err",{
                             msg:"NOT_YOUR_TURN"
@@ -74,7 +74,7 @@ class Game{
                 io.to(socket.room).emit("turnEnd",gameInfo)
                 if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
                     let update=await gameService.setResultInfo(socket.room,gameInfo.round,gameInfo.owner,gameInfo.guest);
-                    let result=await gameService.getGameInfo(roomId,turn);
+                    let result=await gameService.getGameInfo(socket.room,turn);
                     io.to(socket.room).emit("turnResult",result)
                 }
             }catch(err){
