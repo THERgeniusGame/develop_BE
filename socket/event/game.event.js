@@ -10,14 +10,19 @@ class Game{
     }
     ready=async(io,socket,roomList)=>{
         socket.on("ready",async(data)=>{
-            if(data.ready && roomList[socket.index].ready==0){
-                roomList[socket.index].ready++;
-                io.to(socket.room).emit("ready",{ready:true})
-            }else if(!data.ready && roomList[socket.index].ready==1){
-                roomList[socket.index].ready--;
-                io.to(socket.room).emit("ready",{ready:false})
-            }else{
-                return;
+            try{
+
+                if(data.ready && roomList[socket.index].ready==0){
+                    roomList[socket.index].ready++;
+                    io.to(socket.room).emit("ready",{ready:true})
+                }else if(!data.ready && roomList[socket.index].ready==1){
+                    roomList[socket.index].ready--;
+                    io.to(socket.room).emit("ready",{ready:false})
+                }else{
+                    return;
+                }
+            }catch(error){
+                error(error,socket)
             }
 
         })
