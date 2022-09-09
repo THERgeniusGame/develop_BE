@@ -63,6 +63,7 @@ class SocketLogin {
             roomInfo.owenrId = roomInfo.userId;
             roomInfo.owner = roomInfo["User.nickname"];
             roomInfo.userList = [];
+            roomInfo.ready=0;
             delete roomInfo["User.nickname"];
             delete roomInfo.userId;
             roomList.push(roomInfo);
