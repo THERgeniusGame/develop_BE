@@ -29,7 +29,6 @@ class EventConnection {
       delete room["User.nickname"],
       delete room.userId
       ));
-      console.log(roomList)
     io.on("connection", async (socket) => {
         try {
           // console.log(socket)
