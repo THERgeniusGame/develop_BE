@@ -55,18 +55,26 @@ module.exports = class RoomController {
   searchRoom = async (req, res, next) => {
     try {
       let pageNum = req.query.page;
-      let offset = 0;
+      let offset = 2;
 
-      if (pageNum > 1) {
-        offset = 2 * (pageNum - 1);
-      }
       const keyword = req.query;
       const searchRoom = await this.roomService.searchRoom(keyword);
       let result = [];
       for (let i = pageNum; i <= pageNum; i++) {
-        result.push(searchRoom.slice((i - 1) * 3, (i - 1) * 3 + 2));
-      }
+        result = searchRoom.slice(
+          (i - 1) * (offset + 1),
+          (i - 1) * (offset + 1) + offset
+        );
 
+        /*         result.push(
+          searchRoom.slice(
+            (i - 1) * (offset + 1),
+            (i - 1) * (offset + 1) + offset
+          )
+        ); */
+      }
+      /*       const A = toString(result).replace(/\[/g, "");
+      console.log(A); */
       res.status(200).json({ success: true, result });
     } catch (err) {
       err.status, err.massage;
