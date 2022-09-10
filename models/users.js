@@ -22,23 +22,31 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
       },
       email: {
         type: DataTypes.STRING,
-        unique: true
+        unique: true,
+        allowNull: false,
       },
       nickname: {
         type: DataTypes.STRING,
-        unique: true
+        unique: true,
+        allowNull: false,
       },
-      password: DataTypes.STRING,
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       win: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
+        allowNull: true,
       },
       total: {
         type: DataTypes.INTEGER,
         defaultValue: 0,
+        allowNull: true,
       },
     },
     {
