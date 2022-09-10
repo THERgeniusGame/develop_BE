@@ -12,27 +12,39 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.Games.belongsTo(models.Rooms, {
       foreignKey: "roomId",
-      onDelete: "cascade",
-      onUpdate: "cascade",
     });
       // define association here
     }
   }
   Games.init({
-    roomId: {
+    gameId: {
       type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
+    },
+    roomId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
     },
     round: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
+      allowNull: false,
     },
     batting: {
       type: DataTypes.INTEGER,
       defaultValue: 0,
+      allowNull: false,
     },
-    owner: DataTypes.JSON,
-    guest: DataTypes.JSON
+    owner: {
+      type:DataTypes.JSON,
+      allowNull: false,
+    },
+    guest:{
+      type:DataTypes.JSON,
+      allowNull: false,
+    },
   }, {
     sequelize,
     modelName: 'Games',
