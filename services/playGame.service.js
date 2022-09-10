@@ -1,13 +1,13 @@
 const Repo=require("../repositories/room.repository")
 const GameRepo=require("../repositories/game.repository")
-const UserRepo=require("../repositories/user.repository")
+const UserService=require("../services/user.service")
 const GameFuntion=require("../socket/game/game.js")
 
 class Service{
     repo=new Repo();
     gameRepo=new GameRepo();
     game=new GameFuntion();
-    userRepo=new UserRepo();
+    userService=new UserService();
     getRoomInfo=async(roomId)=>{
         const getRoom=await this.repo.findRoomId(roomId);
         return getRoom;
@@ -75,6 +75,13 @@ class Service{
 
     EndGame=async(p1,p2)=>{
         let result=this.game.endGame(p1,p2);
+        let total1=await this.userService.upTotal(p1.userId);
+        let total2=await this.userService.upTotal(p2.userId);
+        if(result.winner===p1.nickname){
+            const win1=await this.userService.upWin(p1.userId);
+        }else{
+            const win2=await this.userService.upWin(p2.userId);
+        }
         // await this.userRepo.
         return result;
     }
