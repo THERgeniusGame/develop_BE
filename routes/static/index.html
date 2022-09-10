@@ -29,7 +29,7 @@
     socket.emit("login", {
       // name: "ungmo2",
       //test1 :은나무
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyNTM5MjIwLCJleHAiOjE2NjMxNDQwMjB9.-r12oYdnUxMvKTvBp4eZ678MV-39b7lG7rPzd6UEQvg",
+      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi6riI64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyNzk2MjExLCJleHAiOjE2NjM0MDEwMTF9.Gj6yIbCX_fQIVMUOwjWsyvOjRD2byxiRx7p10gl69ic",
       room:room
     });
 
@@ -37,6 +37,9 @@
     socket.on("login", function(data) {
       socket.id=data.socketId
       console.log(data)
+    });
+    socket.on("setting", function(data) {
+      socket.emit("setting",data)
     });
 
     socket.on("err",(data)=>{

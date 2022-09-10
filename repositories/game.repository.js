@@ -14,7 +14,7 @@ module.exports = class GameRepository {
     return createGame;
   }
 
-  newGame=async(roomId,owner,guest)=>{
+  newGame=async(gameId,owner,guest)=>{
     const newGame = await Games.update({
         round:1,
         batting:0,
@@ -23,56 +23,56 @@ module.exports = class GameRepository {
         },
         {
             where:{
-                roomId:roomId
+                gameId:gameId
             }
         }
     );
     return newGame
   }
 
-  setBatting=async(roomId,batting)=>{
+  setBatting=async(gameId,batting)=>{
     const updateInfo=await Games.update(
         {
             batting:batting
         },
         {
             where:{
-                roomId:roomId
+                gameId:gameId
             }
         }
     )
     return updateInfo
   }
 
-  setOwnerInfo=async(roomId,owner)=>{
+  setOwnerInfo=async(gameId,owner)=>{
     const updateInfo=await Games.update(
         {
             owner:owner,
         },
         {
             where:{
-                roomId:roomId
+                gameId:gameId
             }
         }
     )
     return updateInfo
   }
 
-  setGuestInfo=async(roomId,guest)=>{
+  setGuestInfo=async(gameId,guest)=>{
     const updateInfo=await Games.update(
         {
             guest:guest,
         },
         {
             where:{
-                roomId:roomId
+                gameId:gameId
             }
         }
     )
     return updateInfo
   }
 
-  setResultInfo=async(roomId,round,owner,guest)=>{
+  setResultInfo=async(gameId,round,owner,guest)=>{
     const updateInfo=await Games.update(
         {
             round:round,
@@ -82,17 +82,17 @@ module.exports = class GameRepository {
         },
         {
             where:{
-                roomId:roomId,
+                gameId:gameId,
             }
         }
     )
     return updateInfo
   }
 
-  getGameInfo=async(roomId)=>{
+  getGameInfo=async(gameId)=>{
     const info=await Games.findOne({
         where:{
-            roomId:roomId
+            gameId:gameId
         },
         raw:true
     })
