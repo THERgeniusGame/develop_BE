@@ -1,11 +1,13 @@
 const Repo=require("../repositories/room.repository")
 const GameRepo=require("../repositories/game.repository")
+const UserRepo=require("../repositories/user.repository")
 const GameFuntion=require("../socket/game/game.js")
 
 class Service{
     repo=new Repo();
     gameRepo=new GameRepo();
     game=new GameFuntion();
+    userRepo=new UserRepo();
     getRoomInfo=async(roomId)=>{
         const getRoom=await this.repo.findRoomId(roomId);
         return getRoom;
@@ -19,55 +21,48 @@ class Service{
         try {
             let ownerInfo=this.game.setPlayer(owner);
             let guestInfo=this.game.setPlayer(guest);
-            let checkGame=await this.getGameInfo(roomId,1);
-            console.log(checkGame)
-            if(checkGame!==null){
-                const newGame=await this.gameRepo.newGame(roomId,ownerInfo,guestInfo);
-                return newGame;    
-            }else{
-                const createGame=await this.gameRepo.createGame(roomId,ownerInfo,guestInfo);
-                return createGame;
-            }
+            const createGame=await this.gameRepo.createGame(roomId,ownerInfo,guestInfo);
+            return createGame;
         } catch (error) {
             throw(error)
         }
     }
     
-    setBatting=async(roomId,batting)=>{
-        const setBatting=await this.gameRepo.setBatting(roomId,batting);
+    setBatting=async(gameId,batting)=>{
+        const setBatting=await this.gameRepo.setBatting(gameId,batting);
         return setBatting;
     }
-    setOwnerInfo=async(roomId,owner,turn)=>{
+    setOwnerInfo=async(gameId,owner,turn)=>{
         let ownerInfo=this.game.setPlayer(owner);
-        const updateOwner=await this.gameRepo.setOwnerInfo(roomId,ownerInfo,turn);
+        const updateOwner=await this.gameRepo.setOwnerInfo(gameId,ownerInfo,turn);
         return updateOwner;
     }
-    setGuestInfo=async(roomId,guest,turn)=>{
+    setGuestInfo=async(gameId,guest,turn)=>{
         let guestInfo=this.game.setPlayer(guest);
-        const updateGuest=await this.gameRepo.setGuestInfo(roomId,guestInfo,turn);
+        const updateGuest=await this.gameRepo.setGuestInfo(gameId,guestInfo,turn);
         return updateGuest;
     }
     
-    setUseCard=async(roomId,userInfo,card,turn)=>{
+    setUseCard=async(gameId,userInfo,card,turn)=>{
         this.game.setUseCard(card,userInfo);
         if(turn==="owner"){
-            var update=await this.gameRepo.setOwnerInfo(roomId,userInfo,turn);
+            var update=await this.gameRepo.setOwnerInfo(gameId,userInfo,turn);
         }else{
-            var update=await this.gameRepo.setGuestInfo(roomId,userInfo,turn);
+            var update=await this.gameRepo.setGuestInfo(gameId,userInfo,turn);
         }
         return update;
     }
 
-    setResultInfo=async(roomId,round,owner,guest)=>{
+    setResultInfo=async(gameId,round,owner,guest)=>{
         this.game.roundResult(owner,guest)
         round++;
-        const updateResult=await this.gameRepo.setResultInfo(roomId,round,owner,guest);
+        const updateResult=await this.gameRepo.setResultInfo(gameId,round,owner,guest);
         return updateResult;
     }
     
-    getGameInfo=async(roomId,turn)=>{
+    getGameInfo=async(gameId,turn)=>{
         try{
-            const getInfo=await this.gameRepo.getGameInfo(roomId);
+            const getInfo=await this.gameRepo.getGameInfo(gameId);
             if(getInfo===null){
                 return null;
             }
@@ -79,7 +74,9 @@ class Service{
     }
 
     EndGame=async(p1,p2)=>{
-        return this.game.endGame(p1,p2);
+        let result=this.game.endGame(p1,p2);
+        // await this.userRepo.
+        return result;
     }
 }
 

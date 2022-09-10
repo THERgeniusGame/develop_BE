@@ -31,12 +31,14 @@
       //test1 :은나무
     //   token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi7J2A64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyMDE5MjU2LCJleHAiOjE2NjI2MjQwNTZ9.iCKWK2ZXAlSwzErq6aARvIhPwlEiJnYTK3h6K0xWa_w",
       //test2: 금나무
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjExLCJuaWNrbmFtZSI6Iuq4iOuCmOustCIsIndpbiI6MCwidG90YWwiOjAsImlhdCI6MTY2MjY2MDY3NiwiZXhwIjoxNjYzMjY1NDc2fQ._JpUcYtWqVW-Pwc47BmjpdL8uQ5ff81N4k0OYtM5EdA",
+      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsIm5pY2tuYW1lIjoi7J2A64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyNzk2MTQxLCJleHAiOjE2NjM0MDA5NDF9.apI1VuBmiSuB_tgirlF4HYowKuKUJBvwd1k40nRxMLs",
       //test3: 동나무
       // token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsIm5pY2tuYW1lIjoi64-Z64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyMDI5MTAxLCJleHAiOjE2NjI2MzM5MDF9.EkqzUL6s4FuBz87_ZX-rt17gApvCJrxiVAk0pIOPJXI",
       room:room
     });
-
+    socket.on("setting", function(data) {
+      socket.emit("setting",data)
+    });
     // 서버로부터의 메시지가 수신되면
     socket.on("login", function(data) {
       socket.id=data.socketId
