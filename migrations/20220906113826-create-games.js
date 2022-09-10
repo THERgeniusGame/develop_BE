@@ -2,31 +2,34 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Games', {
-      roomId: {
-        allowNull: false,
+      gameId: {
+        type: DataTypes.INTEGER,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        autoIncrement: true,
+        allowNull: false,
+      },
+      roomId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
       },
       round: {
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        allowNull: false,
       },
       batting: {
-        type: Sequelize.INTEGER
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+        allowNull: false,
       },
       owner: {
-        type: Sequelize.JSON
-      },
-      guest: {
-        type: Sequelize.JSON
-      },
-      createdAt: {
+        type:DataTypes.JSON,
         allowNull: false,
-        type: Sequelize.DATE
       },
-      updatedAt: {
+      guest:{
+        type:DataTypes.JSON,
         allowNull: false,
-        type: Sequelize.DATE
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {

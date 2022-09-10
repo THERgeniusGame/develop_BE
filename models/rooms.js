@@ -15,8 +15,6 @@ module.exports = (sequelize, DataTypes) => {
       });
       models.Rooms.hasOne(models.Games, {
         foreignKey: "roomId",
-        onDelete: "cascade",
-        onUpdate: "cascade",
       });
       // define association here
     }
@@ -27,18 +25,29 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
+        allowNull: false,
       },
-      roomTitle: DataTypes.STRING,
-      roomCategory: {
-        type: DataTypes.INTEGER,
-        defaultValue: 1,
+      roomTitle: {
+        type: DataTypes.STRING,
+        allowNull: false,
       },
       roomLock: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
+        allowNull: false,
       },
-      roomPw: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
+      roomPw:  {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      userId:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      currentUsers: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
     },
     {
       sequelize,
