@@ -160,4 +160,24 @@ module.exports = class RoomRepository {
       throw err;
     }
   };
+
+  //방의 인원수 증가,감소
+  upCurrentUsers = async (roomId)=>{
+    const room=await Rooms.findOne({
+      wher:{
+        roomId:roomId
+      }
+    })
+    const up=await room.increment('currentUsers', { by: 1});
+    return up;
+  }
+  downCurrentUsers = async (roomId)=>{
+    const room=await Rooms.findOne({
+      wher:{
+        roomId:roomId
+      }
+    })
+    const down=await room.decrement('currentUsers', { by: 1});
+    return down;
+  }
 };

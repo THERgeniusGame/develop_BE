@@ -26,6 +26,30 @@ class UserRepository {
             raw:true,
         });
     }
+    upWin = async(userId)=>{
+        let update= await Users.update(
+            {
+                win:win+1,
+            },{
+                where:{
+                    userId:userId
+                }
+            }
+        )
+        return update;
+    }
+    upTotal = async(userId)=>{
+        let update= await Users.update(
+            {
+                total:total+1,
+            },{
+                where:{
+                    userId:userId
+                }
+            }
+        )
+        return update;
+    }
 };
 
 module.exports = UserRepository;

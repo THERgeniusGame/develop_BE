@@ -72,7 +72,7 @@ class SocketLogin {
           socket.room = data.room;
         }
 
-        //room 정보 조정
+        //room 정보 조정 - 인원수 조정
         const index = roomList.findIndex((ele) => ele.roomId == socket.room);
         socket.index=index;
         if (roomList[index].userCount == 2) {
@@ -90,8 +90,10 @@ class SocketLogin {
         );
         if (userIndex !== -1) {
           roomList[index].userList[userIndex].socketId = socket.id;
+          await this.roomRepository.upCurrentUsers(socket.room);
         } else {
           roomList[index].userList.push(user);
+          await this.roomRepository.upCurrentUsers(socket.room);
         }
 
         //로그인 정보

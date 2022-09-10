@@ -93,6 +93,16 @@ class UserService {
           return {status: 200, data: loginUserInfo}
         }
        }
+
+       //게임 종료후 승수와 횟수 증가
+       upTotal = async(userId)=>{
+        const update= await this.userRepository.upTotal(userId);
+        return update;
+       }
+       upWin = async(userId)=>{
+        const update= await this.userRepository.upWin(userId);
+        return update;
+       }
 };
 
 module.exports = UserService;
