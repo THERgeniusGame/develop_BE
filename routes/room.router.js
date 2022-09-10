@@ -24,15 +24,30 @@ const roomController = new RoomController();
  *         roomPw:
  *           type: string
  *           description: The password to enter the room
+ *         currentUsers:
+ *           type: integer
+ *           description: The number of users in the room
  *         userId:
  *           type: integer
  *           description: The id of user who creat this room
+ *         Nickname:
+ *           type: string
+ *           description: The nickname of the user who created the room
  *       example:
  *         roomId: 1
  *         roomTitle: room1
  *         roomLock: false
  *         roomPw: null
+ *         currentUsers: 1
  *         userId: 1
+ *         nickname: 닉네임
+ *     RoomCreate:
+ *       type: object
+ *       example:
+ *         roomTitle: room1
+ *         roomLock: false
+ *         roomPw: null
+ *         currentUsers: 1
  */
 
 /**
@@ -48,6 +63,11 @@ const roomController = new RoomController();
  *   get:
  *     summary: Returns the list of all the rooms
  *     tags: [Rooms]
+ *     parameters:
+ *       - name: page
+ *         in: query
+ *         description: The number of page
+ *         require: true
  *     responses:
  *       200:
  *         description: The list of the rooms
@@ -69,12 +89,17 @@ roomRouter.get("/", authMiddleware, roomController.getRobby);
  *   post:
  *     summary: Creates a room and returns a roomId
  *     tags: [Rooms]
+ *     parameters:
+ *       - name: userId
+ *         in: header
+ *         description: The userId from middleware
+ *         require: true
  *     requestBody:
- *       required: true
+ *       require: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Room'
+ *             $ref: '#/components/schemas/RoomCreate'
  *     responses:
  *       201:
  *         description: The room was successfully created
@@ -82,12 +107,16 @@ roomRouter.get("/", authMiddleware, roomController.getRobby);
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Room'
+ *               properties:
+ *                 roomId:
+ *                 type: integer
+ *                 description: The roomId which was just created
  *         400:
  *           description: The user information does not exist
  *
  */
+
+//userId가 header?
 
 roomRouter.post("/", authMiddleware, roomController.createRoom);
 
@@ -102,10 +131,13 @@ roomRouter.post("/", authMiddleware, roomController.createRoom);
  *        in: query
  *        description: The keyword to search rooms
  *        require: true
-
+ *      - name: page
+ *        in: query
+ *        description: The number of page
+ *        require: true
  *     responses:
  *       200:
- *         description: The list of the rooms
+ *         description: The list of the rooms including a keyword
  *         content:
  *           application/json:
  *             schema:
@@ -115,6 +147,7 @@ roomRouter.post("/", authMiddleware, roomController.createRoom);
  *       400:
  *         description: The rooms information does not exist
  */
+
 roomRouter.get("/search", authMiddleware, roomController.searchRoom);
 
 module.exports = roomRouter;
