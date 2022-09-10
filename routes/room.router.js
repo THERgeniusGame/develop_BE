@@ -18,9 +18,6 @@ const roomController = new RoomController();
  *         roomTitle:
  *           type: string
  *           description: The name of room
- *         roomCategory:
- *           type: integer
- *           description: The kind of game
  *         roomLock:
  *           type: boolean
  *           description: private room - 1, public room - 0
@@ -33,7 +30,6 @@ const roomController = new RoomController();
  *       example:
  *         roomId: 1
  *         roomTitle: room1
- *         roomCategory: 1
  *         roomLock: false
  *         roomPw: null
  *         userId: 1

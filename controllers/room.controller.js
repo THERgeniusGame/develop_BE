@@ -25,7 +25,7 @@ module.exports = class RoomController {
     try {
       //const { userId } = res.locals;
       const userId = 1; //test용
-      const { roomTitle, roomCategory, roomLock, roomPw } = req.body;
+      const { roomTitle, roomLock, roomPw, currentUsers } = req.body;
 
       if (!roomTitle) {
         let err = new Error("Invalid-Datatype");
@@ -35,9 +35,9 @@ module.exports = class RoomController {
 
       const createRoom = await this.roomService.createRoom(
         roomTitle,
-        roomCategory,
         roomLock,
         roomPw,
+        currentUsers,
         userId
       );
       if (createRoom.success === true) {
@@ -55,7 +55,7 @@ module.exports = class RoomController {
   searchRoom = async (req, res, next) => {
     try {
       let pageNum = req.query.page;
-      let offset = 2;
+      let offset = 9;
 
       const keyword = req.query;
       const searchRoom = await this.roomService.searchRoom(keyword);
@@ -65,16 +65,7 @@ module.exports = class RoomController {
           (i - 1) * (offset + 1),
           (i - 1) * (offset + 1) + offset
         );
-
-        /*         result.push(
-          searchRoom.slice(
-            (i - 1) * (offset + 1),
-            (i - 1) * (offset + 1) + offset
-          )
-        ); */
       }
-      /*       const A = toString(result).replace(/\[/g, "");
-      console.log(A); */
       res.status(200).json({ success: true, result });
     } catch (err) {
       err.status, err.massage;

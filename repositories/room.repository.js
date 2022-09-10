@@ -13,9 +13,9 @@ module.exports = class RoomRepository {
       attributes: [
         "roomId",
         "roomTitle",
-        "roomCategory",
         "roomLock",
         "roomPw",
+        "currentUsers",
         "userId",
       ],
       include: [
@@ -41,12 +41,12 @@ module.exports = class RoomRepository {
   };
 
   //방만들기
-  createRoom = async (roomTitle, roomCategory, roomLock, roomPw, userId) => {
+  createRoom = async (roomTitle, roomLock, roomPw, currentUsers, userId) => {
     const createRoom = await Rooms.create({
       roomTitle,
-      roomCategory,
       roomLock,
       roomPw,
+      currentUsers,
       userId,
     });
     return createRoom;
@@ -106,9 +106,9 @@ module.exports = class RoomRepository {
         attributes: [
           "roomId",
           "roomTitle",
-          "roomCategory",
           "roomLock",
           "roomPw",
+          "currentUsers",
           "userId",
         ],
         include: [
@@ -140,9 +140,9 @@ module.exports = class RoomRepository {
             attributes: [
               "roomId",
               "roomTitle",
-              "roomCategory",
               "roomLock",
               "roomPw",
+              "currentUsers",
               "userId",
             ],
           },
