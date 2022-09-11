@@ -111,16 +111,19 @@ class SocketLogin {
         //roomList의 userList에 user 추가
 
         //전달 메시지 제작
-        let send_data = {
+        let user_send_data = {
           userId: socket.userId,
           nickname: socket.nickname,
           socketId: socket.id,
+        }
+        let room_send_data = {
           room: socket.room,
           owner: roomList[index].owner,
           userList: roomList[index].userList,
         };
         // 접속된 모든 클라이언트에게 메시지를 전송한다
-        io.to(data.room).emit("login", send_data);
+        io.to(socket.id).emit("login_user", send_data);
+        io.to(data.room).emit("login_room", send_data);
       } catch (err) {
         error(err, socket);
       }

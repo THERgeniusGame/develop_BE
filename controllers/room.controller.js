@@ -23,8 +23,7 @@ module.exports = class RoomController {
   //방만들기
   createRoom = async (req, res, next) => {
     try {
-      //const { userId } = res.locals;
-      const userId = 1; //test용
+      const { userId } = res.locals;
       const { roomTitle, roomCategory, roomLock, roomPw } = req.body;
 
       if (!roomTitle) {
