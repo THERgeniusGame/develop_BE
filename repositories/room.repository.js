@@ -13,7 +13,6 @@ module.exports = class RoomRepository {
       attributes: [
         "roomId",
         "roomTitle",
-        "roomCategory",
         "roomLock",
         "roomPw",
         "userId",
