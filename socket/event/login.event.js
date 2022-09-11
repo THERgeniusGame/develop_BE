@@ -122,8 +122,8 @@ class SocketLogin {
           userList: roomList[index].userList,
         };
         // 접속된 모든 클라이언트에게 메시지를 전송한다
-        io.to(socket.id).emit("login_user", send_data);
-        io.to(data.room).emit("login_room", send_data);
+        io.to(socket.id).emit("login_user", user_send_data);
+        io.to(data.room).emit("login_room", room_send_data);
       } catch (err) {
         error(err, socket);
       }
