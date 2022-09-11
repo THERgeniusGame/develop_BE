@@ -97,7 +97,7 @@ router.post("/signup", signupMiddleware, userController.signup);
  *           description: Something is wrong
  */
 
-router.post("/login", signupMiddleware, userController.login);
+router.post("/login",  userController.login);
 /**
  * @swagger
  * /api/user/checkemail:
