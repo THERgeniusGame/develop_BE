@@ -47,6 +47,7 @@ module.exports = class RoomRepository {
       roomLock,
       roomPw,
       userId,
+      currentUsers:0,
     });
     return createRoom;
   };
