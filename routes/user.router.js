@@ -9,7 +9,7 @@ const userController = new UserController();
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     UserSignup:
  *       type: object
  *       properties:
  *         UserId:
@@ -24,6 +24,9 @@ const userController = new UserController();
  *         password:
  *           type: string
  *           description: The password of the user
+ *         confirmPw:
+ *           type: string
+ *           description: Checking the password
  *         win:
  *           type: integer
  *           description: The number of winnings
@@ -31,12 +34,22 @@ const userController = new UserController();
  *           type: integer
  *           description: The number of play the games
  *       example:
- *         userId: 1
  *         email: test@test.com
  *         nickname: nickname
  *         password: 1234qwer
- *         win: 5
- *         total: 10
+ *         confirmPw: 1234qwer
+ *     UserLogin:
+ *       type: object
+ *       properties:
+ *         email:
+ *           type: string
+ *           description: The email of the user
+ *         password:
+ *           type: string
+ *           description: The password of the user
+ *       example:
+ *         email: test@test.com
+ *         password: 1234qwer
  */
 
 /**
@@ -57,7 +70,7 @@ const userController = new UserController();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/UserSignup'
  *     responses:
  *       200:
  *         description: The user was successfully created
@@ -65,8 +78,7 @@ const userController = new UserController();
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+ *               example: 회원가입이 완료되었습니다.
  *       400:
  *           description: Something is wrong
  */
@@ -83,7 +95,7 @@ router.post("/signup", signupMiddleware, userController.signup);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/UserLogin'
  *     responses:
  *       200:
  *         description: The user successfully logged in
@@ -91,13 +103,12 @@ router.post("/signup", signupMiddleware, userController.signup);
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+ *               example: token
  *       400:
  *           description: Something is wrong
  */
 
-router.post("/login",  userController.login);
+router.post("/login", userController.login);
 /**
  * @swagger
  * /api/user/checkemail:
@@ -109,7 +120,9 @@ router.post("/login",  userController.login);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             type: string
+ *             example:
+ *               email: test@test.com
  *     responses:
  *       200:
  *         description: Available email
@@ -117,10 +130,18 @@ router.post("/login",  userController.login);
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+ *               example:
+ *                 message: "사용가능한 이메일 입니다."
+ *                 success: true
  *       400:
- *           description: The input value dose not exist
+ *          description: Disavailable email
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                example:
+ *                  message: "중복된 이메일 입니다."
+ *                  success: false
  */
 router.post("/checkemail", userController.checkemail);
 /**
@@ -134,7 +155,9 @@ router.post("/checkemail", userController.checkemail);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             type: string
+ *             example:
+ *               nickname: 닉네임
  *     responses:
  *       200:
  *         description: Available nickname
@@ -142,11 +165,20 @@ router.post("/checkemail", userController.checkemail);
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+ *               example:
+ *                 message: "사용 가능한 닉네임 입니다."
+ *                 success: true
  *       400:
- *           description: The input value dose not exist
+ *          description: Disavailable nickname
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                example:
+ *                  message: "중복된 닉네임 입니다."
+ *                  success: false
  */
+
 router.post("/checknickname", userController.checknickname);
 /**
  * @swagger
@@ -166,8 +198,7 @@ router.post("/checknickname", userController.checknickname);
  *           application/json:
  *             schema:
  *               type: array
- *               items:
- *                 $ref: '#/components/schemas/User'
+
  *       400:
  *           description: The issue of the token
  */
