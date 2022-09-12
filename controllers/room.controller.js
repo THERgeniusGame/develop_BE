@@ -24,20 +24,26 @@ module.exports = class RoomController {
   createRoom = async (req, res, next) => {
     try {
       const { userId } = res.locals;
-      //const userId = 1; //test용
-      const { roomTitle, roomLock, roomPw, currentUsers } = req.body;
+      const { roomTitle, roomLock, roomPw } = req.body;
 
-      if (!roomTitle) {
+      if (!roomTitle || !roomLock) {
         let err = new Error("Invalid-Datatype");
         err.status = 400;
         throw err;
+      }
+      //roomTitle, roomPw 20자 이내
+      if (roomTitle.length >= 20) {
+        return res.json({ message: "roomTitle should be 20 or less" });
+      }
+
+      if (roomPw.length >= 20) {
+        return res.json({ message: "roomPw should be 20 or less" });
       }
 
       const createRoom = await this.roomService.createRoom(
         roomTitle,
         roomLock,
         roomPw,
-        currentUsers,
         userId
       );
       if (createRoom.success === true) {
