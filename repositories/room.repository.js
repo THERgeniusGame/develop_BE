@@ -9,7 +9,6 @@ module.exports = class RoomRepository {
       offset: offset,
       limit: 9,
       raw: true,
-      //through: { attributes: ["createdAt", "updatedAt"] },
       attributes: [
         "roomId",
         "roomTitle",
@@ -41,12 +40,12 @@ module.exports = class RoomRepository {
   };
 
   //방만들기
-  createRoom = async (roomTitle, roomLock, roomPw, currentUsers, userId) => {
+  createRoom = async (roomTitle, roomLock, roomPw, userId) => {
     const createRoom = await Rooms.create({
       roomTitle,
       roomLock,
       roomPw,
-      currentUsers,
+      currentUsers: 0,
       userId,
     });
     return createRoom;
@@ -164,7 +163,7 @@ module.exports = class RoomRepository {
   //방의 인원수 증가,감소
   upCurrentUsers = async (roomId) => {
     const room = await Rooms.findOne({
-      wher: {
+      where: {
         roomId: roomId,
       },
     });
@@ -173,7 +172,7 @@ module.exports = class RoomRepository {
   };
   downCurrentUsers = async (roomId) => {
     const room = await Rooms.findOne({
-      wher: {
+      where: {
         roomId: roomId,
       },
     });
