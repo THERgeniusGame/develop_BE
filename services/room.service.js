@@ -8,9 +8,7 @@ module.exports = class RoomService {
     try {
       const roomsInfo = await this.roomRepository.getRoomsInfo(offset);
       if (roomsInfo.length === 0) {
-        let err = new Error("No-Exist-roomInfo");
-        err.status = 400;
-        throw err;
+        return { message: "No-Exist-roomInfo" };
       }
       let roomInfoResult;
 
@@ -25,9 +23,9 @@ module.exports = class RoomService {
       let result = roomsInfo.map((roomInfo) => ({
         roomId: roomInfo.roomId,
         roomTitle: roomInfo.roomTitle,
-        roomCategory: roomInfo.roomCategory,
         roomLock: roomInfo.roomLock,
         roomPw: roomInfo.roomPw,
+        currentUsers: roomInfo.currentUsers,
         userId: roomInfo.userId,
         nickname: roomInfo["User.nickname"],
       }));
@@ -38,7 +36,7 @@ module.exports = class RoomService {
   };
 
   //방만들기
-  createRoom = async (roomTitle, roomCategory, roomLock, roomPw, userId) => {
+  createRoom = async (roomTitle, roomLock, roomPw, userId) => {
     try {
       const existUser = await this.roomRepository.UserInfo(userId);
 
@@ -50,7 +48,6 @@ module.exports = class RoomService {
 
       const createRoom = await this.roomRepository.createRoom(
         roomTitle,
-        roomCategory,
         roomLock,
         roomPw,
         userId
@@ -80,9 +77,9 @@ module.exports = class RoomService {
       let roomInfoFromRooms = searchInRooms.map((roomInfo) => ({
         roomId: roomInfo.roomId,
         roomTitle: roomInfo.roomTitle,
-        roomCategory: roomInfo.roomCategory,
         roomLock: roomInfo.roomLock,
         roomPw: roomInfo.roomPw,
+        currentUsers: roomInfo.currentUsers,
         userId: roomInfo.userId,
         nickname: roomInfo["User.nickname"],
       }));
@@ -102,9 +99,9 @@ module.exports = class RoomService {
       let roomInfoFromUsers = searchInUsers.map((roomInfo) => ({
         roomId: roomInfo["Rooms.roomId"],
         roomTitle: roomInfo["Rooms.roomTitle"],
-        roomCategory: roomInfo["Rooms.roomCategory"],
         roomLock: roomInfo["Rooms.roomLock"],
         roomPw: roomInfo["Rooms.roomPw"],
+        currentUsers: roomInfo["Rooms.currentUsers"],
         userId: roomInfo["Rooms.userId"],
         nickname: roomInfo.nickname,
       }));

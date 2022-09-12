@@ -9,12 +9,12 @@ module.exports = class RoomRepository {
       offset: offset,
       limit: 9,
       raw: true,
-      //through: { attributes: ["createdAt", "updatedAt"] },
       attributes: [
         "roomId",
         "roomTitle",
         "roomLock",
         "roomPw",
+        "currentUsers",
         "userId",
       ],
       include: [
@@ -40,14 +40,13 @@ module.exports = class RoomRepository {
   };
 
   //방만들기
-  createRoom = async (roomTitle, roomCategory, roomLock, roomPw, userId) => {
+  createRoom = async (roomTitle, roomLock, roomPw, userId) => {
     const createRoom = await Rooms.create({
       roomTitle,
-      roomCategory,
       roomLock,
       roomPw,
+      currentUsers: 0,
       userId,
-      currentUsers:0,
     });
     return createRoom;
   };
@@ -106,9 +105,9 @@ module.exports = class RoomRepository {
         attributes: [
           "roomId",
           "roomTitle",
-          "roomCategory",
           "roomLock",
           "roomPw",
+          "currentUsers",
           "userId",
         ],
         include: [
@@ -140,9 +139,9 @@ module.exports = class RoomRepository {
             attributes: [
               "roomId",
               "roomTitle",
-              "roomCategory",
               "roomLock",
               "roomPw",
+              "currentUsers",
               "userId",
             ],
           },
@@ -162,22 +161,22 @@ module.exports = class RoomRepository {
   };
 
   //방의 인원수 증가,감소
-  upCurrentUsers = async (roomId)=>{
-    const room=await Rooms.findOne({
-      wher:{
-        roomId:roomId
-      }
-    })
-    const up=await room.increment('currentUsers', { by: 1});
+  upCurrentUsers = async (roomId) => {
+    const room = await Rooms.findOne({
+      where: {
+        roomId: roomId,
+      },
+    });
+    const up = await room.increment("currentUsers", { by: 1 });
     return up;
-  }
-  downCurrentUsers = async (roomId)=>{
-    const room=await Rooms.findOne({
-      wher:{
-        roomId:roomId
-      }
-    })
-    const down=await room.decrement('currentUsers', { by: 1});
+  };
+  downCurrentUsers = async (roomId) => {
+    const room = await Rooms.findOne({
+      where: {
+        roomId: roomId,
+      },
+    });
+    const down = await room.decrement("currentUsers", { by: 1 });
     return down;
-  }
+  };
 };

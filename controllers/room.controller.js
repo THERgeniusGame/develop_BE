@@ -24,17 +24,24 @@ module.exports = class RoomController {
   createRoom = async (req, res, next) => {
     try {
       const { userId } = res.locals;
-      const { roomTitle, roomCategory, roomLock, roomPw } = req.body;
+      const { roomTitle, roomLock, roomPw } = req.body;
 
-      if (!roomTitle) {
+      if (!roomTitle || !roomLock) {
         let err = new Error("Invalid-Datatype");
         err.status = 400;
         throw err;
       }
+      //roomTitle, roomPw 20자 이내
+      if (roomTitle.length >= 20) {
+        return res.json({ message: "roomTitle should be 20 or less" });
+      }
+
+      if (roomPw.length >= 20) {
+        return res.json({ message: "roomPw should be 20 or less" });
+      }
 
       const createRoom = await this.roomService.createRoom(
         roomTitle,
-        roomCategory,
         roomLock,
         roomPw,
         userId
@@ -54,18 +61,17 @@ module.exports = class RoomController {
   searchRoom = async (req, res, next) => {
     try {
       let pageNum = req.query.page;
-      let offset = 0;
+      let offset = 9;
 
-      if (pageNum > 1) {
-        offset = 2 * (pageNum - 1);
-      }
       const keyword = req.query;
       const searchRoom = await this.roomService.searchRoom(keyword);
       let result = [];
       for (let i = pageNum; i <= pageNum; i++) {
-        result.push(searchRoom.slice((i - 1) * 3, (i - 1) * 3 + 2));
+        result = searchRoom.slice(
+          (i - 1) * (offset + 1),
+          (i - 1) * (offset + 1) + offset
+        );
       }
-
       res.status(200).json({ success: true, result });
     } catch (err) {
       err.status, err.massage;
