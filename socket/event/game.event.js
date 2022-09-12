@@ -7,6 +7,7 @@ class Game{
         this.gameStart(io,socket,roomList);
         this.turnEnd(io,socket,roomList);
         this.gameEnd(io,socket)
+        this.setting(io,socket)
     }
     ready=async(io,socket,roomList)=>{
         socket.on("ready",async(data)=>{
@@ -39,13 +40,20 @@ class Game{
                 let owner=userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
                 let guest=userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
+                socket.gameId=createInfo.gameId;
+                io.to(socket.room).emit("setting",{gameId:socket.gameId})
                 let turn=["owner","guest"]
-                let gameInfo=await gameService.getGameInfo(socket.room,turn);
+                let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
                 io.to(socket.room).emit("gameStart",gameInfo)
             }catch(err){
                 error(err,socket)
             }
         });
+    }
+    setting=async(io,socket)=>{
+        socket.on("setting",(data)=>{
+            socket.gameId=data.gameId
+        })
     }
     turnEnd=async(io,socket,roomList)=>{
         socket.on("turnEnd", async(data) => {
@@ -73,13 +81,13 @@ class Game{
                         });
                     }
                 }
-                await gameService.setBatting(socket.room,batting)
-                await gameService.setUseCard(socket.room,player,card,myTurn)
-                let gameInfo=await gameService.getGameInfo(socket.room,turn);
+                await gameService.setBatting(socket.gameId,batting)
+                await gameService.setUseCard(socket.gameId,player,card,myTurn)
+                let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
                 io.to(socket.room).emit("turnEnd",gameInfo)
                 if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
-                    let update=await gameService.setResultInfo(socket.room,gameInfo.round,gameInfo.owner,gameInfo.guest);
-                    let result=await gameService.getGameInfo(socket.room,turn);
+                    let update=await gameService.setResultInfo(socket.gameId,gameInfo.round,gameInfo.owner,gameInfo.guest);
+                    let result=await gameService.getGameInfo(socket.gameId,turn);
                     io.to(socket.room).emit("turnResult",result)
                 }
             }catch(err){
