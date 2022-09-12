@@ -8,9 +8,7 @@ module.exports = class RoomService {
     try {
       const roomsInfo = await this.roomRepository.getRoomsInfo(offset);
       if (roomsInfo.length === 0) {
-        let err = new Error("No-Exist-roomInfo");
-        err.status = 400;
-        throw err;
+        return { message: "No-Exist-roomInfo" };
       }
       let roomInfoResult;
 
@@ -38,7 +36,7 @@ module.exports = class RoomService {
   };
 
   //방만들기
-  createRoom = async (roomTitle, roomLock, roomPw, currentUsers, userId) => {
+  createRoom = async (roomTitle, roomLock, roomPw, userId) => {
     try {
       const existUser = await this.roomRepository.UserInfo(userId);
 
@@ -52,7 +50,6 @@ module.exports = class RoomService {
         roomTitle,
         roomLock,
         roomPw,
-        currentUsers,
         userId
       );
       const result = createRoom.dataValues.roomId;
