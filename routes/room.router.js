@@ -43,11 +43,35 @@ const roomController = new RoomController();
  *         nickname: 닉네임
  *     RoomCreate:
  *       type: object
+ *       properties:
+ *         roomId:
+ *           type: integer
+ *           description: The auto generated id of the room
+ *         roomTitle:
+ *           type: string
+ *           description: The name of room
+ *         roomLock:
+ *           type: boolean
+ *           description: private room - 1, public room - 0
+ *         roomPw:
+ *           type: string
+ *           description: The password to enter the room
+ *         currentUsers:
+ *           type: integer
+ *           description: The number of users in the room
  *       example:
  *         roomTitle: room1
  *         roomLock: false
  *         roomPw: null
  *         currentUsers: 1
+ *     RoomCreateRes:
+ *       type: object
+ *       properties:
+ *         roomId:
+ *           type: integer
+ *           description: The auto generated id of the room
+ *       example:
+ *         roomId: 1
  */
 
 /**
@@ -107,10 +131,8 @@ roomRouter.get("/", authMiddleware, roomController.getRobby);
  *           application/json:
  *             schema:
  *               type: array
- *               properties:
- *                 roomId:
- *                 type: integer
- *                 description: The roomId which was just created
+ *               items:
+ *                 $ref: '#/components/schemas/RoomCreateRes'
  *         400:
  *           description: The user information does not exist
  *
