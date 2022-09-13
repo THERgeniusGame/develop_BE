@@ -25,19 +25,28 @@ module.exports = class RoomController {
     try {
       const { userId } = res.locals;
       const { roomTitle, roomLock, roomPw } = req.body;
+      console.log(roomLock, "roomlock", roomPw);
 
-      if (!roomTitle || !roomLock) {
+      if (!roomTitle || roomLock === undefined) {
         let err = new Error("Invalid-Datatype");
         err.status = 400;
         throw err;
       }
-      //roomTitle, roomPw 20자 이내
-      if (roomTitle.length >= 20) {
-        return res.json({ message: "roomTitle should be 20 or less" });
-      }
 
-      if (roomPw.length >= 20) {
-        return res.json({ message: "roomPw should be 20 or less" });
+      if (roomLock === true) {
+        if (roomPw === undefined) {
+          return res.status(400).json({ message: "No-roomPw" });
+        }
+        if (roomPw.length > 20) {
+          return res
+            .status(400)
+            .json({ message: "roomPw should be 20 or less" });
+        }
+      }
+      if (roomTitle.length >= 20) {
+        return res
+          .status(400)
+          .json({ message: "roomTitle should be 20 or less" });
       }
 
       const createRoom = await this.roomService.createRoom(
