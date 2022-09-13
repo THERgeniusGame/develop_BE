@@ -138,8 +138,6 @@ roomRouter.get("/", authMiddleware, roomController.getRobby);
  *
  */
 
-//userId가 header?
-
 roomRouter.post("/", authMiddleware, roomController.createRoom);
 
 /**
