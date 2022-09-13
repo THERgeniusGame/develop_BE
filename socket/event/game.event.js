@@ -6,11 +6,14 @@ class Game{
         this.ready(io,socket,roomList)
         this.gameStart(io,socket,roomList);
         this.turnEnd(io,socket,roomList);
+        //대비용 이벤트
+        this.turnResult(io,socket)
         this.gameEnd(io,socket)
         this.setting(io,socket)
     }
     ready=async(io,socket,roomList)=>{
         socket.on("ready",async(data)=>{
+            console.log("event:ready")
             try{
 
                 if(data.ready && roomList[socket.index].ready==0){
@@ -23,82 +26,98 @@ class Game{
                     return;
                 }
             }catch(error){
-                error(error,socket)
+                error(err,io,socket)
             }
 
         })
     }
     gameStart= async(io, socket,roomList) => {
         socket.on("gameStart", async() => {
-            console.log("test")
+            console.log("event:gameStart")
             try{
                 if(roomList[socket.index].ready!==1){
                     let err=new Error("NONE_READY");
                     throw(err)
                 }
                 let userList=roomList[socket.index].userList;
-                let owner=userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
-                let guest=userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
+                let owner=await userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
+                let guest=await userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
                 socket.gameId=createInfo.gameId;
                 io.to(socket.room).emit("setting",{gameId:socket.gameId})
-                let turn=["owner","guest"]
+                let turn=gameService.randomTurn();
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
                 io.to(socket.room).emit("gameStart",gameInfo)
             }catch(err){
-                error(err,socket)
+                error(err,io,socket)
             }
         });
     }
     setting=async(io,socket)=>{
         socket.on("setting",(data)=>{
-            socket.gameId=data.gameId
+            console.log("event:setting")
+            try{
+                socket.gameId=data.gameId
+            }catch(err){
+                error(err,socket)
+            }
         })
     }
     turnEnd=async(io,socket,roomList)=>{
         socket.on("turnEnd", async(data) => {
+            console.log("event:turnEnd")
             try{
                 let turn=data.turn;
-                let myTurn=turn.shift();
-                turn.push(myTurn);
                 let player=data.player;
                 let batting=data.batting;
                 let card=data.card;
-                if(player===undefined || batting===undefined || card===undefined){
+
+                let myTurn=turn.shift();
+                turn.push(myTurn);
+
+                if(!player || !batting || !card){
                     let err=new Error("BAD_REQUEST");
                     throw(err)
                 }
+                let checkOwner=roomList[socket.index].ownerId!==player.userId
                 if(myTurn==="owner"){
-                    if(roomList[socket.index].ownerId!==player.userId){
-                        return io.to(player.socketId).emit("err",{
-                            msg:"NOT_YOUR_TURN"
-                        });
+                    if(checkOwner){
+                        throw(new Error("NOT_YOUR_TURN"))
                     }
                 }else{
-                    if(roomList[socket.index].ownerId===player.userId){
-                        return io.to(player.socketId).emit("err",{
-                            msg:"NOT_YOUR_TURN"
-                        });
+                    if(!checkOwner){
+                        throw(new Error("NOT_YOUR_TURN"))
                     }
                 }
+
                 await gameService.setBatting(socket.gameId,batting)
                 await gameService.setUseCard(socket.gameId,player,card,myTurn)
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
                 io.to(socket.room).emit("turnEnd",gameInfo)
                 if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
                     let update=await gameService.setResultInfo(socket.gameId,gameInfo.round,gameInfo.owner,gameInfo.guest);
+                    if(update===0){
+                        throw(new Error("Err-Update-Result"))
+                    }
                     let result=await gameService.getGameInfo(socket.gameId,turn);
                     io.to(socket.room).emit("turnResult",result)
                 }
             }catch(err){
-                error(err,socket)
+                error(err,io,socket)
             }
         });
     }
-
+    turnResult=(io,socket)=>{
+        socket.on("turnResult",async(data)=>{
+            console.log("event:turnEnd")
+            let result=await gameService.getGameInfo(socket.gameId,data.turn);
+            io.to(socket.room).emit("turnResult",result)
+        })
+    }
     gameEnd=async(io,socket)=>{
         try{
             socket.on("gameEnd", async(data) => {
+                console.log("event:gameEnd")
                 let result=gameService.EndGame(data.owner,data.guest);
                 io.to(socket.room).emit("turnEnd",{
                     winner:result.winner,
@@ -106,7 +125,7 @@ class Game{
                 })
             })
         }catch(err){
-            error(err,socket)
+            error(err,io,socket)
         }   
     }
 
