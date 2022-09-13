@@ -102,14 +102,14 @@ class Service {
     // await this.userRepo.
     return result;
   };
-  checkPw = async (roomId, password) => {
+  checkPw = async (roomId, roomPw) => {
     try {
       const checkPw = await this.gameRepo.checkPw(roomId);
-      if (checkPw.roomPw !== password) {
-        return { message: "Incorrect-password" };
+      if (checkPw.roomPw === roomPw) {
+        return { success: true };
+      } else {
+        return { success: false };
       }
-
-      return { success: true };
     } catch (error) {
       throw error;
     }
