@@ -96,7 +96,6 @@ module.exports = class GameRepository {
         },
         raw:true
     })
-    console.log(info)
     return info;
   }
 };
