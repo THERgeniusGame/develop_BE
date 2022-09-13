@@ -31,7 +31,7 @@ module.exports = (io, socket) => {
       // 특정 클라이언트에게만 메시지를 전송한다
       // io.to(id).emit('s2c chat', data);
     } catch (err) {
-      error(err, socket)
+      error(err,io,socket)
     }
   });
 };

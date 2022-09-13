@@ -40,7 +40,7 @@ class EventConnection {
           Disconnect(io, socket, roomList);
           new GameEvent(io,socket,roomList);
         } catch (err) {
-          error(err,socket)
+          error(err,io,socket)
         }
     });
   };
