@@ -3,6 +3,7 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
+const { nextTick } = require('process');
 var appDir = path.dirname(require.main.filename);
 
 
@@ -13,7 +14,7 @@ router.post('/', async(req, res) => {
       if(err){console.log(err)}
       emailTemplete = data;
     });
-
+    try {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
@@ -25,12 +26,12 @@ router.post('/', async(req, res) => {
         },
     });
 
-    let mailOptions = await transporter.sendMail({
+    let mailOptions = {
         from: `덜지니어스`,
         to: req.body.email,
-        subject: '회원가입을 위한 인증번호를 입력해주세요.',
+        subject: '덜지니어스 회원가입 인증번호입니다.',
         html: emailTemplete,
-    });
+    };
 
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -41,6 +42,9 @@ router.post('/', async(req, res) => {
         res.send(authNum);
         transporter.close()
     });
+} catch(err) {
+    next(err);
+}
 });
 
 module.exports=router;

@@ -10,13 +10,13 @@ class UserService {
 
     signup = async (email, nickname, password, confirmPw, authorization) => {
         if (authorization) {
-          return { status: 401, message: "로그인 되어 있습니다." };
+          throw { status: 401, message: "Already-Login" };
         };
         if (!email || !nickname || !password ||!confirmPw ) {
-          return { status: 400, message: "모두 입력하세요." };
+          throw { status: 400, message: "Bad-Request" };
         };
         if (password !== confirmPw){
-            return { status: 400, message: "비밀번호와 비밀번호 확인값이 다릅니다."};
+            throw { status: 400, message: "Check-ConfirmPw"};
         };
         const passwords = bcrypt.hashSync(password, 10);
         try {
@@ -25,25 +25,25 @@ class UserService {
           err.status=400
           throw(err)
         };
-        return { status: 201, message: "회원가입이 완료되었습니다." };
+        return { status: 201, message: "Signup-Done" };
       };
 
       login = async (email, password, authorization) => {
         const userInfo = await this.userRepository.login(email,password);
         if (authorization) {
-          return { status: 401, message: "로그인 되어 있습니다." };
+          throw { status: 401, message: "Already-Login" };
         };
         console.log(password)
         if (!email || !password) {
-          return { status: 400, message: "모두 입력하세요." };
+          throw { status: 400, message: "Bad-Request" };
         };
         
         if (!userInfo) {
-          return { status: 400, message: "아이디 혹은 비밀번호가 일치하지 않습니다." };
+          throw { status: 400, message: "Check-EmailorPw" };
         } else {
           const isSame = bcrypt.compareSync(password, userInfo.password);
           if (!isSame) {
-            return { status: 400, message: "아이디 혹은 비밀번호가 일치하지 않습니다." };
+            throw { status: 400, message: "Check-EmailorPw" };
           } else {
             const payload = {
               userId: userInfo.userId,
@@ -61,45 +61,45 @@ class UserService {
 
       checkemail = async (email) => {
         if (!email) {
-          return { status: 400, message: "입력값이 비어 있습니다." , success: false};
+          throw { status: 400, message: "Bad-Request" , success: false};
         };
         const check = await this.userRepository.checkemail(email);
         if(check === null){
-          return  { status: 200, message: "사용가능한 이메일 입니다.", success: true };
+          throw  { status: 200, message: "Available-Email", success: true };
         }
         if (check.email===email) {
-          return { status: 400, message: "중복된 이메일입니다.", success: false };
+          throw { status: 400, message: "Exist-Email", success: false };
         } 
       };
 
       checknickname = async (nickname) => {
         if(!nickname){
-            return { status: 400, message: "입력값이 비어 있습니다.",success: false};
+            throw { status: 400, message: "Bad-Request",success: false};
         };
         const checknn = await this.userRepository.checknickname(nickname);
         if(checknn === null){
-          return { status: 200, message: "사용 가능한 닉네임 입니다.", success: true};
+          throw { status: 200, message: "Available-Nickname", success: true};
         }
         if(checknn.nickname===nickname) {
-            return { status: 400, message: "중복된 닉네임입니다.", success: false};
+            throw { status: 400, message: "Exist-Nickname", success: false};
         }
       };
 
-       userInfo = async (userId, nickname, win, total) => {
+      userInfo = async (userId, nickname, win, total) => {
         const loginUserInfo = {userId, nickname, win, total};
         if(!loginUserInfo) {
-          return { status: 200, message:"로그인정보가 없습니다."};
+          throw { status: 400, message:"Not-Login"};
         } else {
           return {status: 200, data: loginUserInfo}
         }
        }
 
        //게임 종료후 승수와 횟수 증가
-       upTotal = async(userId)=>{
+      upTotal = async(userId)=>{
         const update= await this.userRepository.upTotal(userId);
         return update;
        }
-       upWin = async(userId)=>{
+      upWin = async(userId)=>{
         const update= await this.userRepository.upWin(userId);
         return update;
        }
