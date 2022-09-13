@@ -15,8 +15,8 @@ class PlayGameController {
         return res.json({ message: "Invalid-password" });
       }
       const checkPw = await this.service.checkPw(roomId, password);
-      console.log(checkPw);
-      res.json({ checkPw });
+
+      res.json({ message: "Incorrect-password" });
     } catch (error) {
       next(error);
     }
