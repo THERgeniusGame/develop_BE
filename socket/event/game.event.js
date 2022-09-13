@@ -72,11 +72,15 @@ class Game{
                 let player=data.player;
                 let batting=data.batting;
                 let card=data.card;
+
+                let myTurn=turn.shift();
+                turn.push(myTurn);
                 
-                if(!player || !batting || !card){
+                if(!player || !batting || card==undefined){
                     let err=new Error("BAD_REQUEST");
                     throw(err)
                 }
+                
                 let checkOwner=roomList[socket.index].ownerId!==player.userId
                 if(myTurn==="owner"){
                     if(checkOwner){
@@ -87,9 +91,6 @@ class Game{
                         throw(new Error("NOT_YOUR_TURN"))
                     }
                 }
-
-                let myTurn=turn.shift();
-                turn.push(myTurn);
 
                 await gameService.setBatting(socket.gameId,batting)
                 await gameService.setUseCard(socket.gameId,player,card,myTurn)
