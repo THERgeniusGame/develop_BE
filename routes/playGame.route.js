@@ -10,6 +10,51 @@ router.get("/testCode2/:roomId", function (req, res) {
   res.sendFile(__dirname + "/static/index3.html");
 });
 router.get("/:roomId", GameController.visitGame);
+
+/**
+ * @swagger
+ * tags:
+ *   name: Games
+ *   description: The Games managing API
+ */
+
+/**
+ * @swagger
+ * /api/room/{roomId}:
+ *   post:
+ *     summary: Checking the password of the room
+ *     tags: [Games]
+ *     parameters:
+ *       - name: roomId
+ *         in: path
+ *         description: The roomId which the user enters the roomPw to enter
+ *         require: true
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: string
+ *             example:
+ *               roomPw: "1234"
+ *     responses:
+ *       200:
+ *         description: Correct roomPw
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               example: Correct roomPw
+ *         400:
+ *           description: Incorrect roomPw
+ *           content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               example: Incorrect roomPw
+ *
+ */
+
 //상세방입장 비번 확인
 router.post("/:roomId", GameController.checkPw);
 
