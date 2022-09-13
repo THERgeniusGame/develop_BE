@@ -26,7 +26,7 @@ module.exports = class RoomController {
       const { userId } = res.locals;
       const { roomTitle, roomLock, roomPw } = req.body;
 
-      if (!roomTitle || !roomLock) {
+      if (!roomTitle || (roomLock===undefined)) {
         let err = new Error("Invalid-Datatype");
         err.status = 400;
         throw err;
