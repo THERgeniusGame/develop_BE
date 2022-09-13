@@ -40,6 +40,7 @@ class Game{
                     throw(err)
                 }
                 let userList=roomList[socket.index].userList;
+                console.log(userList)
                 let owner=await userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
                 let guest=await userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
@@ -67,14 +68,11 @@ class Game{
         socket.on("turnEnd", async(data) => {
             console.log("event:turnEnd")
             try{
-                let turn=data.turn;
+                let turn=await data.turn;
                 let player=data.player;
                 let batting=data.batting;
                 let card=data.card;
-
-                let myTurn=turn.shift();
-                turn.push(myTurn);
-
+                
                 if(!player || !batting || !card){
                     let err=new Error("BAD_REQUEST");
                     throw(err)
@@ -89,6 +87,9 @@ class Game{
                         throw(new Error("NOT_YOUR_TURN"))
                     }
                 }
+
+                let myTurn=turn.shift();
+                turn.push(myTurn);
 
                 await gameService.setBatting(socket.gameId,batting)
                 await gameService.setUseCard(socket.gameId,player,card,myTurn)
