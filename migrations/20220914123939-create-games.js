@@ -1,38 +1,38 @@
-'use strict';
+"use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Games', {
+    await queryInterface.createTable("Games", {
       gameId: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
       roomId: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
       round: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         defaultValue: 1,
         allowNull: false,
       },
       batting: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         defaultValue: 0,
         allowNull: false,
       },
       owner: {
-        type:DataTypes.JSON,
+        type: Sequelize.JSON,
         allowNull: false,
       },
-      guest:{
-        type:DataTypes.JSON,
+      guest: {
+        type: Sequelize.JSON,
         allowNull: false,
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Games');
-  }
+    await queryInterface.dropTable("Games");
+  },
 };
