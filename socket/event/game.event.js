@@ -126,6 +126,13 @@ class Game{
         try{
             socket.on("gameEnd", async(data) => {
                 console.log("event:gameEnd")
+                if(data.name!==undefined){
+                    let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
+                    return io.to(socket.room).emit("gameEnd",{
+                        winner:result.winner,
+                        loser:result.loser,
+                    })
+                }
                 let result=await gameService.EndGame(data.owner,data.guest);
                 console.log(result)
                 io.to(socket.room).emit("gameEnd",{

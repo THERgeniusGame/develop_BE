@@ -101,8 +101,8 @@ class GameRule{
                 };
             }else if(p1Win<p2Win){
                 return {
-                    winner:p1.nickname,
-                    loser:p2.nickname,
+                    winner:p2.nickname,
+                    loser:p1.nickname,
                 };
             }else{
                 return {
@@ -114,6 +114,21 @@ class GameRule{
             return {
                 winner:p1.nickname,
                 loser:p2.nickname,
+            };
+        }
+    }
+
+    
+    surrenderGame=(surren,p1,p2)=>{
+        if(p1.userId===surren){
+            return {
+                winner:p2.nickname,
+                loser:p1.nickname,
+            };
+        }else{
+            return {
+                winner:p2.nickname,
+                loser:p1.nickname,
             };
         }
     }
