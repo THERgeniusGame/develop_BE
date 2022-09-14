@@ -112,8 +112,8 @@ class GameRule{
             }
         }else if(p1.coin>p2.coin){
             return {
-                winner:p2.nickname,
-                loser:p1.nickname,
+                winner:p1.nickname,
+                loser:p2.nickname,
             };
         }
     }
