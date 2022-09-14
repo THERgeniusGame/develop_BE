@@ -16,8 +16,8 @@ module.exports = (io, socket,roomList,msg) => {
                 roomList[index].userCount--;
                 await roomRepository.downCurrentUsers(socket.room);
                 if(roomList[index].userCount<=0){
-                    // roomList.splice(index,1);
-                    // const result=await roomRepository.deleteRoom(socket.room)
+                    roomList.splice(index,1);
+                    const result=await roomRepository.deleteRoom(socket.room)
                 }
             }
             console.log("user disconnected: " + socket.nickname);
