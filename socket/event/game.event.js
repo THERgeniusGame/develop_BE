@@ -41,6 +41,7 @@ class Game{
                     throw(err)
                 }
                 let userList=roomList[index].userList;
+                console.log(roomList[index])
                 console.log(userList)
                 let owner=await userList.find(ele=>ele.userId===roomList[index].ownerId);
                 let guest=await userList.find(ele=>ele.userId!==roomList[index].ownerId);
