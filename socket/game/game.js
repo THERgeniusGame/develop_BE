@@ -1,4 +1,7 @@
 class GameRule{
+    constructor(){
+        this.coin=100;
+    }
     /*
     user1,user2={
         userId
@@ -47,18 +50,18 @@ class GameRule{
         }
     }
 
-    roundResult=(p1,p2)=>{
+    roundResult=(p1,p2,batting)=>{
         if(p1.battingCards.at(this.round)<p2.battingCards.at(this.round)){
             p1.result.push("lose")
-            p1.coin-=this.batting;
+            p1.coin-=batting;
             p2.result.push("win")
-            p2.coin+=this.batting;
+            p2.coin+=batting;
             p2.win++;
         }else if(p1.battingCards.at(this.round)===p2.battingCards.at(this.round)){
             p1.result.push("draw")
-            p1.coin-=this.batting;
+            p1.coin-=batting;
             p2.result.push("draw")
-            p2.coin-=this.batting;
+            p2.coin-=batting;
         }else{
             this.roundResult(p2,p1);
         }

@@ -74,7 +74,8 @@ class Service {
   };
 
   setResultInfo = async (gameId, round, owner, guest) => {
-    this.game.roundResult(owner, guest);
+    const getInfo = await this.gameRepo.getGameInfo(gameId);
+    this.game.roundResult(owner, guest,getInfo.batting);
     round++;
     const updateResult = await this.gameRepo.setResultInfo(
       gameId,
