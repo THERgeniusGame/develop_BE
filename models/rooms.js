@@ -1,21 +1,21 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Rooms extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      models.Rooms.belongsTo(models.Users, {
-        foreignKey: "userId",
-        onDelete: "cascade",
-        onUpdate: "cascade",
-      });
-      // define association here
-    }
-  }
+  // class Rooms extends Model {
+  //   /**
+  //    * Helper method for defining associations.
+  //    * This method is not a part of Sequelize lifecycle.
+  //    * The `models/index` file will call this method automatically.
+  //    */
+  //   static associate(models) {
+  //     models.Rooms.belongsTo(models.Users, {
+  //       foreignKey: "userId",
+  //       onDelete: "cascade",
+  //       onUpdate: "cascade",
+  //     });
+  //     // define association here
+  //   }
+  // }
   Rooms.init(
     {
       roomId: {
@@ -33,11 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
         allowNull: false,
       },
-      roomPw:  {
+      roomPw: {
         type: DataTypes.STRING,
         allowNull: true,
       },
-      userId:{
+      userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
