@@ -43,6 +43,7 @@ class Game{
                 console.log(userList)
                 let owner=await userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
                 let guest=await userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
+                console.log(owner,guest)
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
                 socket.gameId=createInfo.gameId;
                 io.to(socket.room).emit("setting",{gameId:socket.gameId})
@@ -101,7 +102,11 @@ class Game{
                     if(update===0){
                         throw(new Error("Err-Update-Result"))
                     }
+                    turn.reverse();
                     let result=await gameService.getGameInfo(socket.gameId,turn);
+                    if(result.owner.result.at(-1)!=="draw"){
+                        result.winner=result.owner.result.at(-1)==="win"?result.owner.nickname:result.guest.nickname
+                    }
                     io.to(socket.room).emit("turnResult",result)
                 }
             }catch(err){
