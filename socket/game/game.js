@@ -106,8 +106,8 @@ class GameRule{
                 };
             }else{
                 return {
-                    winner:draw,
-                    loser:draw,
+                    winner:"draw",
+                    loser:"draw",
                 };
             }
         }else if(p1.coin>p2.coin){
