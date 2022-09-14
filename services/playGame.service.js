@@ -105,7 +105,7 @@ class Service {
     let total2 = await this.userService.upTotal(p2.userId);
     if (result.winner === p1.nickname) {
       const win1 = await this.userService.upWin(p1.userId);
-    } else {
+    } else if(result.winner === p2.nickname){
       const win2 = await this.userService.upWin(p2.userId);
     }
     // await this.userRepo.

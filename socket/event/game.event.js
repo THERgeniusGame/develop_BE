@@ -127,7 +127,7 @@ class Game{
             socket.on("gameEnd", async(data) => {
                 console.log("event:gameEnd")
                 let result=gameService.EndGame(data.owner,data.guest);
-                io.to(socket.room).emit("turnEnd",{
+                io.to(socket.room).emit("gameEnd",{
                     winner:result.winner,
                     loser:result.loser,
                 })
