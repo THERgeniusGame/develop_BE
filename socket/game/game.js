@@ -98,10 +98,23 @@ class GameRule{
                 return {
                     winner:p1.nickname,
                     loser:p2.nickname,
-                    };
+                };
+            }else if(p1Win<p2Win){
+                return {
+                    winner:p1.nickname,
+                    loser:p2.nickname,
+                };
+            }else{
+                return {
+                    winner:draw,
+                    loser:draw,
+                };
             }
-        }else{
-            this.endGame(p2,p1);
+        }else if(p1.coin>p2.coin){
+            return {
+                winner:p2.nickname,
+                loser:p1.nickname,
+            };
         }
     }
 }
