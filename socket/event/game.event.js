@@ -103,12 +103,12 @@ class Game{
                         throw(new Error("Err-Update-Result"))
                     }
                     turn.reverse();
-                    let result=await gameService.getGameInfo(socket.gameId,turn);
-                    console.log(result.winner=result.owner.result.at(-1))
-                    if(result.owner.result.at(-1)!=="draw"){
-                        result.winner=result.owner.result.at(-1)==="win"?result.owner.nickname:result.guest.nickname
+                    let resultRound=await gameService.getGameInfo(socket.gameId,turn);
+                    console.log(resultRound.owner.result.at(-1))
+                    if(resultRound.owner.result.at(-1)!=="draw"){
+                        resultRound.winner=resultRound.owner.result.at(-1)==="win"?resultRound.owner.nickname:resultRound.guest.nickname
                     }
-                    io.to(socket.room).emit("turnResult",result)
+                    io.to(socket.room).emit("turnResult",resultRound)
                 }
             }catch(err){
                 error(err,io,socket)
