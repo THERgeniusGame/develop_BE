@@ -27,29 +27,24 @@ class UserRepository {
         });
     }
     upWin = async(userId)=>{
-        let update= await Users.update(
-            {
-                win:win+1,
-            },{
-                where:{
-                    userId:userId
-                }
+        const user = await Users.findOne({
+            where:{
+                userId:userId
             }
-        )
-        return update;
+        });
+        const up = await user.increment("win", { by: 1 });
+        return up;
     }
     upTotal = async(userId)=>{
-        let update= await Users.update(
-            {
-                total:total+1,
-            },{
-                where:{
-                    userId:userId
-                }
+        const user = await Users.findOne({
+            where:{
+                userId:userId
             }
-        )
-        return update;
+        });
+        const up = await user.increment("total", { by: 1 });
+        return up;
     }
+    
 };
 
 module.exports = UserRepository;

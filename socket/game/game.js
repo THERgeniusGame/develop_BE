@@ -31,7 +31,7 @@ class GameRule{
             battingCards:(u1.battingCards===null||u1.battingCards===undefined)?[]:u1.battingCards,
             coin:(u1.coin===null||u1.coin===undefined)?100:u1.coin,
             result:(u1.result===null||u1.result===undefined)?[]:u1.result,
-            win:(u1.win===null||u1.undefined)?0:u1.win,
+            win:(u1.win===null||u1.win===undefined)?0:u1.win,
         }
     }
 
