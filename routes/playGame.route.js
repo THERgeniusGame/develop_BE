@@ -44,15 +44,24 @@ router.get("/:roomId", GameController.visitGame);
  *           application/json:
  *             schema:
  *               type: array
- *               example: Correct roomPw
- *         400:
- *           description: Incorrect roomPw
- *           content:
- *           application/json:
- *             schema:
- *               type: array
- *               example: Incorrect roomPw
- *
+ *               example:
+ *                 success: true
+ *       400v:
+ *          description: Invalid roomPw
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                example:
+ *                  message: "Invalid roomPw"
+ *       400c:
+ *          description: Incorrect roomPw
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                example:
+ *                  message: "Incorrect roomPw"
  */
 
 //상세방입장 비번 확인
