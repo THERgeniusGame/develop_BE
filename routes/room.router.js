@@ -61,9 +61,8 @@ const roomController = new RoomController();
  *           description: The number of users in the room
  *       example:
  *         roomTitle: room1
- *         roomLock: false
- *         roomPw: null
- *         currentUsers: 1
+ *         roomLock: true
+ *         roomPw: 1234
  *     RoomCreateRes:
  *       type: object
  *       properties:
@@ -71,7 +70,8 @@ const roomController = new RoomController();
  *           type: integer
  *           description: The auto generated id of the room
  *       example:
- *         roomId: 1
+ *         success: true
+ *         data: {"roomId":1}
  */
 
 /**
@@ -101,8 +101,16 @@ const roomController = new RoomController();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Room'
- *       400:
+ *       200nR:
  *         description: The rooms information does not exist
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                example:
+ *                  roomsInfo: {"message": "No-Exist-roomInfo"}
+ *       400:
+ *         description: The userId information does not exist
  */
 
 roomRouter.get("/", authMiddleware, roomController.getRobby);
@@ -133,12 +141,12 @@ roomRouter.get("/", authMiddleware, roomController.getRobby);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/RoomCreateRes'
- *         400:
- *           description: The user information does not exist
+ *       400nU:
+ *         description: The user information does not exist
+ *       400:
+ *         description: Invalid-Datatype
  *
  */
-
-//userId가 header?
 
 roomRouter.post("/", authMiddleware, roomController.createRoom);
 
@@ -166,8 +174,18 @@ roomRouter.post("/", authMiddleware, roomController.createRoom);
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Room'
+ *       200nR:
+ *         description: The rooms information does not exist
+ *         content:
+ *           application/json:
+ *             schema:
+ *                type: array
+ *                example:
+ *                  success: true,
+ *                  result: []
  *       400:
  *         description: The rooms information does not exist
+ *
  */
 
 roomRouter.get("/search", authMiddleware, roomController.searchRoom);

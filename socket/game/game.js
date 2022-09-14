@@ -1,4 +1,7 @@
 class GameRule{
+    constructor(){
+        this.coin=100;
+    }
     /*
     user1,user2={
         userId
@@ -9,6 +12,15 @@ class GameRule{
     firstTurn=0or1
      */
     //시작 금액
+
+    randomTurn=()=>{
+        if(Math.round(Math.random())===1){
+            return ["guest","owner"];
+        }else{
+            return ["owner","guest"];
+        }
+    }
+
     //플레이어의 기본정보
     setPlayer=(u1)=>{
         return {
@@ -16,10 +28,10 @@ class GameRule{
             nickname:u1.nickname,
             socketId:u1.socketId,
             cards:[0,1,2,3,4,5,6,7,8,9],
-            battingCards:[],
+            battingCards:(u1.battingCards===null||u1.battingCards===undefined)?[]:u1.battingCards,
             coin:this.coin,
-            result:[],
-            win:0,
+            result:(u1.result===null||u1.result===undefined)?[]:u1.result,
+            win:u1.win===null?0:u1.win,
         }
 
     }
@@ -38,20 +50,23 @@ class GameRule{
         }
     }
 
-    roundResult=(p1,p2)=>{
+    roundResult=(p1,p2,batting)=>{
         if(p1.battingCards.at(this.round)<p2.battingCards.at(this.round)){
             p1.result.push("lose")
-            p1.coin-=this.batting;
+            p1.coin-=batting;
             p2.result.push("win")
-            p2.coin+=this.batting;
+            p2.coin+=batting;
             p2.win++;
         }else if(p1.battingCards.at(this.round)===p2.battingCards.at(this.round)){
             p1.result.push("draw")
-            p1.coin-=this.batting;
+            p1.coin-=batting;
             p2.result.push("draw")
-            p2.coin-=this.batting;
+            p2.coin-=batting;
         }else{
             this.roundResult(p2,p1);
+        }
+        return {
+            p1:p1,p2:p2
         }
     }
 

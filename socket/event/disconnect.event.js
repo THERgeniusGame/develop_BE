@@ -22,7 +22,7 @@ module.exports = (io, socket,roomList,msg) => {
             }
             console.log("user disconnected: " + socket.nickname);
         }catch(err){
-            error(err,socket)
+            error(err,io,socket)
         }
     });
     
@@ -30,7 +30,7 @@ module.exports = (io, socket,roomList,msg) => {
         try{
             socket.to(data.socketId).emit('kick',{success:true});
         } catch(err){
-            error(err, socket)
+            error(err,io,socket)
     }
     });
 };

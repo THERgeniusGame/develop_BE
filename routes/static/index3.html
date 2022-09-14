@@ -40,14 +40,21 @@
       socket.emit("setting",data)
     });
     // 서버로부터의 메시지가 수신되면
-    socket.on("login", function(data) {
+   // 서버로부터의 메시지가 수신되면
+   socket.on("login_user", function(data) {
       socket.id=data.socketId
+      console.log(data)
+    });
+    socket.on("login_room", function(data) {
       console.log(data)
     });
     socket.on("gameStart",(data)=>{
       console.log(data)
     })
     socket.on("turnEnd",(data)=>{
+      console.log(data)
+    })
+    socket.on("error",(data)=>{
       console.log(data)
     })
     
@@ -66,6 +73,16 @@
         if(event[1]==="turnEnd"){
           guest={battingCards: [],
             cards:  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+            nickname: "금나무",
+            result: [],
+            socketId: "4JNNI1e9S8sJDJM6AAAH",
+            userId: 11,
+            win: 0}
+          socket.emit("turnEnd",{player:guest,batting:10,card:9,turn: ['guest', 'owner']});
+        }
+        if(event[1]==="turnEnd2"){
+          guest={battingCards: [9],
+            cards:  [0, 1, 2, 3, 4, 5, 6, 7, 8],
             nickname: "금나무",
             result: [],
             socketId: "4JNNI1e9S8sJDJM6AAAH",

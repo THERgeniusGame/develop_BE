@@ -19,7 +19,7 @@ class SocketLogin {
 
   Login = async (io, socket, roomList) => {
     socket.on("login", async (data) => {
-
+      console.log("event:login")
       try {
         //data 검사,token,room
         const room = data.room;
@@ -125,7 +125,7 @@ class SocketLogin {
         io.to(socket.id).emit("login_user", user_send_data);
         io.to(data.room).emit("login_room", room_send_data);
       } catch (err) {
-        error(err, socket);
+        error(err,io,socket)
       }
     });
   };
