@@ -25,8 +25,8 @@ class Game{
                 }else{
                     return;
                 }
-            }catch(error){
-                error(error,io,socket)
+            }catch(err){
+                error(err,io,socket)
             }
 
         })
