@@ -69,12 +69,11 @@ class Game{
         socket.on("turnEnd", async(data) => {
             console.log("event:turnEnd")
             try{
-                const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 let turn=await data.turn;
                 let player=data.player;
                 let batting=data.batting;
                 let card=data.card;
-
+                let ownerId=data.userId
                 let myTurn=turn.shift();
                 turn.push(myTurn);
                 
@@ -83,7 +82,7 @@ class Game{
                     throw(err)
                 }
                 
-                let checkOwner=roomList[index].ownerId!==player.userId
+                let checkOwner=ownerId!==player.userId
                 if(myTurn==="owner"){
                     if(checkOwner){
                         throw(new Error("NOT_YOUR_TURN"))
