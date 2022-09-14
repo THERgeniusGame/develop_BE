@@ -70,6 +70,7 @@ class Game{
             console.log("event:turnEnd")
             try{
                 let turn=await data.turn;
+                console.log(turn)
                 let player=data.player;
                 let batting=data.batting;
                 let card=data.card;
