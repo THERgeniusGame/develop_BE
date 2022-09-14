@@ -27,13 +27,12 @@ class GameRule{
             userId:u1.userId,
             nickname:u1.nickname,
             socketId:u1.socketId,
-            cards:[0,1,2,3,4,5,6,7,8,9],
+            cards:(u1.cards===null||u1.cards===undefined)?[0,1,2,3,4,5,6,7,8,9]:u1.cards,
             battingCards:(u1.battingCards===null||u1.battingCards===undefined)?[]:u1.battingCards,
-            coin:this.coin,
+            coin:(u1.coin===null||u1.coin===undefined)?100:u1.coin,
             result:(u1.result===null||u1.result===undefined)?[]:u1.result,
             win:(u1.win===null||u1.undefined)?0:u1.win,
         }
-
     }
 
     //사용하는 카드등록 및 cards에서 제거
@@ -50,20 +49,26 @@ class GameRule{
         }
     }
 
-    roundResult=(p1,p2,batting)=>{
-        if(p1.battingCards.at(this.round)<p2.battingCards.at(this.round)){
+    roundResult=(p1,p2,batting,round)=>{
+        console.log(p1.battingCards.at(round-1))
+        console.log(p2.battingCards.at(round-1))
+        if(p1.battingCards.at(round-1)<p2.battingCards.at(round-1)){
             p1.result.push("lose")
             p1.coin-=batting;
             p2.result.push("win")
             p2.coin+=batting;
             p2.win++;
-        }else if(p1.battingCards.at(this.round)===p2.battingCards.at(this.round)){
+        }else if(p1.battingCards.at(round-1)===p2.battingCards.at(round-1)){
             p1.result.push("draw")
             p1.coin-=batting;
             p2.result.push("draw")
             p2.coin-=batting;
-        }else{
-            this.roundResult(p2,p1);
+        }else if(p1.battingCards.at(round-1)>p2.battingCards.at(round-1)){
+            p1.result.push("win")
+            p1.coin+=batting;
+            p2.result.push("lose")
+            p2.coin-=batting;
+            p1.win++;
         }
         return {
             p1:p1,p2:p2
