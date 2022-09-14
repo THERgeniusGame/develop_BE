@@ -111,6 +111,20 @@ class Service {
     // await this.userRepo.
     return result;
   };
+
+  surrenderGame=async (surren,p1, p2) => {
+    let result = this.game.surrenderGame(surren,p1, p2);
+    let total1 = await this.userService.upTotal(p1.userId);
+    let total2 = await this.userService.upTotal(p2.userId);
+    if (result.winner === p1.nickname) {
+      const win1 = await this.userService.upWin(p1.userId);
+    } else if(result.winner === p2.nickname){
+      const win2 = await this.userService.upWin(p2.userId);
+    }
+    // await this.userRepo.
+    return result;
+  };
+
   checkPw = async (roomId, roomPw) => {
     try {
       const checkPw = await this.gameRepo.checkPw(roomId);
