@@ -28,10 +28,10 @@ class GameRule{
             nickname:u1.nickname,
             socketId:u1.socketId,
             cards:[0,1,2,3,4,5,6,7,8,9],
-            battingCards:[],
+            battingCards:(u1.battingCards===null||u1.battingCards===undefined)?[]:u1.battingCards,
             coin:this.coin,
-            result:[],
-            win:0,
+            result:(u1.result===null||u1.result===undefined)?[]:u1.result,
+            win:u1.win===null?0:u1.win,
         }
 
     }
@@ -64,6 +64,9 @@ class GameRule{
             p2.coin-=batting;
         }else{
             this.roundResult(p2,p1);
+        }
+        return {
+            p1:p1,p2:p2
         }
     }
 

@@ -73,15 +73,15 @@ class Service {
     return update;
   };
 
-  setResultInfo = async (gameId, round, owner, guest) => {
+  setResultInfo = async (gameId, round) => {
     const getInfo = await this.gameRepo.getGameInfo(gameId);
-    this.game.roundResult(owner, guest,getInfo.batting);
+    const player=this.game.roundResult(getInfo.owner, getInfo.guest,getInfo.batting);
     round++;
     const updateResult = await this.gameRepo.setResultInfo(
       gameId,
       round,
-      owner,
-      guest
+      player.p1,
+      player.p2
     );
     return updateResult;
   };

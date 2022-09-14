@@ -98,12 +98,13 @@ class Game{
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
                 io.to(socket.room).emit("turnEnd",gameInfo)
                 if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
-                    let update=await gameService.setResultInfo(socket.gameId,gameInfo.round,gameInfo.owner,gameInfo.guest);
+                    let update=await gameService.setResultInfo(socket.gameId,gameInfo.round);
                     if(update===0){
                         throw(new Error("Err-Update-Result"))
                     }
                     turn.reverse();
                     let result=await gameService.getGameInfo(socket.gameId,turn);
+                    console.log(result.winner=result.owner.result.at(-1))
                     if(result.owner.result.at(-1)!=="draw"){
                         result.winner=result.owner.result.at(-1)==="win"?result.owner.nickname:result.guest.nickname
                     }

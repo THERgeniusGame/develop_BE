@@ -78,7 +78,17 @@
             socketId: "4JNNI1e9S8sJDJM6AAAH",
             userId: 11,
             win: 0}
-          socket.emit("turnEnd",{player:guest,batting:10,card:0,turn: ['guest', 'owner']});
+          socket.emit("turnEnd",{player:guest,batting:10,card:9,turn: ['guest', 'owner']});
+        }
+        if(event[1]==="turnEnd2"){
+          guest={battingCards: [9],
+            cards:  [0, 1, 2, 3, 4, 5, 6, 7, 8],
+            nickname: "금나무",
+            result: [],
+            socketId: "4JNNI1e9S8sJDJM6AAAH",
+            userId: 11,
+            win: 0}
+          socket.emit("turnEnd",{player:guest,batting:10,card:1,turn: ['guest', 'owner']});
         }
       }
     });
