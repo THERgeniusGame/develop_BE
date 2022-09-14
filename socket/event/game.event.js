@@ -15,12 +15,12 @@ class Game{
         socket.on("ready",async(data)=>{
             console.log("event:ready")
             try{
-
-                if(data.ready && roomList[socket.index].ready==0){
-                    roomList[socket.index].ready++;
+                const index = roomList.findIndex((ele) => ele.roomId == socket.room);
+                if(data.ready && roomList[index].ready==0){
+                    roomList[index].ready++;
                     io.to(socket.room).emit("ready",{ready:true})
-                }else if(!data.ready && roomList[socket.index].ready==1){
-                    roomList[socket.index].ready--;
+                }else if(!data.ready && roomList[index].ready==1){
+                    roomList[index].ready--;
                     io.to(socket.room).emit("ready",{ready:false})
                 }else{
                     return;
@@ -35,14 +35,15 @@ class Game{
         socket.on("gameStart", async() => {
             console.log("event:gameStart")
             try{
-                if(roomList[socket.index].ready!==1){
+                const index = roomList.findIndex((ele) => ele.roomId == socket.room);
+                if(roomList[index].ready!==1){
                     let err=new Error("NONE_READY");
                     throw(err)
                 }
-                let userList=roomList[socket.index].userList;
+                let userList=roomList[index].userList;
                 console.log(userList)
-                let owner=await userList.find(ele=>ele.userId===roomList[socket.index].ownerId);
-                let guest=await userList.find(ele=>ele.userId!==roomList[socket.index].ownerId);
+                let owner=await userList.find(ele=>ele.userId===roomList[index].ownerId);
+                let guest=await userList.find(ele=>ele.userId!==roomList[index].ownerId);
                 console.log(owner,guest)
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
                 socket.gameId=createInfo.gameId;
@@ -69,6 +70,7 @@ class Game{
         socket.on("turnEnd", async(data) => {
             console.log("event:turnEnd")
             try{
+                const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 let turn=await data.turn;
                 let player=data.player;
                 let batting=data.batting;
@@ -82,7 +84,7 @@ class Game{
                     throw(err)
                 }
                 
-                let checkOwner=roomList[socket.index].ownerId!==player.userId
+                let checkOwner=roomList[index].ownerId!==player.userId
                 if(myTurn==="owner"){
                     if(checkOwner){
                         throw(new Error("NOT_YOUR_TURN"))
