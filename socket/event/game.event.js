@@ -25,14 +25,14 @@ class Game{
                 }else{
                     return;
                 }
-            }catch(error){
-                error(error,io,socket)
+            }catch(err){
+                error(err,io,socket)
             }
 
         })
     }
     gameStart= async(io, socket,roomList) => {
-        socket.on("gameStart", async() => {
+        socket.on("gameStart", async(data) => {
             console.log("event:gameStart")
             try{
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
@@ -40,12 +40,9 @@ class Game{
                     let err=new Error("NONE_READY");
                     throw(err)
                 }
-                let userList=roomList[index].userList;
-                console.log(roomList[index])
-                console.log(roomList[index].ownerId)
-                console.log(userList)
-                let owner=await userList.find(ele=>ele.userId===roomList[index].ownerId);
-                let guest=await userList.find(ele=>ele.userId!==roomList[index].ownerId);
+                let userList=await roomList[index].userList;
+                let owner=await userList.find(ele=>ele.userId===data.userId);
+                let guest=await userList.find(ele=>ele.userId!==data.userId);
                 console.log(owner,guest)
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
                 socket.gameId=createInfo.gameId;
