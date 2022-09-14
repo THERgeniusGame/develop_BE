@@ -8,6 +8,9 @@ class Service {
   gameRepo = new GameRepo();
   game = new GameFuntion();
   userService = new UserService();
+    randomTurn=()=>{
+        return this.game.randomTurn();
+    }
   getRoomInfo = async (roomId) => {
     const getRoom = await this.repo.findRoomId(roomId);
     return getRoom;
@@ -33,8 +36,13 @@ class Service {
   };
 
   setBatting = async (gameId, batting) => {
-    const setBatting = await this.gameRepo.setBatting(gameId, batting);
-    return setBatting;
+        const getInfo=await this.gameRepo.getGameInfo(gameId);
+        if(getInfo.batting===0){
+        const setBatting = await this.gameRepo.setBatting(gameId, batting);
+        return setBatting;
+        }else{
+            return;
+        }
   };
   setOwnerInfo = async (gameId, owner, turn) => {
     let ownerInfo = this.game.setPlayer(owner);

@@ -34,17 +34,16 @@
     });
 
     // 서버로부터의 메시지가 수신되면
-    socket.on("login", function(data) {
+    socket.on("login_user", function(data) {
       socket.id=data.socketId
+      console.log(data)
+    });
+    socket.on("login_room", function(data) {
       console.log(data)
     });
     socket.on("setting", function(data) {
       socket.emit("setting",data)
     });
-
-    socket.on("err",(data)=>{
-      console.log(data)
-    })
     socket.on("gameStart",(data)=>{
       console.log(data)
     })
@@ -52,6 +51,9 @@
       console.log(data)
     })
     socket.on("turnResult",(data)=>{
+      console.log(data)
+    })
+    socket.on("error",(data)=>{
       console.log(data)
     })
     

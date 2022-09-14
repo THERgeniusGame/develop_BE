@@ -9,6 +9,15 @@ class GameRule{
     firstTurn=0or1
      */
     //시작 금액
+
+    randomTurn=()=>{
+        if(Math.round(Math.random())===1){
+            return ["guest","owner"];
+        }else{
+            return ["owner","guest"];
+        }
+    }
+
     //플레이어의 기본정보
     setPlayer=(u1)=>{
         return {

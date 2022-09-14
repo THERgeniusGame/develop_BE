@@ -89,14 +89,13 @@ module.exports = class GameRepository {
     return updateInfo;
   };
 
-  getGameInfo = async (gameId) => {
-    const info = await Games.findOne({
-      where: {
-        gameId: gameId,
-      },
-      raw: true,
-    });
-    console.log(info);
+  getGameInfo=async(gameId)=>{
+    const info=await Games.findOne({
+        where:{
+            gameId:gameId
+        },
+        raw:true
+    })
     return info;
   };
 
