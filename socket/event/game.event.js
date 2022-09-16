@@ -50,11 +50,11 @@ class Game{
                 let turn=gameService.randomTurn();
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
                 let ownerInfo=gameInfo.owner;
+                let guestInfo=gameInfo.guest;
                 ownerInfo.turn=turn
                 ownerInfo.userId=roomList[index].ownerId
                 guestInfo.turn=turn
                 guestInfo.userId=roomList[index].ownerId
-                let guestInfo=gameInfo.guest;
                 io.to(owner.socketId).emit("gameStart_user",ownerInfo)
                 io.to(guest.socketId).emit("gameStart_user",guestInfo)
 
