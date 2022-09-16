@@ -49,7 +49,11 @@ class Game{
                 io.to(socket.room).emit("setting",{gameId:socket.gameId})
                 let turn=gameService.randomTurn();
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
-                io.to(socket.room).emit("gameStart",gameInfo)
+                io.to(owner.socketId).emit("gameStart_user",gameInfo.owner)
+                io.to(guest.socketId).emit("gameStart_user",gameInfo.guest)
+
+                gameInfo.userId=roomList[index].ownerId
+                io.to(socket.room).emit("gameStart_room",gameInfo)
             }catch(err){
                 error(err,io,socket)
             }
@@ -97,7 +101,14 @@ class Game{
                 await gameService.setBatting(socket.gameId,batting)
                 await gameService.setUseCard(socket.gameId,player,card,myTurn)
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
-                io.to(socket.room).emit("turnEnd",gameInfo)
+                gameInfo.userId=data.userId;
+
+                if(gameInfo.owner.userId===player.userId){
+                    io.to(socket.id).emit("turnEnd_user",gameInfo.owner)
+                }else{
+                    io.to(socket.id).emit("turnEnd_user",gameInfo.guest)
+                }
+                io.to(socket.room).emit("turnEnd_room",gameInfo)
                 if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
                     let update=await gameService.setResultInfo(socket.gameId,gameInfo.round);
                     if(update===0){
