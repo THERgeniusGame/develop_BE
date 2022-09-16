@@ -52,9 +52,9 @@ class Game{
                 let ownerInfo=await gameInfo.owner;
                 let guestInfo=await gameInfo.guest;
                 ownerInfo.turn=turn
-                ownerInfo.userId=await roomList[index].ownerId
+                ownerInfo.ownerId=await roomList[index].ownerId
                 guestInfo.turn=turn
-                guestInfo.userId=await roomList[index].ownerId
+                guestInfo.ownerId=await roomList[index].ownerId
                 io.to(owner.socketId).emit("gameStart_user",ownerInfo)
                 io.to(guest.socketId).emit("gameStart_user",guestInfo)
 
