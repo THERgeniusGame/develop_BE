@@ -1,6 +1,7 @@
 const { Rooms, Users } = require("../models");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
+const chatVaildation = require("../socket/event/chatRule/chattingfilter");
 
 module.exports = class RoomRepository {
   //로비화면
@@ -41,8 +42,10 @@ module.exports = class RoomRepository {
 
   //방만들기
   createRoom = async (roomTitle, roomLock, roomPw, userId) => {
+    const roomTitleFiltered = chatVaildation(roomTitle);
+    console.log(roomTitleFiltered);
     const createRoom = await Rooms.create({
-      roomTitle,
+      roomTitle: roomTitleFiltered.sendMsg,
       roomLock,
       roomPw,
       currentUsers: 0,
