@@ -81,10 +81,10 @@ class Game{
             try{
                 let turn=await data.turn;
                 console.log(turn)
-                let player=data.player;
-                let batting=data.batting;
-                let card=data.card;
-                let ownerId=data.userId
+                let player=await data.player;
+                let batting=await data.batting;
+                let card=await data.card;
+                let ownerId=await data.userId
                 let myTurn=turn.shift();
                 turn.push(myTurn);
                 
@@ -94,8 +94,6 @@ class Game{
                 }
                 
                 let checkOwner=ownerId!==player.userId
-                console.log(checkOwner)
-                console.log(myTurn)
                 if(myTurn==="owner"){
                     if(checkOwner){
                         throw(new Error("NOT_YOUR_TURN"))
