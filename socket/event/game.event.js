@@ -94,6 +94,8 @@ class Game{
                 }
                 
                 let checkOwner=ownerId!==player.userId
+                console.log(checkOwner)
+                console.log(myTurn)
                 if(myTurn==="owner"){
                     if(checkOwner){
                         throw(new Error("NOT_YOUR_TURN"))
@@ -144,6 +146,7 @@ class Game{
         try{
             socket.on("gameEnd", async(data) => {
                 console.log("event:gameEnd")
+                console.log(data)
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
                     return io.to(socket.room).emit("gameEnd",{
