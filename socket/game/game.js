@@ -127,8 +127,8 @@ class GameRule{
             };
         }else{
             return {
-                winner:p2.nickname,
-                loser:p1.nickname,
+                winner:p1.nickname,
+                loser:p2.nickname,
             };
         }
     }
