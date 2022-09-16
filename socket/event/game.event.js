@@ -49,8 +49,14 @@ class Game{
                 io.to(socket.room).emit("setting",{gameId:socket.gameId})
                 let turn=gameService.randomTurn();
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
-                io.to(owner.socketId).emit("gameStart_user",gameInfo.owner)
-                io.to(guest.socketId).emit("gameStart_user",gameInfo.guest)
+                let ownerInfo=gameInfo.owner;
+                ownerInfo.turn=turn
+                ownerInfo.userId=roomList[index].ownerId
+                guestInfo.turn=turn
+                guestInfo.userId=roomList[index].ownerId
+                let guestInfo=gameInfo.guest;
+                io.to(owner.socketId).emit("gameStart_user",ownerInfo)
+                io.to(guest.socketId).emit("gameStart_user",guestInfo)
 
                 gameInfo.userId=roomList[index].ownerId
                 io.to(socket.room).emit("gameStart_room",gameInfo)
