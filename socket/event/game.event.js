@@ -87,13 +87,14 @@ class Game{
                 let ownerId=await data.userId
                 let myTurn=turn.shift();
                 turn.push(myTurn);
-                
+                console.log(player,batting,card,ownerId)
+                console.log(data)
                 if(!player || !batting || card==undefined){
                     let err=new Error("BAD_REQUEST");
                     throw(err)
                 }
                 
-                let checkOwner=ownerId!==player.userId
+                let checkOwner=await ownerId!==player.userId
                 if(myTurn==="owner"){
                     if(checkOwner){
                         throw(new Error("NOT_YOUR_TURN"))
