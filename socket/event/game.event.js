@@ -84,7 +84,7 @@ class Game{
                 let player=await data.player;
                 let batting=await data.batting;
                 let card=await data.card;
-                let ownerId=await data.userId
+                let ownerId=roomList[socket.index].ownerId
                 let myTurn=turn.shift();
                 turn.push(myTurn);
                 console.log(player,batting,card,ownerId)
