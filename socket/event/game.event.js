@@ -87,8 +87,6 @@ class Game{
                 let ownerId=roomList[socket.index].ownerId
                 let myTurn=turn.shift();
                 turn.push(myTurn);
-                console.log(player,batting,card,ownerId)
-                console.log(data)
                 if(!player || !batting || card==undefined){
                     let err=new Error("BAD_REQUEST");
                     throw(err)
