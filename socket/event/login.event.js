@@ -60,7 +60,7 @@ class SocketLogin {
             socket.room = data.room;
             roomInfo.userCount = 0;
             roomInfo.userList = [];
-            roomInfo.owenrId = roomInfo.userId;
+            roomInfo.ownerId = roomInfo.userId;
             roomInfo.owner = roomInfo["User.nickname"];
             roomInfo.userList = [];
             roomInfo.ready=0;
