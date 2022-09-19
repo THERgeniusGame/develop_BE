@@ -92,7 +92,39 @@ class UserService {
         } else {
           return {status: 200, data: loginUserInfo}
         }
-       }
+       };
+
+       kakaologin = async (email, nickname) => {
+        const password = env.KAKAO_PW;
+        const userInfo = await this.userRepository.kakaologin(email, password);
+        if (!userInfo){
+            const userInfo = await this.userRepository.kakaosignup(email, nickname, password);
+            const payload = {
+              userId: userInfo.id,
+              nickname: userInfo.nickname,
+            };//유효 시간 
+            const token = jwt.sign(payload, env.SECRET_KEY);
+            return { status: 201, data: token };
+        }else{
+            if( userInfo.nickname == nickname ){//프로필 변경은 업데이트 하지않음
+            const payload = {
+              userId: userInfo.id,
+              nickname: userInfo.nickname,
+            };//유효 시간 
+            const token = jwt.sign(payload, env.SECRET_KEY);
+            return { status: 201, data: token };
+            }else{
+              const userInfo = await this.userRepository.kakaoupdate(email, nickname, password)
+              const payload = {
+                userId: userInfo.id,
+                nickname: userInfo.nickname,
+              };//유효 시간 
+              const token = jwt.sign(payload, env.SECRET_KEY);
+              return { status: 201, dete: token };
+            };
+    
+        };
+      };
 
        //게임 종료후 승수와 횟수 증가
       upTotal = async(userId)=>{
