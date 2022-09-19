@@ -30,6 +30,9 @@ const userController = new UserController();
  *         win:
  *           type: integer
  *           description: The number of winnings
+ *         lose:
+ *           type: integer
+ *           description: Checking the password
  *         total:
  *           type: integer
  *           description: The number of play the games
@@ -212,7 +215,7 @@ router.get("/header", headerMiddleware, userController.userinfo);
  *     tags: [Users]
  *     requestBody:
  *       required: true
- *       kakao: "true"
+ *       content:
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/UserSignup'
