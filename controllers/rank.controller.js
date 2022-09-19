@@ -8,11 +8,16 @@ class RankController {
       const { userId } = res.locals;
       const rankMy = await this.rankService.rankMy(userId);
       const ranking = await this.rankService.rankList();
-      console.log(rankMy.nickname);
-      console.log(ranking);
-      const userRank = ranking.find(rankMy.nickname);
-      console.log(userRank);
-      res.status(200).send(rankMy);
+      const userRank = ranking.find(
+        (Nick) => Nick.nickname === rankMy.nickname
+      );
+      console.log(userRank.rank);
+      const result = {
+        ...rankMy,
+        rank: userRank.rank,
+      };
+      console.log(result);
+      res.status(200).send(result);
     } catch (err) {
       next(err);
     }
