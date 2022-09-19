@@ -49,6 +49,7 @@ class UserService {
               userId: userInfo.userId,
               nickname: userInfo.nickname,
               win: userInfo.win,
+              lose: userInfo.lose,
               total: userInfo.total,
             };
             const token = jwt.sign(payload, env.SECRET_KEY,{
