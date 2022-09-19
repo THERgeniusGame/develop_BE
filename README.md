@@ -1,6 +1,10 @@
 # develop_BE
 back-end git
 
+# 프로젝트 소개
+항해 8기 F반 7조 실전프로젝트
+TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 즐길 수 있도록 웹 게임으로 만들었습니다.
+게임은 Socket.io 를 기반으로 한 1대1 방식으로 진행되며 흑 과 백을 모티브로 한 웹 보드게임 "THERGenius"입니다.
 # .env 
 ```
  MYSQL_USERNAME     데이터베이스 사용자
@@ -13,3 +17,37 @@ back-end git
  PORT               포트 번호
  REPORT_PAGE_COUNT  신고페이지목록 개수
  ```
+
+# 와이어그램
+https://www.figma.com/file/0XBiaSNcr9NcTTKjBKfv1x/THERgeniusGame?node-id=0%3A1
+
+# ERD
+https://app.sqldbm.com/MySQL/Edit/p230806/
+
+# Tech Stack
+Front : React
+Back : Node.js
+DB : Mysql
+Web Framework : Express
+
+# Front-end Library
+axios
+redux-toolkit
+styled-components
+json-server
+jwt
+socket.io
+react-hook-form
+sweetalert2
+dotenv
+
+# Back-end Library
+cors
+dotenv
+sequlize
+bcrypt
+joi
+jwt
+nodemailer
+socket.io
+ejs
