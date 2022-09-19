@@ -39,16 +39,15 @@ class SocketLogin {
           socket.total = userInfo.total;
         } catch (err) {
           if (err.name === "TokenExpiredError") {
-            err.message = "토큰이 만료되었습니다.";
+            err.message= "expired-Token"
             return error(err, socket);
           }
-
           if (err.name === "JsonWebTokenError") {
-            err.message = "유효하지 않은 토큰입니다.";
+            err.message="expired-Token"
             return error(err, socket);
           }
         }
-
+        
         //room 검사
         if (this.roomListCheck(data.room, roomList)) {
           let roomInfo = await this.roomIdCheck(data.room);
@@ -76,7 +75,6 @@ class SocketLogin {
         const index = roomList.findIndex((ele) => ele.roomId == socket.room);
         socket.index=index;
         if (roomList[index].userCount == 2) {
-          socket.msg = "인원수";
           return socket.disconnect();
         }
         roomList[index].userCount++;

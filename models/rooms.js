@@ -13,6 +13,11 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "cascade",
         onUpdate: "cascade",
       });
+      models.Rooms.hasOne(models.ChatLogs, {
+          foreignKey: "roomId",
+          onDelete: "cascade",
+          onUpdate: "cascade",
+      });
       // define association here
     }
   }
