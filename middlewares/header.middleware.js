@@ -12,6 +12,7 @@ module.exports = (req, res, next) => {
         res.locals.userId = user.userId;
         res.locals.nickname = user.nickname;
         res.locals.win = user.win;
+        res.locals.lose = user.lose;
         res.locals.total = user.total;
         next();
     } catch (err) {

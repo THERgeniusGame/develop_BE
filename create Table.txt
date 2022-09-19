@@ -1,0 +1,3 @@
+npx sequelize model:generate --name Reports --attributes userId:integer,reportTitle:string,reportContent:string,reportCategory:integer
+npx sequelize model:generate --name Comments --attributes commentContent:string,reportId:integer
+npx sequelize model:generate --name ChatLogs --attributes reportId:integer,gameId:integer,chatLog:string
