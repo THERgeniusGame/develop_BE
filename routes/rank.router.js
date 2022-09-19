@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
-//const auth = require("../middlewares/auth.middleware");
+const authMiddleware = require("../middlewares/auth.middleware");
 const RankController = require("../controllers/rank.controller");
 const rankController = new RankController();
 
-//router.use(auth);
 /**
  * @swagger
  * components:
@@ -82,7 +81,7 @@ const rankController = new RankController();
  *           description: error
  */
 
-router.get("/rank/my", rankController.rankMy);
+router.get("/my", authMiddleware, rankController.rankMy);
 /**
  * @swagger
  * /api/rank/list:
@@ -101,6 +100,6 @@ router.get("/rank/my", rankController.rankMy);
  *       400:
  *           description: error
  */
-router.get("/rank/list", rankController.rankList);
+router.get("/list", authMiddleware, rankController.rankList);
 
 module.exports = router;
