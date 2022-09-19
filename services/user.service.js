@@ -104,7 +104,7 @@ class UserService {
               nickname: userInfo.nickname,
             };//유효 시간 
             const token = jwt.sign(payload, env.SECRET_KEY);
-            return { status: 201, dete: token };
+            return { status: 201, data: token };
         }else{
             if( userInfo.nickname == nickname ){//프로필 변경은 업데이트 하지않음
             const payload = {
