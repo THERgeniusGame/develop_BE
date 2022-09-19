@@ -12,7 +12,7 @@ const userController = new UserController();
  *     UserSignup:
  *       type: object
  *       properties:
- *         UserId:
+ *         userId:
  *           type: integer
  *           description: The auto generated id of the user
  *         email:
