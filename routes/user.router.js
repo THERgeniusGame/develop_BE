@@ -203,5 +203,6 @@ router.post("/checknickname", userController.checknickname);
  *           description: The issue of the token
  */
 router.get("/header", headerMiddleware, userController.userinfo);
+router.post("/kakao", userController.kakaologin);
 
 module.exports = router;
