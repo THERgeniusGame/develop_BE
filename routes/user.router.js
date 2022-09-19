@@ -203,6 +203,30 @@ router.post("/checknickname", userController.checknickname);
  *           description: The issue of the token
  */
 router.get("/header", headerMiddleware, userController.userinfo);
+
+/**
+ * @swagger
+ * /api/user/kakao:
+ *   post:
+ *     summary: Singup
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       kakao: "true"
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserSignup'
+ *     responses:
+ *       200:
+ *         description: The user successfully logged in
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               example: token
+ *       400:
+ *           description: Something is wrong
+ */
 router.post("/kakao", userController.kakaologin);
 
 module.exports = router;
