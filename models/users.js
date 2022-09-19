@@ -53,7 +53,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
         allowNull: true,
       },
-      kakao: DataTypes.STRING
+      kakao: DataTypes.STRING,
     },
     {
       sequelize,
