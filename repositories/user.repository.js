@@ -1,15 +1,15 @@
 const { Users } = require("../models");
-const users = require("../models/users");
+
 
 
 class UserRepository {
 
-    signup = async (email, nickname, passwords, win, total) => {
-        await Users.create({ email, nickname, password: passwords, win , total });
+    signup = async (email, nickname, passwords, win, lose, total) => {
+        await Users.create({ email, nickname, password: passwords, win ,lose, total, kakao:"false" });
     };
 
     login = async (email) => {
-        return await Users.findOne({ where: { email} });
+        return await Users.findOne({ where: { email, kakao:"false"} });
     };
     
     checkemail = async (email) => {
@@ -25,7 +25,22 @@ class UserRepository {
             where: { nickname } ,
             raw:true,
         });
-    }
+    };
+
+    kakaologin = async (email, password) => {
+        return await Users.findOne({ where: { email, password, kakao:"true" } });
+    };
+
+    kakaosignup = async (email, nickname, password, win, lose, total) => {
+        await Users.create({ email, nickname, password, win, lose, total, kakao:"true" });
+        return await Users.findOne({ where: { email, password, kakao:"true" } });
+    };
+
+    kakaoupdate = async (email, nickname, password) => {
+        await Users.update({nickname},{where: { email, password, kakao:"true" }});
+        return await Users.findOne({ where: { email, password, kakao:"true" } });
+    };
+
     upWin = async(userId)=>{
         const user = await Users.findOne({
             where:{
