@@ -24,12 +24,12 @@
     const room=window.location.pathname.split('/')[4].toString(0);
     console.log(room)
     // socket.io 서버에 접속한다
-    const socket = io.connect('https://localhost:8000/');
+    const socket = io.connect('http://localhost:8000/');
     // 서버로 자신의 정보를 전송한다.
     socket.emit("login", {
       // name: "ungmo2",
       //test1 :은나무
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi6riI64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyNzk2MjExLCJleHAiOjE2NjM0MDEwMTF9.Gj6yIbCX_fQIVMUOwjWsyvOjRD2byxiRx7p10gl69ic",
+      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi64KY66y0Iiwid2luIjowLCJsb3NlIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYzNzQ0OTkyLCJleHAiOjE2NjQzNDk3OTJ9.1tZjRtdDrmxShKjlpJHAi5yLCFOeW8NrIDD4j0tV4o4",
       room:room
     });
 
