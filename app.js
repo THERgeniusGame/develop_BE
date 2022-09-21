@@ -1,7 +1,4 @@
 const express = require("express");
-const fs = require("fs");
-const path = require("path");
-const HTTPS = require("https");
 const { sequelize } = require("./models");
 const indexRouter = require("./routes");
 const { error404, error } = require("./middlewares/error");
@@ -21,7 +18,6 @@ const { swaggerUi, specs } = require("./modules/swagger");
 class App {
   app = express();
   constructor() {
-    this.sslServer();
     this.app.use("/route/static", express.static("index.html"));
     this.setMiddleWare();
     this.setRouter();
@@ -42,42 +38,6 @@ class App {
   setErrorHandler() {
     this.app.use(error404);
     this.app.use(error);
-  }
-
-  sslServer() {
-    try {
-      const option = {
-        ca: fs.readFileSync(
-          "/etc/letsencrypt/live/sparta-emil.shop/fullchain.pem"
-        ),
-        key: fs
-          .readFileSync(
-            path.resolve(
-              process.cwd(),
-              "/etc/letsencrypt/live/sparta-emil.shop/privkey.pem"
-            ),
-            "utf8"
-          )
-          .toString(),
-        cert: fs
-          .readFileSync(
-            path.resolve(
-              process.cwd(),
-              "/etc/letsencrypt/live/sparta-emil.shop/cert.pem"
-            ),
-            "utf8"
-          )
-          .toString(),
-      };
-
-      HTTPS.createServer(option, this.app);
-    } catch (error) {
-      console.log(error);
-      // colorConsole.error(
-      //   "[HTTPS] HTTPS 오류가 발생하였습니다. HTTPS 서버는 실행되지 않습니다."
-      // );
-      // colorConsole.warn(error);
-    }
   }
 }
 module.exports = new App().socketIO.server;
