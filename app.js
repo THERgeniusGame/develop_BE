@@ -1,6 +1,5 @@
 const express = require("express");
 const fs = require("fs");
-const http = require("http");
 const path = require("path");
 const HTTPS = require("https");
 const { sequelize } = require("./models");
