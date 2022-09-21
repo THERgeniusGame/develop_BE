@@ -29,6 +29,13 @@ module.exports = class RoomRepository {
     return roomsInfo;
   };
 
+  //방전체개수
+  getRoomsNum = async () => {
+    const roomNum = await Rooms.count();
+
+    return roomNum;
+  };
+
   //유저정보 확인
   UserInfo = async (userId) => {
     const userInfo = await Users.findOne({

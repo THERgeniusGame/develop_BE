@@ -73,6 +73,7 @@ module.exports = class RoomController {
 
       const keyword = req.query;
       const searchRoom = await this.roomService.searchRoom(keyword);
+      const resultNum = await searchRoom.length;
       let result = [];
       for (let i = pageNum; i <= pageNum; i++) {
         result = searchRoom.slice(
@@ -80,7 +81,7 @@ module.exports = class RoomController {
           (i - 1) * (offset + 1) + offset
         );
       }
-      res.status(200).json({ success: true, result });
+      res.status(200).json({ success: true, result, resultNum });
     } catch (err) {
       err.status, err.massage;
       next(err);

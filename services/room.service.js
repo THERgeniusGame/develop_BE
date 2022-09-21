@@ -7,6 +7,8 @@ module.exports = class RoomService {
   getRoomsInfo = async (offset) => {
     try {
       const roomsInfo = await this.roomRepository.getRoomsInfo(offset);
+      const roomNum = await this.roomRepository.getRoomsNum();
+
       if (roomsInfo.length === 0) {
         return { message: "No-Exist-roomInfo" };
       }
@@ -29,7 +31,7 @@ module.exports = class RoomService {
         userId: roomInfo.userId,
         nickname: roomInfo["User.nickname"],
       }));
-      return result;
+      return { result, roomNum };
     } catch (err) {
       throw err;
     }
