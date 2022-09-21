@@ -1,6 +1,5 @@
 const express = require("express");
 const fs = require("fs");
-const http = require("http");
 const path = require("path");
 const HTTPS = require("https");
 const { sequelize } = require("./models");
@@ -72,15 +71,15 @@ class App {
       };
 
       HTTPS.createServer(option, this.app).listen(sslport, () => {
-        colorConsole.success(
-          `[HTTPS] Soda Server is started on port ${colors.cyan(sslport)}`
+        console.success(
+          `[HTTPS] Soda Server is started on port`
         );
       });
     } catch (error) {
-      colorConsole.error(
+      console.error(
         "[HTTPS] HTTPS 오류가 발생하였습니다. HTTPS 서버는 실행되지 않습니다."
       );
-      colorConsole.warn(error);
+      console.warn(error);
     }
   }
 }

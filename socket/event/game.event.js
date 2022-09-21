@@ -1,5 +1,7 @@
 const { error } = require("../middlewares/error");
 const GameService=require("../../services/playGame.service.js")
+const ChatLogsService=require("../../services/chatLogs.service");
+const chatLogsService=new ChatLogsService();
 let gameService=new GameService()
 class Game{
     constructor(io,socket,roomList){
@@ -35,6 +37,14 @@ class Game{
         socket.on("gameStart", async(data) => {
             console.log("event:gameStart")
             try{
+                const log=await chatLogsService.checkChagLogTable();
+                if(log!==null){
+                    var updateReport= await chatLogsService.updateReportChat();
+                }
+                if(updateReport==1){
+                    console.log("Success-ReportChat")
+                }
+
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 if(roomList[index].ready!==1){
                     let err=new Error("NONE_READY");
