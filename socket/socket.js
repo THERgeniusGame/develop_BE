@@ -1,5 +1,5 @@
-const { readFileSync } = require("fs");
 const { createServer } = require("https");
+const fs = require("fs");
 const { Server } = require("socket.io");
 const EventConnection=require("./event/connection")
 class IO {
@@ -7,8 +7,27 @@ class IO {
   constructor(app) {
     try{
       this.server = createServer({
-        key: readFileSync("/etc/letsencrypt/live/sparta-emil.shop/fullchain.pem"),
-        cert: readFileSync("/etc/letsencrypt/live/sparta-emil.shop/privkey.pem")
+        ca: fs.readFileSync(
+          "/etc/letsencrypt/live/sparta-emil.shop/fullchain.pem"
+        ),
+        key: fs
+          .readFileSync(
+            path.resolve(
+              process.cwd(),
+              "/etc/letsencrypt/live/sparta-emil.shop/privkey.pem"
+            ),
+            "utf8"
+          )
+          .toString(),
+        cert: fs
+          .readFileSync(
+            path.resolve(
+              process.cwd(),
+              "/etc/letsencrypt/live/sparta-emil.shop/cert.pem"
+            ),
+            "utf8"
+          )
+          .toString(),
       });
       this.connectServer(this.server);
     }catch(err){
