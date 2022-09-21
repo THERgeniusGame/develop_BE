@@ -1,8 +1,24 @@
 const { error } = require("../middlewares/error");
 const chatVaildation=require("./chatRule/chattingfilter")
+const ChatLogsService=require("../../services/chatLogs.service");
+const chatLogsService=new ChatLogsService();
 module.exports = (io, socket) => {
-  socket.on("chat", (data) => {
+  socket.on("chat", async(data) => {
     try {
+      const checkLogs=await chatLogsService.checkChagLogTable();
+      if(checkLogs===null){
+        await chatLogsService.createLogsTable();
+      }else{
+        let chatLog=checkLogs.chat+"/="+socket.nickname+":"+data.msg;
+        var updateLogs=await chatLogsService.updateLogs();
+      }//동시성해결필요
+      if(updateLogs==1){
+        console.log("Success-ChatLog");
+      }else{
+        console.log("Failed-ChatLog");
+      }
+
+
       let clear_Msg= chatVaildation(data.msg);
       if(clear_Msg.msg==="badword"){
         data.msg=clear_Msg.sendMsg
