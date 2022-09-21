@@ -1,12 +1,13 @@
-const { createServer } = require("https");
+const https = require("https");
 const fs = require("fs");
+const path = require("path");
 const { Server } = require("socket.io");
 const EventConnection=require("./event/connection")
 class IO {
   eventConnection=new EventConnection
   constructor(app) {
     try{
-      this.server = createServer({
+      this.server = https.createServer({
         ca: fs.readFileSync(
           "/etc/letsencrypt/live/sparta-emil.shop/fullchain.pem"
         ),
@@ -28,7 +29,7 @@ class IO {
             "utf8"
           )
           .toString(),
-      });
+      },app);
       this.connectServer(this.server);
     }catch(err){
       console.log(err)
