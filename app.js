@@ -21,10 +21,10 @@ const { swaggerUi, specs } = require("./modules/swagger");
 class App {
   app = express();
   constructor() {
+    this.sslServer();
     this.app.use("/route/static", express.static("index.html"));
     this.setMiddleWare();
     this.setRouter();
-    this.sslServer();
     this.socketIO = new IO(this.app);
     this.setErrorHandler();
   }
@@ -70,16 +70,13 @@ class App {
           .toString(),
       };
 
-      HTTPS.createServer(option, this.app).listen(sslport, () => {
-        console.success(
-          `[HTTPS] Soda Server is started on port`
-        );
-      });
+      HTTPS.createServer(option, this.app);
     } catch (error) {
-      console.error(
-        "[HTTPS] HTTPS 오류가 발생하였습니다. HTTPS 서버는 실행되지 않습니다."
-      );
-      console.warn(error);
+      console.log(error);
+      // colorConsole.error(
+      //   "[HTTPS] HTTPS 오류가 발생하였습니다. HTTPS 서버는 실행되지 않습니다."
+      // );
+      // colorConsole.warn(error);
     }
   }
 }
