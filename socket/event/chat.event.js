@@ -5,12 +5,13 @@ const chatLogsService=new ChatLogsService();
 module.exports = (io, socket) => {
   socket.on("chat", async(data) => {
     try {
-      const checkLogs=await chatLogsService.checkChagLogTable(data.room);
+      const checkLogs=await chatLogsService.checkChagLogTable(socket.room);
       if(checkLogs===null || checkLogs===undefined){
-        await chatLogsService.createLogsTable(data.room);
+        let log="userId:"+socket.userId+", nickname"+socket.nickname+"="+data.msg;
+        await chatLogsService.createLogsTable(socket.room,log);
       }else{
-        let chatLog=await checkLogs.chatLog+"/="+socket.nickname+":"+data.msg;
-        var updateLogs=await chatLogsService.updateLogs(data.room,chatLog);
+        let chatLog=await checkLogs.chatLog+"/"+socket.userId+":"+data.msg;
+        var updateLogs=await chatLogsService.updateLogs(socket.room,chatLog);
       }//동시성해결필요
       if(updateLogs==1){
         console.log("Success-ChatLog");

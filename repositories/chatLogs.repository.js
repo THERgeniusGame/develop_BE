@@ -3,7 +3,7 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
 module.exports = class ChatLogsRepository {
-    getLog=async(roomId)=>{
+    getLog=async(roomId,gameId)=>{
         let log=await ChatLogs.findOne({
             attribute:[
                 "chatLog",
@@ -12,18 +12,18 @@ module.exports = class ChatLogsRepository {
             ],
             where:{
                 roomId,
-                gameId:0
+                gameId
             },
             raw:true
         })
         return log
     }
-    saveChat=async(roomId)=>{
+    saveChat=async(roomId,chat)=>{
         let log=await ChatLogs.create({
             roomId,
-            gameId:0
+            chatLog:chat
         })
-        return log
+        return log;
     }
     updateChat=async(chat,roomId)=>{
         const up= await ChatLogs.update(
@@ -32,11 +32,22 @@ module.exports = class ChatLogsRepository {
             },{
                 where:{
                     roomId:roomId,
-                    gameId:0
                 }
             }
         )
         return up
+    }
+    updateGame=async(roomId,gameId)=>{
+        const up=await ChatLogs.update(
+            {
+                gameId
+            },{
+                where:{
+                    roomId,
+                    gameId:null
+                }
+            }
+        )
     }
     deleteChat=async(roomId,gameId)=>{
         let deleteLog=await ChatLogs.destory({
