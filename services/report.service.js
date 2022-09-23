@@ -20,7 +20,7 @@ module.exports=class ReportService{
             reports.map(ele=>{
                 ele.nickname=ele["User.nickname"]
                 delete ele["User.nickname"]
-            })
+            });
             return reports;
         }
     }   
