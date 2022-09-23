@@ -18,6 +18,8 @@ module.exports=class ReportService{
             return [];
         }else{
             reports.map(ele=>{
+                let day=ele.createdAt.split(" ")[0]
+                ele.createdAt=day
                 ele.nickname=ele["User.nickname"]
                 delete ele["User.nickname"]
             });
@@ -29,6 +31,10 @@ module.exports=class ReportService{
         if(report===undefined){
             throw { status: 400, message: "Not-Found-Report"};
         }
+        report.nickname=report["User.nickname"]
+        let day=report.createdAt.split(" ")[0]
+        report.createdAt=day
+        delete report["User.nickname"]
         return report;
     }   
     setReport=async(userId,reportTitle,reportContent)=>{
