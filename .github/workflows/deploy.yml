@@ -20,4 +20,5 @@ jobs:
             cd /home/ubuntu/develop_BE
             sudo -s
             git pull origin develop
+            chmod -R 777 /Users/asata/.pm2/
             pm2 restart server.js
