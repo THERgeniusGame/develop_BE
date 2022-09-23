@@ -8,16 +8,21 @@ class UserService {
     userRepository = new UserRepository();
 
 
-    signup = async (email, nickname, password, confirmPw, authorization) => {
+    signup = async (email, emailConfirm, nickname, password, confirmPw, authorization) => {
+        
+        console.log(emailConfirm)
         if (authorization) {
           throw { status: 401, message: "Already-Login" };
         };
-        if (!email || !nickname || !password ||!confirmPw ) {
+        if (!email || !emailConfirm||!nickname || !password ||!confirmPw ) {
           throw { status: 400, message: "Bad-Request" };
         };
         if (password !== confirmPw){
             throw { status: 400, message: "Check-ConfirmPw"};
         };
+        // if ( emailConfirm !== emailConfirm2){
+        //   throw { status:400, message: "check-Email-Code"}
+        // };
         const passwords = bcrypt.hashSync(password, 10);
         try {
           await this.userRepository.signup(email, nickname, passwords );
