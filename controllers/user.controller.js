@@ -4,10 +4,10 @@ class UserController {
     userService = new Userservice();
     
     signup = async (req, res, next) => {
-        const { email, nickname, password, confirmPw } = req.body;
+        const { email, emailConfirm,nickname, password, confirmPw } = req.body;
         const { authorization } = req.headers;
         try {
-            const result = await this.userService.signup(email, nickname, password, confirmPw , authorization);
+            const result = await this.userService.signup(email,emailConfirm, nickname, password, confirmPw , authorization);
             return res.status(result.status).send(result.message);
         } catch(err) {
             next(err);

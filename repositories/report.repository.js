@@ -5,7 +5,7 @@ require("dotenv").config();
 const env = process.env;
 
 module.exports = class ReportRepository {
-    //전체 신고 목록 
+    //전체 버그 신고 목록 
     findAllBugReport = async ()=>{
         const list = await Reports.findAll({
             raw: true,
@@ -98,5 +98,28 @@ module.exports = class ReportRepository {
             },
         });
         return deleteReport;
+    }
+
+    //채팅 신고
+    createChatReport = async (userId,chatLog) => {
+        const createReport=await Reports.create({
+            userId,
+            reportTitle:"채팅신고",
+            reportContent:chatLog,
+            reportCategory:1
+        })
+        return createReport
+    }
+
+    checkChatReport=async(userId,chatLog)=>{
+        const get=await Reports.findOne({
+            where:{
+                userId,
+                reportContent:chatLog,
+                reportCategory:1
+            },
+            raw:true
+        })
+        return get
     }
 }
