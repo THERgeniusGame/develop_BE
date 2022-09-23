@@ -53,6 +53,17 @@ class UserController {
         }
     };
 
+    changePw = async (req, res, next) => {
+        const { email, emailConfirm, password, confirmPw } = req.body;
+        try{
+            const result = await this.userService.changePw(email,emailConfirm,password,confirmPw);
+
+            return res.status(result.status).json({message:result.message,success:result.success});
+        } catch(err){
+            next(err);
+        }
+    };
+
     userinfo = async (req, res, next) => {
         const { userId, nickname, win, total } = res.locals;
         

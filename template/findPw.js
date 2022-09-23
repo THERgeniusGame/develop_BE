@@ -3,7 +3,8 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
-const { Users } = require("../models");
+const { Emails } = require("../models");
+const { Users } = require("../models")
 var appDir = path.dirname(require.main.filename);
 
 
@@ -50,6 +51,13 @@ router.post('/', async(req, res, next) => {
         res.send(authNum);
         transporter.close()
     });
+
+    const confirmEamil = await Emails.findOne({where:{email}})
+    if(confirmEamil){
+        await Emails.update({code:authNum},{where:{email}})
+    } else{
+        await Emails.create({email,code:authNum})
+    }
 }} catch(err) {
     next(err);
 }
