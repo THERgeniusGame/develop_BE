@@ -4,9 +4,9 @@ const ChatLogsService=require("../../services/chatLogs.service");
 const fs = require('fs');
 const chatLogsService=new ChatLogsService();
 module.exports = (io, socket) => {
-  socket.on("chatReport", async()=>{
+  socket.on("chatReport", async(data)=>{
     try {
-      var updateReport= await chatLogsService.updateReportChat(socket.userId,socket.room);
+      var updateReport= await chatLogsService.updateReportChat(socket.userId,socket.room,data.chat);
       if(updateReport==1){
         console.log("Success-ReportChat")
       }else if(updateReport==0){

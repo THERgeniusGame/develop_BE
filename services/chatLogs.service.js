@@ -16,15 +16,15 @@ module.exports=class ChatLogsService{
         const up=await this.chatLogsRepository.updateGame(roomId)
         return up
     }
-    updateReportChat=async(userId,roomId)=>{
+    updateReportChat=async(userId,roomId,location)=>{
         const get=await this.chatLogsRepository.getLog(roomId);
         if(get===null||get===undefined){
             return 0;
         }
         const reportSerch=await this.reportRepository.checkChatReport(userId,get.chatLog);
-        console.log(reportSerch)
+        const log="loc:"+location+",chatLog:"+get.chatLog
         if(reportSerch===null||reportSerch===undefined){
-            var report=await this.reportRepository.createChatReport(userId,get.chatLog)
+            var report=await this.reportRepository.createChatReport(userId,log)
         }else{
             return -1;
         }
