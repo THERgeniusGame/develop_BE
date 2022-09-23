@@ -31,7 +31,7 @@ module.exports=class ReportService{
                     + (reportContent===undefined?"-ReportContent":"")
                 };
         }
-        const createReport=await this.reportRepository.createReport(userId,reportTitle,reportContent);
+        const createReport=await this.reportRepository.createBugReport(userId,reportTitle,reportContent);
         return createReport !== undefined ?
                 {success:true}:
                 {success:false};
