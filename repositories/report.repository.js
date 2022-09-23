@@ -110,4 +110,16 @@ module.exports = class ReportRepository {
         })
         return createReport
     }
+
+    checkChatReport=async(userId,chatLog)=>{
+        const get=await Reports.findOne({
+            where:{
+                userId,
+                reportContent:chatLog,
+                reportCategory:1
+            },
+            raw:true
+        })
+        return get
+    }
 }

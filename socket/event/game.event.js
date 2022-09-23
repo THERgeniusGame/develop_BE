@@ -49,18 +49,6 @@ class Game{
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
                 socket.gameId=createInfo.gameId;
                 
-                if(data.report){
-                    const log=await chatLogsService.checkChagLogTable();
-                    if(log!==null){
-                        const gameIdUpdate=await chatLogsService.gameUpdate(socket.room,createInfo.gameId);
-                        var updateReport= await chatLogsService.updateReportChat(userId,socket.room,createInfo.gameId);
-                    }
-                    if(updateReport==1){
-                        console.log("Success-ReportChat")
-                    }else{
-                        console.log("Failed-ReportChat")
-                    }
-                }
 
                 io.to(socket.room).emit("setting",{gameId:socket.gameId})
 

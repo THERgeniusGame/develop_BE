@@ -65,6 +65,9 @@
         if(event[1]==="gameStart"){
           socket.emit("gameStart",{coin:100});
         }
+        if(event[1]==="chatReport"){
+          socket.emit("chatReport",{});
+        }
         if(event[1]==="ready"){
           socket.emit("ready",{ready:true});
         }
