@@ -8,17 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@v3
-      - name: Deploy develop branch
+      - uses: actions/checkout@v2
+      - name: Run scripts in server
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.REMOTE_IP }}
           username: ${{ secrets.REMOTE_SSH_ID }}
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
-          script: |
-            cd /home/ubuntu/develop_BE
-            sudo -s
-            git pull origin develop
-            chmod -R 777 /Users/asata/.pm2/
-            pm2 restart server.js
