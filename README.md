@@ -16,6 +16,8 @@ TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 
  NODEMAILER_PASS    이메일 비밀번호
  PORT               포트 번호
  REPORT_PAGE_COUNT  신고페이지목록 개수
+ ADMIN_USERID       관리자 유저 번호
+ CHECK_HTTPS        https 적용여부
  ```
 
 # 와이어그램
@@ -42,6 +44,7 @@ sweetalert2
 dotenv
 
 # Back-end Library
+fs
 cors
 dotenv
 sequlize

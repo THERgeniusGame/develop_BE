@@ -14,13 +14,27 @@ module.exports=class ReportService{
             offset = env.REPORT_PAGE_COUNT * (page - 1);
         }
         let reports=await this.reportRepository.findAllBugReportPage(offset);
-        return reports.length===0 ? []:reports;
+        if(reports.length===0){
+            return [];
+        }else{
+            reports.map(ele=>{
+                let day=ele.createdAt.split(" ")[0]
+                ele.createdAt=day
+                ele.nickname=ele["User.nickname"]
+                delete ele["User.nickname"]
+            });
+            return reports;
+        }
     }   
     getReport=async(reportId)=>{
         let report=await this.reportRepository.findOneBugReport(reportId);
         if(report===undefined){
             throw { status: 400, message: "Not-Found-Report"};
         }
+        report.nickname=report["User.nickname"]
+        let day=report.createdAt.split(" ")[0]
+        report.createdAt=day
+        delete report["User.nickname"]
         return report;
     }   
     setReport=async(userId,reportTitle,reportContent)=>{
@@ -31,7 +45,7 @@ module.exports=class ReportService{
                     + (reportContent===undefined?"-ReportContent":"")
                 };
         }
-        const createReport=await this.reportRepository.createReport(userId,reportTitle,reportContent);
+        const createReport=await this.reportRepository.createBugReport(userId,reportTitle,reportContent);
         return createReport !== undefined ?
                 {success:true}:
                 {success:false};
