@@ -30,7 +30,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     gameId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
     },
     chatLog: DataTypes.STRING
   }, {

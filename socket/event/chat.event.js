@@ -1,23 +1,52 @@
 const { error } = require("../middlewares/error");
 const chatVaildation=require("./chatRule/chattingfilter")
 const ChatLogsService=require("../../services/chatLogs.service");
+const fs = require('fs');
 const chatLogsService=new ChatLogsService();
 module.exports = (io, socket) => {
+  socket.on("chatReport", async()=>{
+    try {
+      var updateReport= await chatLogsService.updateReportChat(socket.userId,socket.room);
+      if(updateReport==1){
+        console.log("Success-ReportChat")
+      }else if(updateReport==0){
+        throw("Failed_ReportChat")
+      }else{
+        throw("Exist-ReportChat")
+      }
+    } catch (err) {
+      error(err,io,socket)
+    }
+  })
   socket.on("chat", async(data) => {
     try {
-      const checkLogs=await chatLogsService.checkChagLogTable();
-      if(checkLogs===null){
-        await chatLogsService.createLogsTable();
+      const file = "socket/chatLog/roomId_"+socket.room+'_chatLog.txt';
+      const checkLogs=await chatLogsService.checkChagLogTable(socket.room);
+      const chatLog=new Date().toLocaleString()+"_userId:"+socket.userId+"_chat:"+data.msg+"\n"
+      if(checkLogs===null || checkLogs===undefined){
+        await chatLogsService.createLogsTable(socket.room,file);
+        fs.writeFile(file, chatLog, 'utf8',(err) =>{
+          if (err) {
+            console.log(err);
+          } else {
+              console.log("file written successfully");
+          }
+        });
       }else{
-        let chatLog=checkLogs.chat+"/="+socket.nickname+":"+data.msg;
-        var updateLogs=await chatLogsService.updateLogs();
+        fs.appendFile(file, chatLog, 'utf8',(err) =>{
+          if (err) {
+            console.log(err);
+          } else {
+              console.log("file append successfully");
+          }
+        });
       }//동시성해결필요
-      if(updateLogs==1){
-        console.log("Success-ChatLog");
-      }else{
-        console.log("Failed-ChatLog");
-      }
 
+      // if(updateLogs==1){
+      //   console.log("Success-ChatLog");
+      // }else{
+      //   console.log("Failed-ChatLog");
+      // }
 
       let clear_Msg= chatVaildation(data.msg);
       if(clear_Msg.msg==="badword"){

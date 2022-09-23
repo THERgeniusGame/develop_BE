@@ -29,7 +29,7 @@
     socket.emit("login", {
       // name: "ungmo2",
       //test1 :은나무
-      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi64KY66y0Iiwid2luIjowLCJsb3NlIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYzNzQ0OTkyLCJleHAiOjE2NjQzNDk3OTJ9.1tZjRtdDrmxShKjlpJHAi5yLCFOeW8NrIDD4j0tV4o4",
+      token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi64KY66y0Iiwid2luIjowLCJsb3NlIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYzNzY3NjY2LCJleHAiOjE2NjQzNzI0NjZ9.uNxHb315AKLnpUgZMxrZti9uzjDAfg7uLyTz-Gyl520",
       room:room
     });
 
@@ -64,6 +64,9 @@
       if(event[0]==="event"){
         if(event[1]==="gameStart"){
           socket.emit("gameStart",{coin:100});
+        }
+        if(event[1]==="chatReport"){
+          socket.emit("chatReport",{});
         }
         if(event[1]==="ready"){
           socket.emit("ready",{ready:true});

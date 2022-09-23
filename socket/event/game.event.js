@@ -37,14 +37,6 @@ class Game{
         socket.on("gameStart", async(data) => {
             console.log("event:gameStart")
             try{
-                const log=await chatLogsService.checkChagLogTable();
-                if(log!==null){
-                    var updateReport= await chatLogsService.updateReportChat();
-                }
-                if(updateReport==1){
-                    console.log("Success-ReportChat")
-                }
-
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 if(roomList[index].ready!==1){
                     let err=new Error("NONE_READY");
@@ -53,11 +45,15 @@ class Game{
                 let userList=await roomList[index].userList;
                 let owner=await userList.find(ele=>ele.userId===data.userId);
                 let guest=await userList.find(ele=>ele.userId!==data.userId);
-                console.log(owner,guest)
+                
                 let createInfo=await gameService.createGame(socket.room,owner,guest);
                 socket.gameId=createInfo.gameId;
+                
+
                 io.to(socket.room).emit("setting",{gameId:socket.gameId})
+
                 let turn=gameService.randomTurn();
+
                 let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
                 let ownerInfo=await gameInfo.owner;
                 let guestInfo=await gameInfo.guest;
@@ -65,6 +61,7 @@ class Game{
                 ownerInfo.ownerId=await roomList[index].ownerId
                 guestInfo.turn=turn
                 guestInfo.ownerId=await roomList[index].ownerId
+
                 io.to(owner.socketId).emit("gameStart_user",ownerInfo)
                 io.to(guest.socketId).emit("gameStart_user",guestInfo)
 
