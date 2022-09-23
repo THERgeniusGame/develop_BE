@@ -21,15 +21,21 @@ class RankService {
       let rankWithAvg = await rankList
         .map((user) => ({
           nickname: user.nickname,
+          win: user.win,
+          lose: user.lose,
+          total: user.total,
           winavg: Math.floor((user.win / user.total) * 100),
         }))
         .sort((a, b) => b.winavg - a.winavg);
-
+      console.log(rankWithAvg);
       let ranking = [];
       for (let i = 0; i < rankWithAvg.length; i++) {
         ranking.push({
           rank: i + 1,
           nickname: rankWithAvg[i].nickname,
+          win: rankWithAvg[i].win,
+          lose: rankWithAvg[i].lose,
+          total: rankWithAvg[i].total,
           winavg: rankWithAvg[i].winavg,
         });
       }
