@@ -9,7 +9,7 @@ var appDir = path.dirname(require.main.filename);
 
 
 router.post('/', async(req, res, next) => {
-    const email = req.body;
+    const {email} = req.body;
     const authNum = Math.random().toString().substr(2,6);
     let emailTemplete;
     ejs.renderFile(appDir+'/template/authMail.ejs', {authCode : authNum}, function (err, data) {
@@ -46,12 +46,12 @@ router.post('/', async(req, res, next) => {
     });
     
     const confirmEamil = await Emails.findOne({where:{email}})
-    // console.log(email)
-    // if(confirmEamil){
-    //     await Emails.update({code:authcode},{where:email})
-    // } else{
-    //     await Emails.create({email,code:authcode})
-    // }
+    
+    if(confirmEamil){
+        await Emails.update({code:authNum},{where:{email}})
+    } else{
+        await Emails.create({email,code:authNum})
+    }
 } catch(err) {
     next(err);
 }
