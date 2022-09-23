@@ -147,6 +147,7 @@ router.post("/login", userController.login);
  *                  success: false
  */
 router.post("/checkemail", userController.checkemail);
+router.patch("/changePw", userController.changePw);
 /**
  * @swagger
  * /api/user/checknickname:
