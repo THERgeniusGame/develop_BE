@@ -1,15 +1,14 @@
 name: Deploy develop branch
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
-    branches: [ develop ]
+    branches: [develop]
 
 jobs:
   build:
     runs-on: ubuntu-18.04
     steps:
+      - uses: actions/checkout@v2
       - name: Deploy develop branch
         uses: appleboy/ssh-action@master
         with:
@@ -20,5 +19,5 @@ jobs:
           script: |
             cd /home/ubuntu/develop_BE
             sudo -s
-            git pull origin devlop
+            git pull origin develop
             pm2 restart server.js
