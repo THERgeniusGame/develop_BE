@@ -14,7 +14,15 @@ module.exports=class ReportService{
             offset = env.REPORT_PAGE_COUNT * (page - 1);
         }
         let reports=await this.reportRepository.findAllBugReportPage(offset);
-        return reports.length===0 ? []:reports;
+        if(reports.length===0){
+            return [];
+        }else{
+            reports.map(ele=>{
+                ele.nickname=ele["User.nickname"]
+                delete ele["User.nickname"]
+            })
+            return reports;
+        }
     }   
     getReport=async(reportId)=>{
         let report=await this.reportRepository.findOneBugReport(reportId);
@@ -31,7 +39,7 @@ module.exports=class ReportService{
                     + (reportContent===undefined?"-ReportContent":"")
                 };
         }
-        const createReport=await this.reportRepository.createReport(userId,reportTitle,reportContent);
+        const createReport=await this.reportRepository.createBugReport(userId,reportTitle,reportContent);
         return createReport !== undefined ?
                 {success:true}:
                 {success:false};
