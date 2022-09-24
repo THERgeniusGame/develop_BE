@@ -34,15 +34,15 @@ DB : Mysql
 Web Framework : Express
 
 # Front-end Library
-axios
-redux-toolkit
-styled-components
-json-server
-jwt
-socket.io
-react-hook-form
-sweetalert2
-dotenv
+axios   
+   redux-toolkit
+   styled-components
+   json-server
+   jwt
+   socket.io
+  react-hook-form
+   sweetalert2
+   dotenv
 
 # Back-end Library
 fs
