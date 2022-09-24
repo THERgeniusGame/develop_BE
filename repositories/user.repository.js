@@ -1,5 +1,5 @@
 const { Users } = require("../models");
-
+const { Emails } = require("../models")
 
 
 class UserRepository {
@@ -20,12 +20,20 @@ class UserRepository {
         return await Users.findOne({ where: { nickname } });
     }; 
 
+    changePw = async(email,passwords) => {
+       return await Users.update({password:passwords},{where:{email}})
+    };
+
     getUserInfo = async (userId)=>{
         return await Users.findOne({ 
             where: { nickname } ,
             raw:true,
         });
     };
+    
+    checkEmailConfirm = async (email,emailConfirm) => {
+        return await Emails.findOne({where:{email}})
+    }
 
     kakaologin = async (email, password) => {
         return await Users.findOne({ where: { email, password, kakao:"true" } });

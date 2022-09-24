@@ -44,6 +44,7 @@ sweetalert2
 dotenv
 
 # Back-end Library
+fs
 cors
 dotenv
 sequlize

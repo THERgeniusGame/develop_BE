@@ -9,7 +9,7 @@ class UserService {
 
 
     signup = async (email, emailConfirm, nickname, password, confirmPw, authorization) => {
-        
+        try {
         console.log(emailConfirm)
         if (authorization) {
           throw { status: 401, message: "Already-Login" };
@@ -20,11 +20,12 @@ class UserService {
         if (password !== confirmPw){
             throw { status: 400, message: "Check-ConfirmPw"};
         };
-        // if ( emailConfirm !== emailConfirm2){
-        //   throw { status:400, message: "check-Email-Code"}
-        // };
+        const emailcode = await this.userRepository.checkEmailConfirm(email,emailConfirm);
+        
+        if(emailConfirm !== emailcode.code){
+          throw { status:400, message:"Invalid-Verification-Code"};
+        }
         const passwords = bcrypt.hashSync(password, 10);
-        try {
           await this.userRepository.signup(email, nickname, passwords );
         } catch(err) {
           err.status=400
@@ -90,6 +91,28 @@ class UserService {
             throw { status: 400, message: "Exist-Nickname", success: false};
         }
       };
+
+      changePw = async(email,emailConfirm,password,confirmPw) => {
+        try {
+        if(!password||!confirmPw){
+          throw{ status:400, message:"Bad-Request", success: false};
+        };
+        if(password!==confirmPw){
+          throw{status:400, message:"inconsistent-value", success: false};
+        } 
+        const emailcode = await this.userRepository.checkEmailConfirm(email,emailConfirm);
+        if(emailConfirm !== emailcode.code){
+          throw { status:400, message:"Invalid-Verification-Code"};
+        }
+        const passwords = bcrypt.hashSync(password, 10);
+        console.log(passwords)
+          await this.userRepository.changePw( email,passwords );
+        } catch(err) {
+          err.status=400
+          throw(err)
+        };
+        return { status: 201, message: "Change-success" };
+      }
 
       userInfo = async (userId, nickname, win, total) => {
         const loginUserInfo = {userId, nickname, win, total};
