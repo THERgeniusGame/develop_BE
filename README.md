@@ -4,7 +4,8 @@
 항해 8기 F반 7조 실전프로젝트
 TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 즐길 수 있도록 웹 게임으로 만들었습니다.
 게임은 Socket.io 를 기반으로 한 1대1 방식으로 진행되며 흑 과 백을 모티브로 한 웹 보드게임 "THERGenius"입니다.
-###  <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>.ENV</title><path d="M24 0v24H0V0h24ZM10.933 15.89H6.84v5.52h4.198v-.93H7.955v-1.503h2.77v-.93h-2.77v-1.224h2.978v-.934Zm2.146 0h-1.084v5.52h1.035v-3.6l2.226 3.6h1.118v-5.52h-1.036v3.686l-2.259-3.687Zm5.117 0h-1.208l1.973 5.52h1.19l1.976-5.52h-1.182l-1.352 4.085-1.397-4.086ZM5.4 19.68H3.72v1.68H5.4v-1.68Z"/></svg> env
+###  <img src="https://img.shields.io/badge/.ENV-#ECD53F?style=flat&logo=.ENV&logoColor=white"/>
+
 
 ```
  MYSQL_USERNAME     데이터베이스 사용자
