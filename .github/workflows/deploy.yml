@@ -6,27 +6,26 @@ on:
       - develop
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout source code
         uses: actions/checkout@master
 
-      - name: Cache node modules
-        uses: actions/cache@v2
+      - name: Cache node modules # node modules 캐싱
+        uses: actions/cache@v1
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: node_modules
+          key: ${{ runner.OS }}-master-build-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
 
       - name: Install Dependencies
         run: npm init
 
       - name: Build
-        run: npm build
-        env:
-          CI: ""
+        run: yarn build
 
       - name: Deploy
         env:
@@ -36,4 +35,4 @@ jobs:
           aws s3 cp \
             --recursive \
             --region ap-northeast-2 \
-            build s3://S3-thergenius
+            build s3://thergenius
