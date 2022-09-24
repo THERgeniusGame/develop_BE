@@ -27,7 +27,7 @@ module.exports = (io, socket) => {
         await chatLogsService.createLogsTable(socket.room,file);
         fs.writeFile(file, chatLog, 'utf8',(err) =>{
           if (err) {
-            throw("Failed-ChatLog")
+            console.log("Failed-ChatLog")
           } else {
             console.log("Success-ChatLog")
           }
@@ -35,7 +35,7 @@ module.exports = (io, socket) => {
       }else{
         fs.appendFile(file, chatLog, 'utf8',(err) =>{
           if (err) {
-            throw("Failed-ChatLog")
+            console.log("Failed-ChatLog")
           } else {
             console.log("Success-ChatLog")
           }
