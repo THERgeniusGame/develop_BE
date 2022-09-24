@@ -27,8 +27,11 @@ module.exports=class ReportService{
         }
     }   
     getReport=async(reportId)=>{
+        if(reportId===undefined){
+            throw { status: 400, message: "Bad-Request" };
+        }
         let report=await this.reportRepository.findOneBugReport(reportId);
-        if(report===undefined){
+        if(report===undefined || report===null){
             throw { status: 400, message: "Not-Found-Report"};
         }
         report.nickname=report["User.nickname"]
@@ -51,13 +54,14 @@ module.exports=class ReportService{
                 {success:false};
     }   
     editReport=async(userId,reportId,reportTitle,reportContent)=>{
-        if(reportTitle===undefined || reportContent===undefined ||
+        if(reportTitle===undefined || reportContent===undefined || reportId===undefined ||
             reportTitle==="" || reportContent===""){
             throw { 
                 status: 400, 
                 message: "Bad-Request"
                     + (reportTitle===undefined || reportTitle==="" ? "-ReportTitle" : "")
                     + (reportContent===undefined || reportContent==="" ? "-ReportContent" : "")
+                    + (reportId===undefined || reportId==="" ? "-ReportId" : "")
                 };
         }
         const getReport=await this.getReport(reportId);
@@ -73,6 +77,9 @@ module.exports=class ReportService{
                 {success:false};
     }
     deleteReport=async(userId,reportId)=>{
+        if(reportId===undefined || reportId===null){
+            throw { status: 400, message: "Bad-Request" };
+        }
         const getReport=await this.getReport(reportId);
         if(getReport.userId!==userId && userId !== env.ADMIN_USERID){
             throw { 

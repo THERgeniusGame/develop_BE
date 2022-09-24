@@ -21,8 +21,8 @@ module.exports=class ChatLogsService{
         if(get===null||get===undefined){
             return 0;
         }
-        const reportSerch=await this.reportRepository.checkChatReport(userId,get.chatLog);
         const log="loc:"+location+",chatLog:"+get.chatLog
+        const reportSerch=await this.reportRepository.checkChatReport(userId,log);
         if(reportSerch===null||reportSerch===undefined){
             var report=await this.reportRepository.createChatReport(userId,log)
         }else{
