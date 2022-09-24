@@ -2,6 +2,7 @@ name: Deploy to Production
 
 on:
   pull_request:
+  push:
     branches:
       - develop
 
@@ -10,13 +11,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: actions/cache@v1
-        with:
-          path: node_modules
-          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
+      #      - uses: actions/cache@v1
+      #        with:
+      #          path: node_modules
+      #          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
+      #          restore-keys: |
+      #            ${{ runner.OS }}-build-
+      #            ${{ runner.OS }}-
 
       # 소스 파일 압축
       - name: zip artifacts
