@@ -20,10 +20,10 @@ TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 
  ```
 
 # 와이어그램
-[와이어그램][https://www.figma.com/file/0XBiaSNcr9NcTTKjBKfv1x/THERgeniusGame?node-id=0%3A1]
+[와이어그램](https://www.figma.com/file/0XBiaSNcr9NcTTKjBKfv1x/THERgeniusGame?node-id=0%3A1)
 
 # ERD
-[ERD링크][https://app.sqldbm.com/MySQL/Edit/p230806/]
+[ERD링크](https://app.sqldbm.com/MySQL/Edit/p230806/)
 ![image](https://user-images.githubusercontent.com/108967786/192095357-0e10cbcc-7c77-41a3-ba87-b14ecaa08cc3.png)
 
 
