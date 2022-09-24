@@ -10,7 +10,7 @@ module.exports = (io, socket) => {
       if(updateReport==1){
         console.log("Success-ReportChat")
       }else if(updateReport==0){
-        throw("Failed_ReportChat")
+        throw("Failed-ReportChat")
       }else{
         throw("Exist-ReportChat")
       }
@@ -27,17 +27,17 @@ module.exports = (io, socket) => {
         await chatLogsService.createLogsTable(socket.room,file);
         fs.writeFile(file, chatLog, 'utf8',(err) =>{
           if (err) {
-            console.log(err);
+            throw("Failed-ChatLog")
           } else {
-              console.log("file written successfully");
+            console.log("Success-ChatLog")
           }
         });
       }else{
         fs.appendFile(file, chatLog, 'utf8',(err) =>{
           if (err) {
-            console.log(err);
+            throw("Failed-ChatLog")
           } else {
-              console.log("file append successfully");
+            console.log("Success-ChatLog")
           }
         });
       }//동시성해결필요
