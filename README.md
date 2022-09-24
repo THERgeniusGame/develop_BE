@@ -54,3 +54,6 @@ jwt
 nodemailer
 socket.io
 ejs
+
+# socket error event docs
+[ERROR EVENT DOCS](socket\middlewares\errorEventDocs\errorName.md)
