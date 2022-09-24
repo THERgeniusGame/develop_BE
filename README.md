@@ -28,21 +28,12 @@ TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 
 
 
 # Tech Stack
-Front : React
-Back : Node.js
-DB : Mysql
+Front : React   
+Back : Node.js   
+DB : Mysql   
 Web Framework : Express
 
-# Front-end Library
-axios   
-   redux-toolkit
-   styled-components
-   json-server
-   jwt
-   socket.io
-  react-hook-form
-   sweetalert2
-   dotenv
+
 
 # Back-end Library
 fs
