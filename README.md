@@ -1,11 +1,10 @@
-# develop_BE
-back-end git
+#THER Genius
 
-# 프로젝트 소개
+### 프로젝트 소개
 항해 8기 F반 7조 실전프로젝트
 TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 즐길 수 있도록 웹 게임으로 만들었습니다.
 게임은 Socket.io 를 기반으로 한 1대1 방식으로 진행되며 흑 과 백을 모티브로 한 웹 보드게임 "THERGenius"입니다.
-# .env 
+### .env 
 ```
  MYSQL_USERNAME     데이터베이스 사용자
  MYSQL_PASSWORD     데이터베이스 비밀번호
