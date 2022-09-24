@@ -1,4 +1,4 @@
-#THER Genius
+###THER Genius
 
 ### 프로젝트 소개
 항해 8기 F반 7조 실전프로젝트
@@ -23,7 +23,9 @@ TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 
 https://www.figma.com/file/0XBiaSNcr9NcTTKjBKfv1x/THERgeniusGame?node-id=0%3A1
 
 # ERD
-https://app.sqldbm.com/MySQL/Edit/p230806/
+https://app.sqldbm.com/MySQL/Edit/p230806/ 
+![image](https://user-images.githubusercontent.com/108967786/192095357-0e10cbcc-7c77-41a3-ba87-b14ecaa08cc3.png)
+
 
 # Tech Stack
 Front : React
