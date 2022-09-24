@@ -56,4 +56,4 @@ socket.io
 ejs
 
 # socket error event docs
-[ERROR EVENT DOCS](socket\middlewares\errorEventDocs\errorName.md)
+[ERROR EVENT DOCS](https://github.com/THERgeniusGame/develop_BE/blob/develop/socket/middlewares/errorEventDocs/errorName.md)
