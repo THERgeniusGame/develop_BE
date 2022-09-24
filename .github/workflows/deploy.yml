@@ -21,7 +21,7 @@ jobs:
 
       # 소스 파일 압축
       - name: zip artifacts
-        run: zip -r ./artifacts/build.zip ./app/* appspec.yml
+        run: zip -r ./artifacts/build.zip . -i ./app/* appspec.yml
 
       # AWS S3에 압축파일을 전달하는 설정 및 명령어
       - name: deploy to s3
