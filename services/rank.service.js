@@ -12,6 +12,18 @@ class RankService {
       throw err;
     }
   };
+
+  //전적 없는 유저 랭킹 정보
+  rankNothing = async (userId) => {
+    try {
+      const rankNothing = await this.rankRepository.rankNothing(userId);
+
+      return rankNothing;
+    } catch (err) {
+      throw err;
+    }
+  };
+
   //전체 랭킹
   rankList = async () => {
     try {
