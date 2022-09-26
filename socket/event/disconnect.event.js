@@ -18,7 +18,7 @@ module.exports = (io, socket,roomList,msg) => {
                 nickname: socket.nickname,
                 msg: "님이 퇴장하셨습니다.",
             }
-            socket.emit("chat")
+            io.to(socket.room).emit("chat",chat)
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
             if(index!==-1){
                 roomList[index].userCount--;
