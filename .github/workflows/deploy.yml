@@ -19,5 +19,5 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
             cd /home/ubuntu/develop_BE
-            sudo git pull origin devlop
+            sudo git pull origin develop
             sudo pm2 restart server.js
