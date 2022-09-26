@@ -14,7 +14,7 @@ class RankController {
       console.log(userRank.rank);
       const result = {
         ...rankMy,
-        rank: userRank.rank,
+        //rank: userRank.rank,
       };
       console.log(result);
       res.status(200).send(result);
