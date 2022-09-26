@@ -15,7 +15,8 @@ module.exports = class ReportController {
     getReport=async(req,res,next)=>{
         try {
             const {reportId}=req.params;
-            const report=await this.reportService.getReport(reportId)
+            const {userId}=res.locals;
+            const report=await this.reportService.getReport(userId,reportId)
             return res.status(200).json(report);
         } catch (error) {
             next(error)            
