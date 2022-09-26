@@ -1,47 +1,23 @@
-name: Deploy to Production
+name: Deploy develop branch
 
 on:
-  pull_request:
   push:
-    branches:
-      - develop
+    branches: [develop]
+  pull_request:
+    branches: [develop]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-18.04
     steps:
-      - uses: actions/checkout@master
-      #      - uses: actions/cache@v1
-      #        with:
-      #          path: node_modules
-      #          key: ${{ runner.OS }}-build-${{ hashFiles('**/package-lock.json') }}
-      #          restore-keys: |
-      #            ${{ runner.OS }}-build-
-      #            ${{ runner.OS }}-
-
-      # 소스 파일 압축
-      - name: zip artifacts
-        run: zip -r ./artifacts/build.zip . -i ./app/* appspec.yml
-
-      # AWS S3에 압축파일을 전달하는 설정 및 명령어
-      - name: deploy to s3
-        uses: jakejarvis/s3-sync-action@master
+      - name: Deploy develop branch
+        uses: appleboy/ssh-action@master
         with:
-          path: node_modules
-          key: ${{ runner.OS }}-master-build-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.OS }}-build-
-            ${{ runner.OS }}-
-
-      - name: Install Dependencies
-        run: npm init
-
-      - name: Build
-        run: yarn build
-
-      - name: Deploy
-        env:
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ap-northeast-2
+          host: ${{ secrets.REMOTE_IP }}
+          username: ${{ secrets.REMOTE_SSH_ID }}
+          key: ${{ secrets.REMOTE_SSH_KEY }}
+          port: ${{ secrets.REMOTE_SSH_PORT }}
+          script: |
+            cd /home/ubuntu/develop_BE
+            sudo git pull origin develop
+            sudo pm2 restart server.js
