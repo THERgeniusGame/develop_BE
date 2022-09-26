@@ -7,7 +7,7 @@ const env = process.env;
 class UserService {
     userRepository = new UserRepository();
 
-
+    //회원가입(이메일,이메일인증번호,닉네임,비밀번호,비밀번호확인값 필요)
     signup = async (email, emailConfirm, nickname, password, confirmPw, authorization) => {
         try {
         console.log(emailConfirm)
@@ -33,7 +33,7 @@ class UserService {
         };
         return { status: 201, message: "Signup-Done" };
       };
-
+      //로그인(이메일,비밀번호 값 필요)
       login = async (email, password, authorization) => {
         const userInfo = await this.userRepository.login(email,password);
         if (authorization) {
@@ -65,7 +65,7 @@ class UserService {
           };
         };
       };
-
+      //이메일중복확인(이메일값 필요)
       checkemail = async (email) => {
         if (!email) {
           throw { status: 400, message: "Bad-Request" , success: false};
@@ -78,7 +78,7 @@ class UserService {
           throw { status: 400, message: "Exist-Email", success: false };
         } 
       };
-
+      //닉네임중복확인(닉네임값 필요)
       checknickname = async (nickname) => {
         if(!nickname){
             throw { status: 400, message: "Bad-Request",success: false};
@@ -91,7 +91,7 @@ class UserService {
             throw { status: 400, message: "Exist-Nickname", success: false};
         }
       };
-
+      //비밀번호 변경(이메일,이메일인증번호,비밀번호,비밀번호확인 값 필요)
       changePw = async(email,emailConfirm,password,confirmPw) => {
         try {
         if(!password||!confirmPw){
@@ -113,16 +113,16 @@ class UserService {
         };
         return { status: 201, message: "Change-success" };
       }
-
-      userInfo = async (userId, nickname, win, total) => {
-        const loginUserInfo = {userId, nickname, win, total};
+      //로그인한 유저 정보(userId값으로 닉네임,승리,패배,전적값 확인)
+      userInfo = async (userId, nickname, win, lose ,total) => {
+        const loginUserInfo = {userId, nickname, win, lose ,total};
         if(!loginUserInfo) {
           throw { status: 400, message:"Not-Login"};
         } else {
           return {status: 200, data: loginUserInfo}
         }
        };
-
+       //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
        kakaologin = async (email, nickname) => {
         const password = env.KAKAO_PW;
         const userInfo = await this.userRepository.kakaologin(email, password);
