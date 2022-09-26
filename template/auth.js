@@ -4,19 +4,27 @@ const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
 const { Emails } = require("../models");
+const { Users } = require("../models")
 const { nextTick } = require('process');
 var appDir = path.dirname(require.main.filename);
 
 
 router.post('/', async(req, res, next) => {
-    const {email} = req.body;
+    try {
+    const { email } = req.body;
+    const  emailcheck =  await Users.findOne({ where: { email } });
+
+    if(emailcheck.email === email){
+        throw { status:400, message:"Already-Member", success: false };
+    }
+    if (emailcheck === null){
     const authNum = Math.random().toString().substr(2,6);
     let emailTemplete;
     ejs.renderFile(appDir+'/template/authMail.ejs', {authCode : authNum}, function (err, data) {
       if(err){console.log(err)}
       emailTemplete = data;
     });
-    try {
+
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         host: 'smtp.gmail.com',
@@ -52,7 +60,7 @@ router.post('/', async(req, res, next) => {
     } else{
         await Emails.create({email,code:authNum})
     }
-} catch(err) {
+}} catch(err) {
     next(err);
 }
 });

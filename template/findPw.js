@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
 const { Emails } = require("../models");
-const { Users } = require("../models")
+const { Users } = require("../models");
 var appDir = path.dirname(require.main.filename);
 
 
