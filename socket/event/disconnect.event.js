@@ -10,7 +10,9 @@ module.exports = (io, socket,roomList,msg) => {
     console.log()
     socket.on("disconnect", async() => {
         try{
-            if(socket.nickname===undefined)return;
+            if(socket.nickname===undefined){
+                throw("None-User")   
+            }
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
             if(index!==-1){
                 roomList[index].userCount--;

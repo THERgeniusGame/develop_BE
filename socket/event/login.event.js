@@ -26,8 +26,7 @@ class SocketLogin {
         const token = data.token;
         // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi7J2A64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyMDE5MjU2LCJleHAiOjE2NjI2MjQwNTZ9.iCKWK2ZXAlSwzErq6aARvIhPwlEiJnYTK3h6K0xWa_w";
         if (room === undefined || token === undefined) {
-          const error = new Error("BAD_REQUEST");
-          throw error;
+          throw("Bad-Request");
         }
 
         //전달받은 token 해체
@@ -39,12 +38,7 @@ class SocketLogin {
           socket.total = userInfo.total;
         } catch (err) {
           if (err.name === "TokenExpiredError") {
-            err.message= "expired-Token"
-            return error(err, socket);
-          }
-          if (err.name === "JsonWebTokenError") {
-            err.message="expired-Token"
-            return error(err, socket);
+            throw("Expired-Token")
           }
         }
         
@@ -53,8 +47,8 @@ class SocketLogin {
           let roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
             console.log("room: " + data.room + " is WRONG_URL");
-            // return
-            return socket.disconnect();
+            socket.disconnect();
+            throw("Wrong-Url");
           } else {
             socket.room = data.room;
             roomInfo.userCount = 0;

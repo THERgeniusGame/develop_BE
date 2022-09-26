@@ -39,8 +39,7 @@ class Game{
             try{
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 if(roomList[index].ready!==1){
-                    let err=new Error("NONE_READY");
-                    throw(err)
+                    throw("None-Ready")
                 }
                 let userList=await roomList[index].userList;
                 let owner=await userList.find(ele=>ele.userId===data.userId);
@@ -95,18 +94,17 @@ class Game{
                 let myTurn=turn.shift();
                 turn.push(myTurn);
                 if(!player || !batting || card==undefined){
-                    let err=new Error("BAD_REQUEST");
-                    throw(err)
+                    throw("Bad-Request")
                 }
                 
                 let checkOwner=await ownerId!==player.userId
                 if(myTurn==="owner"){
                     if(checkOwner){
-                        throw(new Error("NOT_YOUR_TURN"))
+                        throw("Not-Your-Turn")
                     }
                 }else{
                     if(!checkOwner){
-                        throw(new Error("NOT_YOUR_TURN"))
+                        throw("Not-Your-Turn")
                     }
                 }
 
@@ -120,20 +118,25 @@ class Game{
                 }else{
                     io.to(socket.id).emit("turnEnd_user",gameInfo.guest)
                 }
+
                 io.to(socket.room).emit("turnEnd_room",gameInfo)
+
                 if(gameInfo.round===gameInfo.owner.battingCards.length && gameInfo.round===gameInfo.guest.battingCards.length){
                     let update=await gameService.setResultInfo(socket.gameId,gameInfo.round);
                     if(update===0){
-                        throw(new Error("Err-Update-Result"))
+                        throw("Err-Update-Result")
                     }
+
                     turn.reverse();
+
                     let resultRound=await gameService.getGameInfo(socket.gameId,turn);
-                    console.log(resultRound.owner.result.at(-1))
+
                     if(resultRound.owner.result.at(-1)!=="draw"){
                         resultRound.winner=resultRound.owner.result.at(-1)==="win"?resultRound.owner.nickname:resultRound.guest.nickname
                     }
                     io.to(socket.room).emit("turnResult",resultRound)
                 }
+
             }catch(err){
                 error(err,io,socket)
             }
@@ -150,7 +153,6 @@ class Game{
         try{
             socket.on("gameEnd", async(data) => {
                 console.log("event:gameEnd")
-                console.log(data)
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
                     return io.to(socket.room).emit("gameEnd",{
@@ -159,8 +161,7 @@ class Game{
                     })
                 }
                 let result=await gameService.EndGame(data.owner,data.guest);
-                console.log(result)
-                io.to(socket.room).emit("gameEnd",{
+                return io.to(socket.room).emit("gameEnd",{
                     winner:result.winner,
                     loser:result.loser,
                 })
