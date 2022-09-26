@@ -5,6 +5,8 @@ const { error404, error } = require("./middlewares/error");
 const cors = require("cors");
 const IO = require("./socket/socket");
 const { swaggerUi, specs } = require("./modules/swagger");
+require("dotenv").config();
+const env = process.env;
 
 // sequelize
 //   .sync({ force: true })
@@ -27,7 +29,17 @@ class App {
   setMiddleWare() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
-    this.app.use(cors());
+    const whitelist = ["https://jjmndl.shop/","http://localhost:3000"];
+    const corsOptions = {
+      origin: function (origin, callback) { 
+        if (whitelist.indexOf(origin) !== -1) { // 만일 whitelist 배열에 origin인자가 있을 경우
+          callback(null, true); // cors 허용
+        } else {
+          callback(new Error("Not-Allowed-Origin!")); // cors 비허용
+        }
+      },
+    };
+    this.app.use(cors(corsOptions));
   }
 
   setRouter() {
