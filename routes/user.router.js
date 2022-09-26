@@ -147,6 +147,41 @@ router.post("/login", userController.login);
  *                  success: false
  */
 router.post("/checkemail", userController.checkemail);
+/**
+ * @swagger
+ * /api/user/changePw:
+ *   post:
+ *     summary: changePw
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: string
+ *             example:
+ *               password:password
+ *               confirmPw:confirmPw
+ *     responses:
+ *       200:
+ *         description: Available nickname
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               example:
+ *                 message: "password change success"
+ *                 success: true
+ *       400:
+ *          description: Bad request
+ *          content:
+ *            application/json:
+ *              schema:
+ *                type: array
+ *                example:
+ *                  message: "Bad request"
+ *                  success: false
+ */
 router.patch("/changePw", userController.changePw);
 /**
  * @swagger
