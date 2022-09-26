@@ -49,12 +49,13 @@ class IO {
     try {
       let io = new Server(server, {
         cors: {
-          origin: "*",
-          methods: ["GET", "POST"],
-        },
+          origin: "*"
+        }
       });
       this.eventConnection.connection(io);
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 }
 

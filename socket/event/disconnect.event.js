@@ -13,6 +13,12 @@ module.exports = (io, socket,roomList,msg) => {
             if(socket.nickname===undefined){
                 throw("None-User")   
             }
+            // chat emit
+            let chat={
+                nickname: socket.nickname,
+                msg: "님이 퇴장하셨습니다.",
+            }
+            io.to(socket.room).emit("chat",chat)
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
             if(index!==-1){
                 roomList[index].userCount--;
