@@ -43,6 +43,12 @@ module.exports=class ReportService{
         }else{
             report.admin=false;
         }
+        if(userId ===report.userId){
+            report.my=true;
+        }else{
+            report.my=false;
+        }
+        delete report.userId;
         return report;
     }   
     setReport=async(userId,reportTitle,reportContent)=>{

@@ -48,6 +48,7 @@ module.exports = class ReportRepository {
                 "reportTitle",
                 "reportContent",
                 "createdAt",
+                "userId"
             ],
             raw:true,
             where:{
