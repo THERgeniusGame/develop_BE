@@ -189,5 +189,7 @@ roomRouter.post("/", authMiddleware, roomController.createRoom);
  */
 
 roomRouter.get("/search", authMiddleware, roomController.searchRoom);
+roomRouter.get("/unlock", authMiddleware, roomController.roomUnlock);
+roomRouter.get("/lock", authMiddleware, roomController.roomLock);
 
 module.exports = roomRouter;
