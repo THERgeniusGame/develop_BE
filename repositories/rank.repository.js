@@ -15,6 +15,17 @@ class RankRepository {
     return userInfo;
   };
 
+  rankNothing = async (userId) => {
+    const rankNothing = await Users.findOne({
+      where: {
+        userId,
+      },
+      attributes: ["nickname", "win", "lose", "total"],
+      raw: true,
+    });
+
+    return rankNothing;
+  };
   rankList = async () => {
     const userInfo = await Users.findAll({
       where: {

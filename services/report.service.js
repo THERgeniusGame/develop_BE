@@ -26,7 +26,7 @@ module.exports=class ReportService{
             return reports;
         }
     }   
-    getReport=async(reportId)=>{
+    getReport=async(userId,reportId)=>{
         if(reportId===undefined){
             throw { status: 400, message: "Bad-Request" };
         }
@@ -38,6 +38,17 @@ module.exports=class ReportService{
         let day=report.createdAt.split(" ")[0]
         report.createdAt=day
         delete report["User.nickname"]
+        if(userId == env.ADMIN_USERID){
+            report.admin=true;
+        }else{
+            report.admin=false;
+        }
+        if(userId ===report.userId){
+            report.my=true;
+        }else{
+            report.my=false;
+        }
+        delete report.userId;
         return report;
     }   
     setReport=async(userId,reportTitle,reportContent)=>{
@@ -65,7 +76,7 @@ module.exports=class ReportService{
                 };
         }
         const getReport=await this.getReport(reportId);
-        if(getReport.userId!==userId && userId !== env.ADMIN_USERID){
+        if(getReport.userId!==userId || userId !== env.ADMIN_USERID){
             throw { 
                 status: 401, 
                 message: "Wrong-User"
@@ -81,7 +92,7 @@ module.exports=class ReportService{
             throw { status: 400, message: "Bad-Request" };
         }
         const getReport=await this.getReport(reportId);
-        if(getReport.userId!==userId && userId !== env.ADMIN_USERID){
+        if(getReport.userId!==userId || userId !== env.ADMIN_USERID){
             throw { 
                 status: 401, 
                 message: "Wrong-User"
