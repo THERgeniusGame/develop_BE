@@ -144,7 +144,7 @@ class Game{
     }
     turnResult=(io,socket)=>{
         socket.on("turnResult",async(data)=>{
-            console.log("event:turnEnd")
+            console.log("event:turnResult")
             let result=await gameService.getGameInfo(socket.gameId,data.turn);
             io.to(socket.room).emit("turnResult",result)
         })
