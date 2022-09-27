@@ -87,4 +87,40 @@ module.exports = class RoomController {
       next(err);
     }
   };
+
+  //공개방
+  roomUnlock = async (req, res, next) => {
+    try {
+      let pageNum = req.query.page;
+      let offset = 0;
+
+      if (pageNum > 1) {
+        offset = 9 * (pageNum - 1);
+      }
+
+      const roomUnlock = await this.roomService.roomUnlock(offset);
+      res.status(200).send(roomUnlock);
+    } catch (err) {
+      err.status, err.massage;
+      next(err);
+    }
+  };
+
+  //비공개방
+  roomLock = async (req, res, next) => {
+    try {
+      let pageNum = req.query.page;
+      let offset = 0;
+
+      if (pageNum > 1) {
+        offset = 9 * (pageNum - 1);
+      }
+      const roomLock = await this.roomService.roomLock(offset);
+
+      res.status(200).send(roomLock);
+    } catch (err) {
+      err.status, err.massage;
+      next(err);
+    }
+  };
 };
