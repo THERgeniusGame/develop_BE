@@ -47,7 +47,6 @@ class SocketLogin {
           let roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
             console.log("room: " + data.room + " is WRONG_URL");
-            socket.disconnect();
             throw("Wrong-Url");
           } else {
             socket.room = data.room;
