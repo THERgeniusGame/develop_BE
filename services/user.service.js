@@ -57,6 +57,7 @@ class UserService {
               win: userInfo.win,
               lose: userInfo.lose,
               total: userInfo.total,
+              kakao: userInfo.kakao,
             };
             const token = jwt.sign(payload, env.SECRET_KEY,{
               expiresIn: '7d', //1분
@@ -147,6 +148,10 @@ class UserService {
               const payload = {
                 userId: userInfo.id,
                 nickname: userInfo.nickname,
+                win: userInfo.win,
+                lose: userInfo.lose,
+                total: userInfo.total,
+                kakao: userInfo.kakao,
               };//유효 시간 
               const token = jwt.sign(payload, env.SECRET_KEY);
               return { status: 201, dete: token };
