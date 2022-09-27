@@ -1,7 +1,7 @@
 const error =(err,io,socket) => {
   console.log(err)
   console.log(socket.id)
-  io.to(socket.id).emit("error",{error:err.message})
+  io.to(socket.id).emit("error",{error:err})
   if(err.message==="Wrong-Url"){
     socket.disconnect();
   }
