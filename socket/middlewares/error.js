@@ -1,10 +1,7 @@
-const error =(err,io,socket) => {
+const error =async(err,io,socket) => {
   console.log(err)
   console.log(socket.id)
-  io.to(socket.id).emit("error",{error:err})
-  if(err.message==="Wrong-Url"){
-    socket.disconnect();
-  }
+  await io.to(socket.id).emit("error",{error:err})
 };
 
 module.exports = {
