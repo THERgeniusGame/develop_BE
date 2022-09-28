@@ -29,7 +29,9 @@ class App {
   setMiddleWare() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
-    const whitelist = ["https://thergenius.com",
+    const whitelist = [
+      "https://thergenius.com",
+      "https://www.thergenius.com",
       "http://localhost:3000",
       "http://thergenius.com.s3-website.ap-northeast-2.amazonaws.com",
       "https://d8dfgbtkrluig.cloudfront.net"];
