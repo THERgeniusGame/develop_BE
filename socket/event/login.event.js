@@ -43,7 +43,7 @@ class SocketLogin {
         }
         
         //room 검사
-        if (this.roomListCheck(data.room, roomList)) {
+        if (this.roomListCheck(data.room, roomList)) {z
           let roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
             console.log("room: " + data.room + " is WRONG_URL");
@@ -64,10 +64,12 @@ class SocketLogin {
           socket.room = data.room;
         }
 
-        //room 정보 조정 - 인원수 조정
+        //roomList에서 해당찾기
         const index = roomList.findIndex((ele) => ele.roomId == socket.room);
         socket.index=index;
-        if (roomList[index].userCount == 2) {
+        
+        //room 정보 조정 - 인원수 조정
+        if (roomList[index].userCount >= 2) {
           return socket.disconnect();
         }
         roomList[index].userCount++;
@@ -85,6 +87,13 @@ class SocketLogin {
         } else {
           roomList[index].userList.push(user);
           await this.roomRepository.upCurrentUsers(socket.room);
+        }
+
+        //owner가 방안에 있는지 체크
+        if(roomList[index].userList.find(ele=>{
+          roomList[index].ownerId==ele.userId
+        })===undefined){
+          throw("None-Exist-Owner");
         }
 
         //로그인 정보
