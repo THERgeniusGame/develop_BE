@@ -1,4 +1,6 @@
 const CommentRepository=require("../repositories/comment.repository")
+require("dotenv").config();
+const env = process.env;
 
 module.exports=class ReportService{
     commentRepository=new CommentRepository()
