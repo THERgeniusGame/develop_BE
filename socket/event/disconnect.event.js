@@ -2,7 +2,7 @@ const RoomRepository = require("../../repositories/room.repository");
 const { error } = require("../middlewares/error");
 const roomRepository = new RoomRepository();
 
-module.exports = (io, socket,roomList,msg) => {
+module.exports = (io, socket,roomList) => {
     
     socket.on("forceDisconnect", () => {
         socket.disconnect();
