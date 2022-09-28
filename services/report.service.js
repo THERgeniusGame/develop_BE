@@ -55,8 +55,6 @@ module.exports=class ReportService{
         if(reportTitle===undefined || reportContent===undefined){
             throw { status: 400, 
                 message: "Bad-Request"
-                    + (reportTitle===undefined?"-ReportTitle":"")
-                    + (reportContent===undefined?"-ReportContent":"")
                 };
         }
         const createReport=await this.reportRepository.createBugReport(userId,reportTitle,reportContent);
@@ -70,9 +68,6 @@ module.exports=class ReportService{
             throw { 
                 status: 400, 
                 message: "Bad-Request"
-                    + (reportTitle===undefined || reportTitle==="" ? "-ReportTitle" : "")
-                    + (reportContent===undefined || reportContent==="" ? "-ReportContent" : "")
-                    + (reportId===undefined || reportId==="" ? "-ReportId" : "")
                 };
         }
         const getReport=await this.getReport(reportId);
