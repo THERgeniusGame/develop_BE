@@ -70,7 +70,7 @@ module.exports=class ReportService{
                 message: "Bad-Request"
                 };
         }
-        const getReport=await this.getReport(reportId);
+        const getReport=await this.getReport(userId,reportId);
         if(getReport.userId!==userId || userId !== env.ADMIN_USERID){
             throw { 
                 status: 401, 
