@@ -8,6 +8,9 @@ module.exports = class RoomRepository {
   getRoomsInfo = async (offset) => {
     const roomsInfo = await Rooms.findAll({
       offset: offset,
+      order:[
+        ["roomId","DESC"]
+      ],
       limit: 9,
       raw: true,
       attributes: [
@@ -76,9 +79,6 @@ module.exports = class RoomRepository {
     const roomsInfo = await Rooms.findAll({
       attributes: ["roomId", "userId"],
       raw: true,
-      order:[
-        ["roomId","DESC"]
-      ],
       include: [
         {
           model: Users,
