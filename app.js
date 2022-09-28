@@ -40,7 +40,6 @@ class App {
       },
     };
     this.app.use(cors(corsOptions));
-    // this.app.use(cors());
   }
 
   setRouter() {
