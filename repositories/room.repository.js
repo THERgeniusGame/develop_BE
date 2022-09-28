@@ -76,6 +76,9 @@ module.exports = class RoomRepository {
     const roomsInfo = await Rooms.findAll({
       attributes: ["roomId", "userId"],
       raw: true,
+      order:[
+        ["roomId","DESC"]
+      ],
       include: [
         {
           model: Users,
