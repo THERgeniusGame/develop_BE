@@ -29,7 +29,10 @@ class App {
   setMiddleWare() {
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
-    const whitelist = ["https://thergenius.com","http://localhost:3000","http://thergenius.com.s3-website.ap-northeast-2.amazonaws.com"];
+    const whitelist = ["https://thergenius.com",
+      "http://localhost:3000",
+      "http://thergenius.com.s3-website.ap-northeast-2.amazonaws.com",
+      "https://d8dfgbtkrluig.cloudfront.net"];
     const corsOptions = {
       origin: function (origin, callback) { 
         if (whitelist.indexOf(origin) !== -1) { // 만일 whitelist 배열에 origin인자가 있을 경우
