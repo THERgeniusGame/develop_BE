@@ -70,7 +70,7 @@ module.exports=class ReportService{
                 message: "Bad-Request"
                 };
         }
-        const getReport=await this.getReport(userId,reportId);
+        const getReport=await this.reportRepository.findOneBugReport(reportId);
         if(getReport.userId!==userId){
             if(userId !== env.ADMIN_USERID){
                 throw { 
@@ -89,11 +89,13 @@ module.exports=class ReportService{
             throw { status: 400, message: "Bad-Request" };
         }
         const getReport=await this.getReport(reportId);
-        if(getReport.userId!==userId || userId !== env.ADMIN_USERID){
-            throw { 
-                status: 401, 
-                message: "Wrong-User"
-            };
+        if(getReport.userId!==userId){
+            if(userId !== env.ADMIN_USERID){
+                throw { 
+                    status: 401, 
+                    message: "Wrong-User"
+                };
+            }
         }
         const deleteReport = await this.reportRepository.deleteReport(reportId);
         return deleteReport === 1 ?
