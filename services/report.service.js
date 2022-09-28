@@ -71,11 +71,13 @@ module.exports=class ReportService{
                 };
         }
         const getReport=await this.getReport(userId,reportId);
-        if(getReport.userId!==userId || userId !== env.ADMIN_USERID){
-            throw { 
-                status: 401, 
-                message: "Wrong-User"
-            };
+        if(getReport.userId!==userId){
+            if(userId !== env.ADMIN_USERID){
+                throw { 
+                    status: 401, 
+                    message: "Wrong-User"
+                };
+            }
         }
         const updateReport=await this.reportRepository.updateReport(reportId,reportTitle,reportContent);
         return updateReport == 1 ?
