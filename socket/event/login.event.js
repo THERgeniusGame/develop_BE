@@ -91,7 +91,7 @@ class SocketLogin {
 
         //owner가 방안에 있는지 체크
         if(roomList[index].userList.find(ele=>{
-          roomList[index].ownerId==ele.userId;
+          return roomList[index].ownerId==ele.userId;
         })===undefined){
           throw("None-Exist-Owner");
         }
