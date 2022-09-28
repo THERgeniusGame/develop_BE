@@ -30,6 +30,9 @@ module.exports = class ReportRepository {
           where:{
             reportCategory:0
           },
+          order: [
+            ['reportId', 'DESC'],
+            ],
           include: [
             {
               model: Users,
