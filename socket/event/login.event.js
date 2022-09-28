@@ -96,6 +96,15 @@ class SocketLogin {
           throw("None-Exist-Owner");
         }
 
+        //경고메시지 전송
+        if(roomList[index].ownerId===socket.userId){
+          let msg={
+            nickname:socket.nickname,
+            msg:"님은 현재방의 반장입니다. 새로고침시 방이 사라지니 주의바랍니다."
+          }
+          io.to(socket.id).emit("chat", msg);
+        }
+
         //로그인 정보
         console.log(
           "Client logged-in:\n nickname:" +
