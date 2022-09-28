@@ -99,6 +99,7 @@ module.exports = class RoomController {
       }
 
       const roomUnlock = await this.roomService.roomUnlock(offset);
+
       res.status(200).send(roomUnlock);
     } catch (err) {
       err.status, err.massage;

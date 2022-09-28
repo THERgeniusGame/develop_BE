@@ -130,6 +130,7 @@ module.exports = class RoomService {
   roomUnlock = async (offset) => {
     try {
       const roomUnlock = await this.roomRepository.roomUnlock(offset);
+      const unlockNum = await this.roomRepository.unlockNum();
 
       if (roomUnlock.length === 0) {
         return { messege: "No-room" };
@@ -154,7 +155,7 @@ module.exports = class RoomService {
         nickname: roomInfo["User.nickname"],
       }));
 
-      return result;
+      return { result, unlockNum };
     } catch (err) {
       throw err;
     }
@@ -163,6 +164,7 @@ module.exports = class RoomService {
   roomLock = async (offset) => {
     try {
       const roomLock = await this.roomRepository.roomLock(offset);
+      const lockNum = await this.roomRepository.lockNum();
       if (roomLock.length === 0) {
         return { messege: "No-room" };
       }
@@ -186,7 +188,7 @@ module.exports = class RoomService {
         nickname: roomInfo["User.nickname"],
       }));
 
-      return result;
+      return { result, lockNum };
     } catch (err) {
       throw err;
     }
