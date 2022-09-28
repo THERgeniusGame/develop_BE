@@ -15,7 +15,7 @@ module.exports=class ReportService{
                 message:"Bad-Request-CommentContent"
             })
         }
-        if(userId !== env.ADMIN_USERID){
+        if(userId != env.ADMIN_USERID){
             throw { 
                 status: 401, 
                 message: "Wrong-User"
@@ -34,7 +34,7 @@ module.exports=class ReportService{
                 message:"Bad-Request-CommentContent"
             })
         }
-        if(userId !== env.ADMIN_USERID){
+        if(userId != env.ADMIN_USERID){
             throw { 
                 status: 401, 
                 message: "Wrong-User"
