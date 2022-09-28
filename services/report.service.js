@@ -72,7 +72,7 @@ module.exports=class ReportService{
         }
         const getReport=await this.reportRepository.findOneBugReport(reportId);
         if(getReport.userId!==userId){
-            if(userId !== env.ADMIN_USERID){
+            if(userId != env.ADMIN_USERID){
                 throw { 
                     status: 401, 
                     message: "Wrong-User"
@@ -90,7 +90,7 @@ module.exports=class ReportService{
         }
         const getReport=await this.reportRepository.findOneBugReport(reportId);
         if(getReport.userId!==userId){
-            if(userId !== env.ADMIN_USERID){
+            if(userId != env.ADMIN_USERID){
                 throw { 
                     status: 401, 
                     message: "Wrong-User"
