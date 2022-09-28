@@ -88,7 +88,7 @@ module.exports=class ReportService{
         if(reportId===undefined || reportId===null){
             throw { status: 400, message: "Bad-Request" };
         }
-        const getReport=await this.getReport(reportId);
+        const getReport=await this.reportRepository.findOneBugReport(reportId);
         if(getReport.userId!==userId){
             if(userId !== env.ADMIN_USERID){
                 throw { 
