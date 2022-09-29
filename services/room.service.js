@@ -133,7 +133,7 @@ module.exports = class RoomService {
       const unlockNum = await this.roomRepository.unlockNum();
 
       if (roomUnlock.length === 0) {
-        return { messege: "No-room" };
+        return;
       }
       let roomInfoResult;
 
@@ -166,7 +166,7 @@ module.exports = class RoomService {
       const roomLock = await this.roomRepository.roomLock(offset);
       const lockNum = await this.roomRepository.lockNum();
       if (roomLock.length === 0) {
-        return { messege: "No-room" };
+        return;
       }
       let roomInfoResult;
 
