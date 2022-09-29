@@ -1,6 +1,6 @@
-const error =(err,io,socket) => {
+const error =async(err,io,socket) => {
   console.log(err)
-  io.to(socket.id).emit("error",{error:err.message})
+  await io.to(socket.id).emit("error",{error:err})
 };
 
 module.exports = {

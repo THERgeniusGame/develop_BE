@@ -18,8 +18,9 @@ module.exports = class CommentController {
             // reportTitle,reportContent
             const {reportId}=req.params;
             const {commentContent}=req.body;
+            const {userId}=res.locals;
 
-            const set=await this.commentService.setComment(reportId,commentContent);
+            const set=await this.commentService.setComment(userId,reportId,commentContent);
 
             return res.status(200).json(set);
         } catch (error) {
@@ -30,9 +31,10 @@ module.exports = class CommentController {
         try {
             const {reportId}=req.params;
             const {commentContent}=req.body;
+            const {userId}=res.locals;
 
             // reportTitle,reportContent
-            const edit=await this.commentService.editComment(reportId,commentContent);
+            const edit=await this.commentService.editComment(userId,reportId,commentContent);
 
             return res.status(200).json(edit);
         } catch (error) {

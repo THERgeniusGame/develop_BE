@@ -1,3 +1,4 @@
+const { send } = require("express/lib/response");
 const RoomService = require("../services/room.service");
 //deploy test
 module.exports = class RoomController {
@@ -82,6 +83,51 @@ module.exports = class RoomController {
         );
       }
       res.status(200).json({ success: true, result, resultNum });
+    } catch (err) {
+      err.status, err.massage;
+      next(err);
+    }
+  };
+
+  //공개방
+  roomUnlock = async (req, res, next) => {
+    try {
+      let pageNum = req.query.page;
+      let offset = 0;
+
+      if (pageNum > 1) {
+        offset = 9 * (pageNum - 1);
+      }
+
+      const roomUnlock = await this.roomService.roomUnlock(offset);
+
+      if (roomUnlock.unlockNum === 0) {
+        res.status(200).send(roomUnlock.result);
+      } else {
+        res.status(200).send(roomUnlock);
+      }
+    } catch (err) {
+      err.status, err.massage;
+      next(err);
+    }
+  };
+
+  //비공개방
+  roomLock = async (req, res, next) => {
+    try {
+      let pageNum = req.query.page;
+      let offset = 0;
+
+      if (pageNum > 1) {
+        offset = 9 * (pageNum - 1);
+      }
+      const roomLock = await this.roomService.roomLock(offset);
+      console.log(roomLock);
+      if (roomLock.lockNum === 0) {
+        res.status(200).send(roomLock.result);
+      } else {
+        res.status(200).send(roomLock);
+      }
     } catch (err) {
       err.status, err.massage;
       next(err);

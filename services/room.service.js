@@ -125,4 +125,67 @@ module.exports = class RoomService {
       throw err;
     }
   };
+
+  //공개방
+  roomUnlock = async (offset) => {
+    try {
+      const roomUnlock = await this.roomRepository.roomUnlock(offset);
+      const unlockNum = await this.roomRepository.unlockNum();
+
+      let roomInfoResult;
+
+      roomInfoResult = roomUnlock.map((roomInfo) => {
+        if (roomInfo.roomLock === 0) {
+          roomInfo.roomLock = false;
+        } else {
+          roomInfo.roomLock = true;
+        }
+      });
+
+      let result = roomUnlock.map((roomInfo) => ({
+        roomId: roomInfo.roomId,
+        roomTitle: roomInfo.roomTitle,
+        roomLock: roomInfo.roomLock,
+        roomPw: roomInfo.roomPw,
+        currentUsers: roomInfo.currentUsers,
+        userId: roomInfo.userId,
+        nickname: roomInfo["User.nickname"],
+      }));
+
+      return { result, unlockNum };
+    } catch (err) {
+      throw err;
+    }
+  };
+  //비공개방
+  roomLock = async (offset) => {
+    try {
+      const roomLock = await this.roomRepository.roomLock(offset);
+      const lockNum = await this.roomRepository.lockNum();
+
+      let roomInfoResult;
+
+      roomInfoResult = roomLock.map((roomInfo) => {
+        if (roomInfo.roomLock === 0) {
+          roomInfo.roomLock = false;
+        } else {
+          roomInfo.roomLock = true;
+        }
+      });
+
+      let result = roomLock.map((roomInfo) => ({
+        roomId: roomInfo.roomId,
+        roomTitle: roomInfo.roomTitle,
+        roomLock: roomInfo.roomLock,
+        roomPw: roomInfo.roomPw,
+        currentUsers: roomInfo.currentUsers,
+        userId: roomInfo.userId,
+        nickname: roomInfo["User.nickname"],
+      }));
+
+      return { result, lockNum };
+    } catch (err) {
+      throw err;
+    }
+  };
 };

@@ -55,8 +55,6 @@ module.exports=class ReportService{
         if(reportTitle===undefined || reportContent===undefined){
             throw { status: 400, 
                 message: "Bad-Request"
-                    + (reportTitle===undefined?"-ReportTitle":"")
-                    + (reportContent===undefined?"-ReportContent":"")
                 };
         }
         const createReport=await this.reportRepository.createBugReport(userId,reportTitle,reportContent);
@@ -70,17 +68,16 @@ module.exports=class ReportService{
             throw { 
                 status: 400, 
                 message: "Bad-Request"
-                    + (reportTitle===undefined || reportTitle==="" ? "-ReportTitle" : "")
-                    + (reportContent===undefined || reportContent==="" ? "-ReportContent" : "")
-                    + (reportId===undefined || reportId==="" ? "-ReportId" : "")
                 };
         }
-        const getReport=await this.getReport(reportId);
-        if(getReport.userId!==userId || userId !== env.ADMIN_USERID){
-            throw { 
-                status: 401, 
-                message: "Wrong-User"
-            };
+        const getReport=await this.reportRepository.findOneBugReport(reportId);
+        if(getReport.userId!==userId){
+            if(userId != env.ADMIN_USERID){
+                throw { 
+                    status: 401, 
+                    message: "Wrong-User"
+                };
+            }
         }
         const updateReport=await this.reportRepository.updateReport(reportId,reportTitle,reportContent);
         return updateReport == 1 ?
@@ -91,12 +88,14 @@ module.exports=class ReportService{
         if(reportId===undefined || reportId===null){
             throw { status: 400, message: "Bad-Request" };
         }
-        const getReport=await this.getReport(reportId);
-        if(getReport.userId!==userId || userId !== env.ADMIN_USERID){
-            throw { 
-                status: 401, 
-                message: "Wrong-User"
-            };
+        const getReport=await this.reportRepository.findOneBugReport(reportId);
+        if(getReport.userId!==userId){
+            if(userId != env.ADMIN_USERID){
+                throw { 
+                    status: 401, 
+                    message: "Wrong-User"
+                };
+            }
         }
         const deleteReport = await this.reportRepository.deleteReport(reportId);
         return deleteReport === 1 ?

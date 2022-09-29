@@ -46,6 +46,6 @@ router.delete("/:reportId", authMiddleware,reportController.deleteReport);
 
 //comment
 router.get("/:reportId/comment", commentController.getComment);
-router.post("/:reportId/comment", commentController.setComment);
-router.put("/:reportId/comment", commentController.editComment);
+router.post("/:reportId/comment",authMiddleware, commentController.setComment);
+router.put("/:reportId/comment", authMiddleware,commentController.editComment);
 module.exports = router;

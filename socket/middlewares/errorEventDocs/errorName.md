@@ -7,6 +7,7 @@ socket.io를 사용하면서 에러 핸들링하여 error 이벤트로 보낸 �
 | Bad-Request       |login      |req가 잘못된 경우             |
 | Expired-Token     |login      |token의 유효시간이 지난 경우   |
 | Wrong-Url         |login      |room이 존재하지 않는 경우|
+| None-Exist-Owner  |login      |오너가 존재하지 않습니다.|
 |  None-User        |disconnect |유저의 데이터가 없는 경우|
 | None-Ready        |gameStart  |준비가 아직 안된 경우|
 | Not-Your-Turn     |turnEnd    |알맞는 턴이 아닌 경우|

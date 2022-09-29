@@ -8,6 +8,9 @@ module.exports = class RoomRepository {
   getRoomsInfo = async (offset) => {
     const roomsInfo = await Rooms.findAll({
       offset: offset,
+      order:[
+        ["roomId","DESC"]
+      ],
       limit: 9,
       raw: true,
       attributes: [
@@ -188,5 +191,78 @@ module.exports = class RoomRepository {
     });
     const down = await room.decrement("currentUsers", { by: 1 });
     return down;
+  };
+
+  //공개방
+  roomUnlock = async (offset) => {
+    try {
+      const roomUnlock = await Rooms.findAll({
+        offset: offset,
+        limit: 9,
+        raw: true,
+        where: { roomLock: false },
+        attributes: [
+          "roomId",
+          "roomTitle",
+          "roomLock",
+          "roomPw",
+          "currentUsers",
+          "userId",
+        ],
+        include: [
+          {
+            model: Users,
+            attributes: ["nickname"],
+          },
+        ],
+      });
+
+      return roomUnlock;
+    } catch (err) {
+      console.log("re", err);
+      throw err;
+    }
+  };
+
+  //공개방 개수
+  unlockNum = async () => {
+    const unlockNum = await Rooms.count({ where: { roomLock: false } });
+    return unlockNum;
+  };
+
+  //비공개방
+  roomLock = async (offset) => {
+    try {
+      const roomLock = await Rooms.findAll({
+        offset: offset,
+        limit: 9,
+        raw: true,
+        where: { roomLock: true },
+        attributes: [
+          "roomId",
+          "roomTitle",
+          "roomLock",
+          "roomPw",
+          "currentUsers",
+          "userId",
+        ],
+        include: [
+          {
+            model: Users,
+            attributes: ["nickname"],
+          },
+        ],
+      });
+      return roomLock;
+    } catch (err) {
+      console.log("re", err);
+      throw err;
+    }
+  };
+
+  //비공개방 개수
+  lockNum = async () => {
+    const lockNum = await Rooms.count({ where: { roomLock: true } });
+    return lockNum;
   };
 };
