@@ -85,7 +85,7 @@ const userController = new UserController();
  *       400:
  *           description: Something is wrong
  */
-
+//회원가입
 router.post("/signup", signupMiddleware, userController.signup);
 /**
  * @swagger
@@ -110,7 +110,7 @@ router.post("/signup", signupMiddleware, userController.signup);
  *       400:
  *           description: Something is wrong
  */
-
+//로그인
 router.post("/login", userController.login);
 /**
  * @swagger
@@ -146,6 +146,7 @@ router.post("/login", userController.login);
  *                  message: "중복된 이메일 입니다."
  *                  success: false
  */
+//이메일 중복확인
 router.post("/checkemail", userController.checkemail);
 /**
  * @swagger
@@ -182,6 +183,7 @@ router.post("/checkemail", userController.checkemail);
  *                  message: "Bad request"
  *                  success: false
  */
+//비밀번호 찾기
 router.patch("/changePw", userController.changePw);
 /**
  * @swagger
@@ -217,7 +219,7 @@ router.patch("/changePw", userController.changePw);
  *                  message: "중복된 닉네임 입니다."
  *                  success: false
  */
-
+//닉네임 중복확인
 router.post("/checknickname", userController.checknickname);
 /**
  * @swagger
@@ -241,6 +243,7 @@ router.post("/checknickname", userController.checknickname);
  *       400:
  *           description: The issue of the token
  */
+//헤더 값
 router.get("/header", headerMiddleware, userController.userinfo);
 
 /**
@@ -266,6 +269,7 @@ router.get("/header", headerMiddleware, userController.userinfo);
  *       400:
  *           description: Something is wrong
  */
+//카카오 로그인
 router.post("/kakao", userController.kakaologin);
 
 module.exports = router;
