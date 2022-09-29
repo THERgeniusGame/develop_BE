@@ -132,6 +132,9 @@ class UserService {
             const payload = {
               userId: userInfo.id,
               nickname: userInfo.nickname,
+              win: userInfo.win,
+              lose: userInfo.lose,
+              total: userInfo.total
             };//유효 시간 
             const token = jwt.sign(payload, env.SECRET_KEY);
             return { status: 201, data: token };
@@ -140,6 +143,9 @@ class UserService {
             const payload = {
               userId: userInfo.id,
               nickname: userInfo.nickname,
+              win: userInfo.win,
+              lose: userInfo.lose,
+              total: userInfo.total
             };//유효 시간 
             const token = jwt.sign(payload, env.SECRET_KEY);
             return { status: 201, data: token };
@@ -154,7 +160,7 @@ class UserService {
                 kakao: userInfo.kakao,
               };//유효 시간 
               const token = jwt.sign(payload, env.SECRET_KEY);
-              return { status: 201, dete: token };
+              return { status: 201, data: token };
             };
     
         };
