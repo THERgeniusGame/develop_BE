@@ -132,9 +132,6 @@ module.exports = class RoomService {
       const roomUnlock = await this.roomRepository.roomUnlock(offset);
       const unlockNum = await this.roomRepository.unlockNum();
 
-      /*       if (roomUnlock.length === 0) {
-        return;
-      } */
       let roomInfoResult;
 
       roomInfoResult = roomUnlock.map((roomInfo) => {
@@ -165,9 +162,7 @@ module.exports = class RoomService {
     try {
       const roomLock = await this.roomRepository.roomLock(offset);
       const lockNum = await this.roomRepository.lockNum();
-      if (roomLock.length === 0) {
-        return;
-      }
+
       let roomInfoResult;
 
       roomInfoResult = roomLock.map((roomInfo) => {

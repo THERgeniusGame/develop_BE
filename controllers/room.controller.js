@@ -101,11 +101,11 @@ module.exports = class RoomController {
 
       const roomUnlock = await this.roomService.roomUnlock(offset);
 
-      if (roomUnlock.result.length === 0) {
+      if (roomUnlock.unlockNum === 0) {
         res.status(200).send(roomUnlock.result);
+      } else {
+        res.status(200).send(roomUnlock);
       }
-
-      res.status(200).send(roomUnlock);
     } catch (err) {
       err.status, err.massage;
       next(err);
@@ -122,10 +122,12 @@ module.exports = class RoomController {
         offset = 9 * (pageNum - 1);
       }
       const roomLock = await this.roomService.roomLock(offset);
-      if (roomLock.result.length === 0) {
+      console.log(roomLock);
+      if (roomLock.lockNum === 0) {
         res.status(200).send(roomLock.result);
+      } else {
+        res.status(200).send(roomLock);
       }
-      res.status(200).send(roomLock);
     } catch (err) {
       err.status, err.massage;
       next(err);
