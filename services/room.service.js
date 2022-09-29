@@ -132,9 +132,9 @@ module.exports = class RoomService {
       const roomUnlock = await this.roomRepository.roomUnlock(offset);
       const unlockNum = await this.roomRepository.unlockNum();
 
-      if (roomUnlock.length === 0) {
+      /*       if (roomUnlock.length === 0) {
         return;
-      }
+      } */
       let roomInfoResult;
 
       roomInfoResult = roomUnlock.map((roomInfo) => {
