@@ -224,6 +224,12 @@ module.exports = class RoomRepository {
     }
   };
 
+  //공개방 개수
+  unlockNum = async () => {
+    const unlockNum = await Rooms.count({ where: { roomLock: false } });
+    return unlockNum;
+  };
+
   //비공개방
   roomLock = async (offset) => {
     try {
@@ -252,5 +258,11 @@ module.exports = class RoomRepository {
       console.log("re", err);
       throw err;
     }
+  };
+
+  //비공개방 개수
+  lockNum = async () => {
+    const lockNum = await Rooms.count({ where: { roomLock: true } });
+    return lockNum;
   };
 };
