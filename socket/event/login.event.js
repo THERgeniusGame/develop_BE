@@ -99,7 +99,7 @@ class SocketLogin {
         //경고메시지 전송
         let msg={
           nickname:undefined,
-          msg:"님 새로고침시 방이 사라지거나 나가질 수 있으니 주의바랍니다"
+          msg:"새로고침시 방이 사라지거나 나가질 수 있으니 주의바랍니다"
         }
         io.to(socket.id).emit("chat", msg);
 
