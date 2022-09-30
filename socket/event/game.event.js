@@ -144,7 +144,6 @@ class Game{
                             winner:result.winner,
                             loser:result.loser,
                         })
-                        roomList.splice(index,1);
                         await roomRepository.deleteRoom(socket.room)
                         await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
                         await gameService.setResultInfo(socket.gameId,resultRound.round);
@@ -168,7 +167,6 @@ class Game{
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
-                    roomList.splice(index,1);
                     await roomRepository.deleteRoom(socket.room)
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
@@ -176,7 +174,6 @@ class Game{
                     })
                 }else{
                     let result=await gameService.EndGame(data.owner,data.guest);
-                    roomList.splice(index,1);
                     await roomRepository.deleteRoom(socket.room)
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,

@@ -178,8 +178,10 @@ module.exports = class RoomRepository {
         roomId: roomId,
       },
     });
-    const up = await room.increment("currentUsers", { by: 1 });
-    return up;
+    if(room!==null || room !== undefined){
+      const up = await room.increment("currentUsers", { by: 1 });
+      return up;
+    }
   };
   downCurrentUsers = async (roomId) => {
     const room = await Rooms.findOne({
@@ -187,8 +189,10 @@ module.exports = class RoomRepository {
         roomId: roomId,
       },
     });
-    const down = await room.decrement("currentUsers", { by: 1 });
-    return down;
+    if(room!==null || room !== undefined){
+      const down = await room.decrement("currentUsers", { by: 1 });
+      return down;
+    }
   };
 
   //공개방
