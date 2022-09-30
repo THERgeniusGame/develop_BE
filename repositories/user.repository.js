@@ -67,7 +67,15 @@ class UserRepository {
         const up = await user.increment("total", { by: 1 });
         return up;
     }
-    
+    uplose=async(userId)=>{
+        const user = await Users.findOne({
+            where:{
+                userId:userId
+            }
+        });
+        const up = await user.increment("lose", { by: 1 });
+        return up;
+    }
 };
 
 module.exports = UserRepository;

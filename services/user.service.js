@@ -177,6 +177,10 @@ class UserService {
         const update= await this.userRepository.upWin(userId);
         return update;
        }
+      uplose=async(userId)=>{
+        const update= await this.userRepository.uplose(userId);
+        return update;
+      }
 };
 
 module.exports = UserService;
