@@ -2,7 +2,7 @@ const Userservice = require("../services/user.service");
 
 class UserController {
     userService = new Userservice();
-    
+    //회원가입
     signup = async (req, res, next) => {
         const { email, emailConfirm,nickname, password, confirmPw } = req.body;
         const { authorization } = req.headers;
@@ -14,7 +14,7 @@ class UserController {
         }
     };
     
-
+    //로그인
     login = async (req, res, next) => {
         const { email, password } = req.body;
         const { authorization } = req.headers;
@@ -30,7 +30,7 @@ class UserController {
             next(err);
         }
     };
-
+    //이메일중복확인
     checkemail = async (req, res, next) => {
         const { email } = req.body;
         try {
@@ -41,7 +41,7 @@ class UserController {
             next(err);
         }
     };
-
+    //닉네임중복확인
     checknickname = async (req, res, next) => {
         const { nickname } = req.body;
         try {
@@ -52,7 +52,7 @@ class UserController {
             next(err);
         }
     };
-
+    //비밀번호찾기
     changePw = async (req, res, next) => {
         const { email, emailConfirm, password, confirmPw } = req.body;
         try{
@@ -63,23 +63,23 @@ class UserController {
             next(err);
         }
     };
-
+    //로그인 한 유저정보
     userinfo = async (req, res, next) => {
-        const { userId, nickname, win, total } = res.locals;
+        const { userId, nickname, win, lose, total } = res.locals;
         
         try {
-            const headerinfo = await this.userService.userInfo(userId, nickname, win, total);
+            const headerinfo = await this.userService.userInfo(userId, nickname, win, lose, total);
 
             return res.status(headerinfo.status).json(headerinfo.message);
         } catch (err) {
             next(err);
         }
     };
-
+    //카카오로그인
     kakaologin = async (req, res, next) => {
-        const { email, nickname } = req.body;
+        const { email, nickname,win, lose, total } = req.body;
         try {
-            const result = await this.userService.kakaologin(email, nickname);
+            const result = await this.userService.kakaologin(email, nickname, win, lose, total);
             if (result.status === 201) {
                 return res.status(result.status).json(result.data);
             }

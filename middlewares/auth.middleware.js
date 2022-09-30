@@ -11,6 +11,9 @@ module.exports = (req, res, next) => {
       const userInfo = jwt.verify(tokenValue, env.SECRET_KEY);
       res.locals.userId = userInfo.userId;
       res.locals.nickname = userInfo.nickname;
+      res.locals.win = userInfo.win;
+      res.locals.lose = userInfo.lose;
+      res.locals.total = userInfo.total;
     } catch (err) {
       if (err.name === "TokenExpiredError")
         throw res.status(400).json({ message: "expired-Token" });
