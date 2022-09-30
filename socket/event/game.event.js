@@ -108,7 +108,7 @@ class Game{
                 let myTurn=(await gameService.turnUpdate(socket.gameId)).turn
                 
                 await gameService.setBatting(socket.gameId,batting)
-                await gameService.setUseCard(socket.gameId,player,card,myTurn)
+                await gameService.setUseCard(socket.gameId,player,card,turn)
                 let gameInfo=await gameService.getGameInfo(socket.gameId);
                 gameInfo.userId=data.userId;
 
@@ -126,7 +126,7 @@ class Game{
                         throw("Err-Update-Result")
                     }
 
-                    turn.reverse();
+                    await gameService.turnUpdate(socket.gameId)
 
                     let resultRound=await gameService.getGameInfo(socket.gameId);
 
