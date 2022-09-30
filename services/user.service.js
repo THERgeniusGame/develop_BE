@@ -60,7 +60,7 @@ class UserService {
               kakao: userInfo.kakao,
             };
             const token = jwt.sign(payload, env.SECRET_KEY,{
-              expiresIn: '7d', //1분
+              expiresIn: '2h', //1분
             });
             return { status: 201, dete: token };
           };
