@@ -19,7 +19,6 @@ class SocketLogin {
 
   Login = async (io, socket, roomList) => {
     socket.on("login", async (data) => {
-      console.log("event:login")
       try {
         //data 검사,token,room
         const room = data.room;
@@ -46,7 +45,6 @@ class SocketLogin {
         if (this.roomListCheck(data.room, roomList)) {
           let roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
-            console.log("room: " + data.room + " is WRONG_URL");
             throw("Wrong-Url");
           } else {
             socket.room = data.room;

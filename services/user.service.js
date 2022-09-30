@@ -10,7 +10,6 @@ class UserService {
     //회원가입(이메일,이메일인증번호,닉네임,비밀번호,비밀번호확인값 필요)
     signup = async (email, emailConfirm, nickname, password, confirmPw, authorization) => {
         try {
-        console.log(emailConfirm)
         if (authorization) {
           throw { status: 401, message: "Already-Login" };
         };
@@ -39,7 +38,6 @@ class UserService {
         if (authorization) {
           throw { status: 401, message: "Already-Login" };
         };
-        console.log(password)
         if (!email || !password) {
           throw { status: 400, message: "Bad-Request" };
         };
@@ -106,7 +104,6 @@ class UserService {
           throw { status:400, message:"Invalid-Verification-Code"};
         }
         const passwords = bcrypt.hashSync(password, 10);
-        console.log(passwords)
           await this.userRepository.changePw( email,passwords );
         } catch(err) {
           err.status=400
