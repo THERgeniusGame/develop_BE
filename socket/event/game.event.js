@@ -86,6 +86,8 @@ class Game{
         socket.on("turnEnd", async(data) => {
             ("event:turnEnd")
             try{
+                
+                const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 let player=await data.player;
                 let batting=await data.batting;
                 let card=await data.card;
