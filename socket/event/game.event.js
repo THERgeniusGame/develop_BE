@@ -90,6 +90,9 @@ class Game{
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 let player=await data.player;
                 let batting=await data.batting;
+                if(batting<=0){
+                    batting=1;
+                }
                 let card=await data.card;
                 let ownerId=roomList[index].ownerId
                 if(!player || !batting || card==undefined){
