@@ -1,5 +1,6 @@
 const RoomRepository = require("../../repositories/room.repository");
 const { error } = require("../middlewares/error");
+const { errorRoom } = require("../middlewares/error");
 const roomRepository = new RoomRepository();
 
 module.exports = (io, socket,roomList) => {
@@ -25,9 +26,11 @@ module.exports = (io, socket,roomList) => {
                 if(roomList[index].userCount<=0 || roomList[index].ownerId==socket.userId){
                     roomList.splice(index,1);
                     const result=await roomRepository.deleteRoom(socket.room)
+                    if(result){
+                        errorRoom(new Error("None-Room"),io,socket)
+                    }
                 }
             }
-            console.log("user disconnected: " + socket.nickname);
         }catch(err){
             error(err,io,socket)
         }
