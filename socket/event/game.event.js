@@ -43,20 +43,22 @@ class Game{
                 let owner=await userList.find(ele=>ele.userId===data.userId);
                 let guest=await userList.find(ele=>ele.userId!==data.userId);
                 
-                let createInfo=await gameService.createGame(socket.room,owner,guest);
+                let turn=gameService.randomTurn();
+
+                let createInfo=await gameService.createGame(socket.room,turn,owner,guest);
                 socket.gameId=createInfo.gameId;
                 
 
                 io.to(socket.room).emit("setting",{gameId:socket.gameId})
 
-                let turn=gameService.randomTurn();
 
-                let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
+
+                let gameInfo=await gameService.getGameInfo(socket.gameId);
                 let ownerInfo=await gameInfo.owner;
                 let guestInfo=await gameInfo.guest;
-                ownerInfo.turn=turn
+                ownerInfo.turn=gameInfo.turn
                 ownerInfo.ownerId=await roomList[index].ownerId
-                guestInfo.turn=turn
+                guestInfo.turn=gameInfo.turn
                 guestInfo.ownerId=await roomList[index].ownerId
 
                 io.to(owner.socketId).emit("gameStart_user",ownerInfo)
@@ -82,17 +84,16 @@ class Game{
         socket.on("turnEnd", async(data) => {
             ("event:turnEnd")
             try{
-                let turn=await data.turn;
                 let player=await data.player;
                 let batting=await data.batting;
                 let card=await data.card;
                 let ownerId=roomList[socket.index].ownerId
-                let myTurn=turn.shift();
-                turn.push(myTurn);
                 if(!player || !batting || card==undefined){
                     throw("Bad-Request")
                 }
-                
+                //턴바꾸기
+                let myTurn=(await gameService.turnUpdate(socket.gameId)).turn
+
                 let checkOwner=await ownerId!==player.userId
                 if(myTurn==="owner"){
                     if(checkOwner){
@@ -101,12 +102,12 @@ class Game{
                 }else{
                     if(!checkOwner){
                         throw("Not-Your-Turn")
-                    }
+                    }   
                 }
 
                 await gameService.setBatting(socket.gameId,batting)
                 await gameService.setUseCard(socket.gameId,player,card,myTurn)
-                let gameInfo=await gameService.getGameInfo(socket.gameId,turn);
+                let gameInfo=await gameService.getGameInfo(socket.gameId);
                 gameInfo.userId=data.userId;
 
                 if(gameInfo.owner.userId===player.userId){
@@ -125,7 +126,7 @@ class Game{
 
                     turn.reverse();
 
-                    let resultRound=await gameService.getGameInfo(socket.gameId,turn);
+                    let resultRound=await gameService.getGameInfo(socket.gameId);
 
                     if(resultRound.owner.result.at(-1)!=="draw"){
                         resultRound.winner=resultRound.owner.result.at(-1)==="win"?resultRound.owner.nickname:resultRound.guest.nickname
@@ -138,7 +139,7 @@ class Game{
                             loser:result.loser,
                         })
                         await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
-                        await gameService.setResultInfo(socket.gameId,gameInfo.round);
+                        await gameService.setResultInfo(socket.gameId,resultRound.round);
                         return;
                     }
                 }
@@ -149,7 +150,7 @@ class Game{
     }
     turnResult=(io,socket)=>{
         socket.on("turnResult",async(data)=>{
-            let result=await gameService.getGameInfo(socket.gameId,data.turn);
+            let result=await gameService.getGameInfo(socket.gameId);
             io.to(socket.room).emit("turnResult",result)
         })
     }

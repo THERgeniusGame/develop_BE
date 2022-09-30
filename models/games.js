@@ -38,6 +38,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
         allowNull: false,
       },
+      turn:{
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       owner: {
         type: DataTypes.JSON,
         allowNull: false,

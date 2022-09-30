@@ -20,12 +20,13 @@ class Service {
     err.status = status;
     return err;
   };
-  createGame = async (roomId, owner, guest) => {
+  createGame = async (roomId, turn,owner, guest) => {
     try {
       let ownerInfo = this.game.setPlayer(owner);
       let guestInfo = this.game.setPlayer(guest);
       const createGame = await this.gameRepo.createGame(
         roomId,
+        turn,
         ownerInfo,
         guestInfo
       );
@@ -66,9 +67,9 @@ class Service {
   setUseCard = async (gameId, userInfo, card, turn) => {
     this.game.setUseCard(card, userInfo);
     if (turn === "owner") {
-      var update = await this.gameRepo.setOwnerInfo(gameId, userInfo, turn);
+      var update = await this.gameRepo.setOwnerInfo(gameId, userInfo);
     } else {
-      var update = await this.gameRepo.setGuestInfo(gameId, userInfo, turn);
+      var update = await this.gameRepo.setGuestInfo(gameId, userInfo);
     }
     return update;
   };
@@ -86,13 +87,17 @@ class Service {
     return updateResult;
   };
 
-  getGameInfo = async (gameId, turn) => {
+  getGameInfo = async (gameId) => {
     try {
       const getInfo = await this.gameRepo.getGameInfo(gameId);
       if (getInfo === null) {
         return null;
       }
-      getInfo.turn = turn;
+      if(getInfo.turn==="owner"){
+        getInfo.turn=["owner","guest"]
+      }else if(getInfo.turn==="guest"){
+        getInfo.turn=["guest","owner"]
+      }
       return getInfo;
     } catch (err) {
       throw err;
@@ -144,6 +149,14 @@ class Service {
       throw error;
     }
   };
+
+  //턴바꾸기
+  turnUpdate=async(gameId)=>{
+    //턴바꾸기 db
+    const update = await this.gameRepo.turnUpdate(gameId);
+    const gameInfo=await this.getGameInfo(gameId);
+    return gameInfo
+  }
 }
 
 module.exports = Service;
