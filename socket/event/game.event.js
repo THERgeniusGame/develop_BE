@@ -91,9 +91,7 @@ class Game{
                 if(!player || !batting || card==undefined){
                     throw("Bad-Request")
                 }
-                //턴바꾸기
-                let myTurn=(await gameService.turnUpdate(socket.gameId)).turn
-
+                
                 let checkOwner=await ownerId!==player.userId
                 if(myTurn==="owner"){
                     if(checkOwner){
@@ -104,7 +102,10 @@ class Game{
                         throw("Not-Your-Turn")
                     }   
                 }
-
+                
+                //턴바꾸기
+                let myTurn=(await gameService.turnUpdate(socket.gameId)).turn
+                
                 await gameService.setBatting(socket.gameId,batting)
                 await gameService.setUseCard(socket.gameId,player,card,myTurn)
                 let gameInfo=await gameService.getGameInfo(socket.gameId);
