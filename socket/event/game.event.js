@@ -169,7 +169,7 @@ class Game{
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
                     await roomRepository.deleteRoom(socket.room)
-                    await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
+                    await gameService.EndGameWinLose(data.owner,data.guest);
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
