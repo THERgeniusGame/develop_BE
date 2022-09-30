@@ -1,7 +1,9 @@
 const { error } = require("../middlewares/error");
 const GameService=require("../../services/playGame.service.js")
+const RoomRepository = require("../../repositories/room.repository");
 const ChatLogsService=require("../../services/chatLogs.service");
 const chatLogsService=new ChatLogsService();
+const roomRepository = new RoomRepository();
 let gameService=new GameService()
 class Game{
     constructor(io,socket,roomList){
@@ -142,6 +144,8 @@ class Game{
                             winner:result.winner,
                             loser:result.loser,
                         })
+                        roomList.splice(index,1);
+                        await roomRepository.deleteRoom(socket.room)
                         await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
                         await gameService.setResultInfo(socket.gameId,resultRound.round);
                         return;
@@ -161,14 +165,19 @@ class Game{
     gameEnd=async(io,socket)=>{
         try{
             socket.on("gameEnd", async(data) => {
+                const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
+                    roomList.splice(index,1);
+                    await roomRepository.deleteRoom(socket.room)
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
                     })
                 }else{
                     let result=await gameService.EndGame(data.owner,data.guest);
+                    roomList.splice(index,1);
+                    await roomRepository.deleteRoom(socket.room)
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
