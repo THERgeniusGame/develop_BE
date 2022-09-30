@@ -18,7 +18,7 @@ module.exports = (io, socket,roomList) => {
                 nickname: socket.nickname,
                 msg: "님이 퇴장하셨습니다.",
             }
-            io.to(socket.room).emit("chat",chat)
+            io.to(socket.room).emit("chat",chat);
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
             if(index!==-1){
                 roomList[index].userCount--;
@@ -29,6 +29,12 @@ module.exports = (io, socket,roomList) => {
                     if(result){
                         throw("None-Room")
                     }
+                }else{
+                    const exist=roomList[index].userList.findIndex(ele=>ele.userId==socket.userId);
+                    if(exist!==-1){
+                        roomList[index].userList.splice(exist,1);
+                    }
+                    io.to(socket.room).emit("out",{userList:roomList[index].userList});
                 }
             }
         }catch(err){
