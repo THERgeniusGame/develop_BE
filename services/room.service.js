@@ -142,15 +142,17 @@ module.exports = class RoomService {
         }
       });
 
-      let result = roomUnlock.map((roomInfo) => ({
-        roomId: roomInfo.roomId,
-        roomTitle: roomInfo.roomTitle,
-        roomLock: roomInfo.roomLock,
-        roomPw: roomInfo.roomPw,
-        currentUsers: roomInfo.currentUsers,
-        userId: roomInfo.userId,
-        nickname: roomInfo["User.nickname"],
-      }));
+      let result = roomUnlock
+        .map((roomInfo) => ({
+          roomId: roomInfo.roomId,
+          roomTitle: roomInfo.roomTitle,
+          roomLock: roomInfo.roomLock,
+          roomPw: roomInfo.roomPw,
+          currentUsers: roomInfo.currentUsers,
+          userId: roomInfo.userId,
+          nickname: roomInfo["User.nickname"],
+        }))
+        .sort((a, b) => b.roomId - a.roomId);
 
       return { result, unlockNum };
     } catch (err) {
@@ -173,15 +175,17 @@ module.exports = class RoomService {
         }
       });
 
-      let result = roomLock.map((roomInfo) => ({
-        roomId: roomInfo.roomId,
-        roomTitle: roomInfo.roomTitle,
-        roomLock: roomInfo.roomLock,
-        roomPw: roomInfo.roomPw,
-        currentUsers: roomInfo.currentUsers,
-        userId: roomInfo.userId,
-        nickname: roomInfo["User.nickname"],
-      }));
+      let result = roomLock
+        .map((roomInfo) => ({
+          roomId: roomInfo.roomId,
+          roomTitle: roomInfo.roomTitle,
+          roomLock: roomInfo.roomLock,
+          roomPw: roomInfo.roomPw,
+          currentUsers: roomInfo.currentUsers,
+          userId: roomInfo.userId,
+          nickname: roomInfo["User.nickname"],
+        }))
+        .sort((a, b) => b.roomId - a.roomId);
 
       return { result, lockNum };
     } catch (err) {
