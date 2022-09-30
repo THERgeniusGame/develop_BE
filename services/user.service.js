@@ -58,7 +58,7 @@ class UserService {
               kakao: userInfo.kakao,
             };
             const token = jwt.sign(payload, env.SECRET_KEY,{
-              expiresIn: '2h', //1분
+              expiresIn: '2h', //토큰 유효시간 2시간
             });
             return { status: 201, dete: token };
           };
@@ -132,8 +132,11 @@ class UserService {
               win: userInfo.win,
               lose: userInfo.lose,
               total: userInfo.total
-            };//유효 시간 
-            const token = jwt.sign(payload, env.SECRET_KEY);
+            }; 
+            const token = jwt.sign(payload, env.SECRET_KEY,{
+              expiresIn: '2h', //토큰 유효시간 2시간
+            });
+            
             return { status: 201, data: token };
         }else{
             if( userInfo.nickname == nickname ){//프로필 변경은 업데이트 하지않음
@@ -143,7 +146,7 @@ class UserService {
               win: userInfo.win,
               lose: userInfo.lose,
               total: userInfo.total
-            };//유효 시간 
+            }; 
             const token = jwt.sign(payload, env.SECRET_KEY);
             return { status: 201, data: token };
             }else{
@@ -155,8 +158,10 @@ class UserService {
                 lose: userInfo.lose,
                 total: userInfo.total,
                 kakao: userInfo.kakao,
-              };//유효 시간 
-              const token = jwt.sign(payload, env.SECRET_KEY);
+              };
+              const token = jwt.sign(payload, env.SECRET_KEY,{
+                expiresIn: '2h', //토큰 유효시간 2시간
+              });
               return { status: 201, data: token };
             };
     
