@@ -131,8 +131,11 @@ class Game{
                         resultRound.winner=resultRound.owner.result.at(-1)==="win"?resultRound.owner.nickname:resultRound.guest.nickname
                     }
                     io.to(socket.room).emit("turnResult",resultRound)
+                    if(gameInfo.round===11){
+                        await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
+                        await gameService.setResultInfo(socket.gameId,gameInfo.round);
+                    }
                 }
-
             }catch(err){
                 error(err,io,socket)
             }

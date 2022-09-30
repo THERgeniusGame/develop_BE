@@ -98,8 +98,7 @@ class Service {
       throw err;
     }
   };
-
-  EndGame = async (p1, p2) => {
+  EndGameWinLose=async(p1,p2)=>{
     let result = this.game.endGame(p1, p2);
     let total1 = await this.userService.upTotal(p1.userId);
     let total2 = await this.userService.upTotal(p2.userId);
@@ -110,6 +109,10 @@ class Service {
       const win2 = await this.userService.upWin(p2.userId);
       const lose1 = await this.userService.uplose(p1.userId);
     }
+  }
+
+  EndGame = async (p1, p2) => {
+    let result = this.game.endGame(p1, p2);
     // await this.userRepo.
     return result;
   };
