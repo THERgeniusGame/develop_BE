@@ -134,7 +134,6 @@ module.exports = class RoomRepository {
 
       return searchInRooms;
     } catch (err) {
-      console.log("re", err);
       throw err;
     }
   };
@@ -168,7 +167,6 @@ module.exports = class RoomRepository {
 
       return searchInNick;
     } catch (err) {
-      console.log("re", err);
       throw err;
     }
   };
@@ -219,7 +217,6 @@ module.exports = class RoomRepository {
 
       return roomUnlock;
     } catch (err) {
-      console.log("re", err);
       throw err;
     }
   };
@@ -255,7 +252,6 @@ module.exports = class RoomRepository {
       });
       return roomLock;
     } catch (err) {
-      console.log("re", err);
       throw err;
     }
   };

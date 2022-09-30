@@ -121,7 +121,6 @@ module.exports = class RoomService {
 
       return searchResult;
     } catch (err) {
-      console.log("service error");
       throw err;
     }
   };

@@ -39,7 +39,6 @@ module.exports = (io, socket,roomList) => {
             }
         }catch(err){
             if(err==="None-Room"){
-                console.log("check")
                 errorRoom(err,io,socket)
             }else{
                 error(err,io,socket)

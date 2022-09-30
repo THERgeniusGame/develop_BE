@@ -39,7 +39,6 @@ class RankService {
           winavg: Math.floor((user.win / user.total) * 100),
         }))
         .sort((a, b) => b.win - a.win);
-      console.log(rankWithAvg);
       let ranking = [];
       for (let i = 0; i < rankWithAvg.length; i++) {
         ranking.push({
