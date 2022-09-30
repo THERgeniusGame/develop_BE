@@ -1,5 +1,6 @@
 const RoomRepository = require("../../repositories/room.repository");
 const { error } = require("../middlewares/error");
+const { errorRoom } = require("../middlewares/error");
 const roomRepository = new RoomRepository();
 
 module.exports = (io, socket,roomList) => {
@@ -17,7 +18,7 @@ module.exports = (io, socket,roomList) => {
                 nickname: socket.nickname,
                 msg: "님이 퇴장하셨습니다.",
             }
-            io.to(socket.room).emit("chat",chat)
+            io.to(socket.room).emit("chat",chat);
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
             if(index!==-1){
                 roomList[index].userCount--;
@@ -25,11 +26,24 @@ module.exports = (io, socket,roomList) => {
                 if(roomList[index].userCount<=0 || roomList[index].ownerId==socket.userId){
                     roomList.splice(index,1);
                     const result=await roomRepository.deleteRoom(socket.room)
+                    if(result){
+                        throw("None-Room")
+                    }
+                }else{
+                    const exist=roomList[index].userList.findIndex(ele=>ele.userId==socket.userId);
+                    if(exist!==-1){
+                        roomList[index].userList.splice(exist,1);
+                    }
+                    io.to(socket.room).emit("out",{userList:roomList[index].userList});
                 }
             }
-            console.log("user disconnected: " + socket.nickname);
         }catch(err){
-            error(err,io,socket)
+            if(err==="None-Room"){
+                console.log("check")
+                errorRoom(err,io,socket)
+            }else{
+                error(err,io,socket)
+            }
         }
     });
     
