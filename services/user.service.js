@@ -130,7 +130,7 @@ class UserService {
         if (!userInfo){
             const userInfo = await this.userRepository.kakaosignup(email, nickname, password);
             const payload = {
-              userId: userInfo.id,
+              userId: userInfo.userId,
               nickname: userInfo.nickname,
               win: userInfo.win,
               lose: userInfo.lose,
@@ -141,7 +141,7 @@ class UserService {
         }else{
             if( userInfo.nickname == nickname ){//프로필 변경은 업데이트 하지않음
             const payload = {
-              userId: userInfo.id,
+              userId: userInfo.userId,
               nickname: userInfo.nickname,
               win: userInfo.win,
               lose: userInfo.lose,
