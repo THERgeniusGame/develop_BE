@@ -32,7 +32,7 @@ module.exports = (io, socket,roomList) => {
                 }
             }
         }catch(err){
-            if(err.message==="None-Room"){
+            if(err==="None-Room"){
                 console.log("check")
                 errorRoom(err,io,socket)
             }else{
