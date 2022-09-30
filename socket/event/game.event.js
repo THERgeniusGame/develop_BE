@@ -138,7 +138,7 @@ class Game{
                             loser:result.loser,
                         })
                         await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
-                        await gameService.setResultInfo(socket.gameId,gameInfo.round);
+                        await gameService.setResultInfo(socket.gameId,resultRound.round);
                         return;
                     }
                 }
