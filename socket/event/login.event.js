@@ -104,7 +104,7 @@ class SocketLogin {
           nickname:undefined,
           msg:"전체화면(F11)을 사용하면 편안하게 플레이 가능합니다."
         }
-        io.to(socket.id).emit("chat", msg);
+        io.to(socket.id).emit("chat", msg2);
 
         //로그인 정보
         console.log(
