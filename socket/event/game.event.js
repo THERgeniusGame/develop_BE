@@ -86,7 +86,6 @@ class Game{
         socket.on("turnEnd", async(data) => {
             ("event:turnEnd")
             try{
-                
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 let player=await data.player;
                 let batting=await data.batting;
@@ -170,6 +169,7 @@ class Game{
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
                     await roomRepository.deleteRoom(socket.room)
+                    await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
@@ -177,6 +177,7 @@ class Game{
                 }else{
                     let result=await gameService.EndGame(data.owner,data.guest);
                     await roomRepository.deleteRoom(socket.room)
+                    await gameService.EndGameWinLose(data.owner,data.guest);
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
