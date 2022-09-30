@@ -84,10 +84,12 @@ class Game{
         socket.on("turnEnd", async(data) => {
             ("event:turnEnd")
             try{
+                
+                const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 let player=await data.player;
                 let batting=await data.batting;
                 let card=await data.card;
-                let ownerId=roomList[socket.index].ownerId
+                let ownerId=roomList[index].ownerId
                 if(!player || !batting || card==undefined){
                     throw("Bad-Request")
                 }
