@@ -38,7 +38,6 @@ class GameRule{
     //사용하는 카드등록 및 cards에서 제거
     //input: card=array(2)
     setUseCard=(card,p)=>{
-        console.log(p)
         let index=p.cards.findIndex(ele=>ele==card)
         if(index!==-1){
             p.cards.splice(index,1);
@@ -50,8 +49,6 @@ class GameRule{
     }
 
     roundResult=(p1,p2,batting,round)=>{
-        console.log(p1.battingCards.at(round-1))
-        console.log(p2.battingCards.at(round-1))
         if(p1.battingCards.at(round-1)<p2.battingCards.at(round-1)){
             p1.result.push("lose")
             p1.coin-=batting;
@@ -133,20 +130,5 @@ class GameRule{
         }
     }
 }
-
-// let userList=[{userId: 1, nickname: '은나무', socketId: 'fEC1BWKzOAEk16hlAAAD'},
-// {userId: 2, nickname: '금나무', socketId: 'fEC1BWKzOAEk16hlAAAD'}]
-// let game=new GameRule(userList[0],userList[1],89);
-// console.log(game.player1)
-// console.log(game.player2)
-// console.log("----------------------")
-// while(game.round<10 && game.lastWinner===""){
-//     game.startGame(0,[]);
-//     console.log(game.round)
-//     console.log(game.player1)
-//     console.log(game.player2)
-//     console.log("----------------------")
-// }
-// console.log("lastWinner : "+game.lastWinner)
 
 module.exports=GameRule;

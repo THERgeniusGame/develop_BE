@@ -8,7 +8,6 @@ module.exports = (io, socket) => {
     try {
       var updateReport= await chatLogsService.updateReportChat(socket.userId,socket.room,data.chat);
       if(updateReport==1){
-        console.log("Success-ReportChat")
       }else if(updateReport==0){
         throw("Failed-ReportChat")
       }else{
@@ -27,26 +26,18 @@ module.exports = (io, socket) => {
         await chatLogsService.createLogsTable(socket.room,file);
         fs.writeFile(file, chatLog, 'utf8',(err) =>{
           if (err) {
-            console.log("Failed-ChatLog")
+            throw("Failed-ChatLog")
           } else {
-            console.log("Success-ChatLog")
           }
         });
       }else{
         fs.appendFile(file, chatLog, 'utf8',(err) =>{
           if (err) {
-            console.log("Failed-ChatLog")
+            throw("Failed-ChatLog")
           } else {
-            console.log("Success-ChatLog")
           }
         });
       }//동시성해결필요
-
-      // if(updateLogs==1){
-      //   console.log("Success-ChatLog");
-      // }else{
-      //   console.log("Failed-ChatLog");
-      // }
 
       let clear_Msg= chatVaildation(data.msg);
       if(clear_Msg.msg==="badword"){

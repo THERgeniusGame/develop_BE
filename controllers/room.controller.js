@@ -122,7 +122,6 @@ module.exports = class RoomController {
         offset = 9 * (pageNum - 1);
       }
       const roomLock = await this.roomService.roomLock(offset);
-      console.log(roomLock);
       if (roomLock.lockNum === 0) {
         res.status(200).send(roomLock.result);
       } else {

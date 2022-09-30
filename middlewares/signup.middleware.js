@@ -16,7 +16,6 @@ module.exports = async (req, res, next) => {
     await schema.validateAsync(body);
   } catch (err) {
     // 유효성 검사 에러
-    console.log(schema.password)
     const problem = err.message.split('"')[1];
     const message = problem + " 형식이 올바르지 않습니다. ";
     return res.status(400).json({ message });

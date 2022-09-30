@@ -15,7 +15,6 @@ class Game{
     }
     ready=async(io,socket,roomList)=>{
         socket.on("ready",async(data)=>{
-            console.log("event:ready")
             try{
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 if(data.ready && roomList[index].ready==0){
@@ -35,7 +34,6 @@ class Game{
     }
     gameStart= async(io, socket,roomList) => {
         socket.on("gameStart", async(data) => {
-            console.log("event:gameStart")
             try{
                 const index = roomList.findIndex((ele) => ele.roomId == socket.room);
                 if(roomList[index].ready!==1){
@@ -73,7 +71,6 @@ class Game{
     }
     setting=async(io,socket)=>{
         socket.on("setting",(data)=>{
-            console.log("event:setting")
             try{
                 socket.gameId=data.gameId
             }catch(err){
@@ -83,10 +80,9 @@ class Game{
     }
     turnEnd=async(io,socket,roomList)=>{
         socket.on("turnEnd", async(data) => {
-            console.log("event:turnEnd")
+            ("event:turnEnd")
             try{
                 let turn=await data.turn;
-                console.log(turn)
                 let player=await data.player;
                 let batting=await data.batting;
                 let card=await data.card;
@@ -144,7 +140,6 @@ class Game{
     }
     turnResult=(io,socket)=>{
         socket.on("turnResult",async(data)=>{
-            console.log("event:turnResult")
             let result=await gameService.getGameInfo(socket.gameId,data.turn);
             io.to(socket.room).emit("turnResult",result)
         })
@@ -152,7 +147,6 @@ class Game{
     gameEnd=async(io,socket)=>{
         try{
             socket.on("gameEnd", async(data) => {
-                console.log("event:gameEnd")
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
                     return io.to(socket.room).emit("gameEnd",{

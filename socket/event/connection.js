@@ -31,7 +31,6 @@ class EventConnection {
       ));
     io.on("connection", async (socket) => {
         try {
-          // console.log(socket)
           // 접속한 클라이언트의 정보가 수신되면
           this.socketLogin.Login(io, socket, roomList);
           // 클라이언트로부터의 메시지가 수신되면
