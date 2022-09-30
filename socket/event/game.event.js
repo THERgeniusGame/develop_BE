@@ -92,7 +92,7 @@ class Game{
                     throw("Bad-Request")
                 }
 
-                let turn=(await gameService.getGameInfo(socket.gameId)).turn;
+                let turn=(await gameService.getGameInfo(socket.gameId)).turn[0];
                 let checkOwner=await ownerId!==player.userId
                 if(turn==="owner"){
                     if(checkOwner){
