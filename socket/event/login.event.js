@@ -64,7 +64,6 @@ class SocketLogin {
 
         //roomList에서 해당찾기
         const index = roomList.findIndex((ele) => ele.roomId == socket.room);
-        socket.index=index;
         
         //room 정보 조정 - 인원수 조정
         if (roomList[index].userCount >= 2) {
