@@ -105,8 +105,10 @@ class Service {
     let total2 = await this.userService.upTotal(p2.userId);
     if (result.winner === p1.nickname) {
       const win1 = await this.userService.upWin(p1.userId);
+      const lose2 = await this.userService.uplose(p2.userId);
     } else if(result.winner === p2.nickname){
       const win2 = await this.userService.upWin(p2.userId);
+      const lose1 = await this.userService.uplose(p1.userId);
     }
     // await this.userRepo.
     return result;
@@ -118,8 +120,10 @@ class Service {
     let total2 = await this.userService.upTotal(p2.userId);
     if (result.winner === p1.nickname) {
       const win1 = await this.userService.upWin(p1.userId);
+      const lose2 = await this.userService.uplose(p2.userId);
     } else if(result.winner === p2.nickname){
       const win2 = await this.userService.upWin(p2.userId);
+      const lose1 = await this.userService.uplose(p1.userId);
     }
     // await this.userRepo.
     return result;
