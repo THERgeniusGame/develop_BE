@@ -133,11 +133,7 @@ class Game{
                     io.to(socket.room).emit("turnResult",resultRound)
                     if(gameInfo.round===11){
                         let result=await gameService.EndGame(resultRound.owner,resultRound.guest);
-                        io.to(data.owner.socketId).emit("gameEnd",{
-                            winner:result.winner,
-                            loser:result.loser,
-                        })
-                        io.to(data.guest.socketId).emit("gameEnd",{
+                        io.to(socket.room).emit("gameEnd",{
                             winner:result.winner,
                             loser:result.loser,
                         })
@@ -162,22 +158,13 @@ class Game{
             socket.on("gameEnd", async(data) => {
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
-                    io.to(data.owner.socketId).emit("gameEnd",{
+                    io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
                     })
-                    io.to(data.guest.socketId).emit("gameEnd",{
-                        winner:result.winner,
-                        loser:result.loser,
-                    })
-                    return;
                 }else{
                     let result=await gameService.EndGame(data.owner,data.guest);
-                    io.to(data.owner.socketId).emit("gameEnd",{
-                        winner:result.winner,
-                        loser:result.loser,
-                    })
-                    io.to(data.guest.socketId).emit("gameEnd",{
+                    io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
                     })
