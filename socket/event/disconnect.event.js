@@ -27,12 +27,16 @@ module.exports = (io, socket,roomList) => {
                     roomList.splice(index,1);
                     const result=await roomRepository.deleteRoom(socket.room)
                     if(result){
-                        errorRoom(new Error("None-Room"),io,socket)
+                        throw("None-Room")
                     }
                 }
             }
         }catch(err){
-            error(err,io,socket)
+            if(err.message==="None-Room"){
+                errorRoom(errmio,socket)
+            }else{
+                error(err,io,socket)
+            }
         }
     });
     
