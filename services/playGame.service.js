@@ -99,6 +99,7 @@ class Service {
     }
   };
   EndGameWinLose=async(p1,p2)=>{
+    let result = this.game.endGame(p1, p2);
     let total1 = await this.userService.upTotal(p1.userId);
     let total2 = await this.userService.upTotal(p2.userId);
     if (result.winner === p1.nickname) {
