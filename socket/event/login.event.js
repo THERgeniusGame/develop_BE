@@ -97,7 +97,12 @@ class SocketLogin {
         //경고메시지 전송
         let msg={
           nickname:undefined,
-          msg:"새로고침시 방이 사라지거나 나가질 수 있으니 주의바랍니다"
+          msg:"새로고침시 방이 사라지거나 나가질 수 있으니 주의바랍니다."
+        }
+        io.to(socket.id).emit("chat", msg);
+        let msg2={
+          nickname:undefined,
+          msg:"전체화면(F11)을 사용하면 편안하게 플레이 가능합니다."
         }
         io.to(socket.id).emit("chat", msg);
 
@@ -122,6 +127,7 @@ class SocketLogin {
           socketId: socket.id,
         }
         let room_send_data = {
+          //roomTitle
           room: socket.room,
           owner: roomList[index].owner,
           userList: roomList[index].userList,
