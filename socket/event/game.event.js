@@ -68,6 +68,7 @@ class Game{
 
                 gameInfo.userId=roomList[index].ownerId
                 io.to(socket.room).emit("gameStart_room",gameInfo)
+                await roomRepository.deleteRoom(socket.room)
             }catch(err){
                 error(err,io,socket)
             }
@@ -146,7 +147,6 @@ class Game{
                             winner:result.winner,
                             loser:result.loser,
                         })
-                        await roomRepository.deleteRoom(socket.room)
                         await gameService.EndGameWinLose(resultRound.owner,resultRound.guest);
                         await gameService.setResultInfo(socket.gameId,resultRound.round);
                         return;
@@ -168,7 +168,6 @@ class Game{
             socket.on("gameEnd", async(data) => {
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
-                    await roomRepository.deleteRoom(socket.room)
                     await gameService.EndGameWinLose(data.owner,data.guest);
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
@@ -176,7 +175,6 @@ class Game{
                     })
                 }else{
                     let result=await gameService.EndGame(data.owner,data.guest);
-                    await roomRepository.deleteRoom(socket.room)
                     await gameService.EndGameWinLose(data.owner,data.guest);
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
