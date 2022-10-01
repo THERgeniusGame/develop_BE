@@ -55,7 +55,7 @@ module.exports = class RoomRepository {
     const roomTitleFiltered = chatVaildation(roomTitle);
     console.log(roomTitleFiltered);
     const createRoom = await Rooms.create({
-      roomTitle: roomTitleFiltered.message,
+      roomTitle: roomTitleFiltered.sendMsg,
       roomLock,
       roomPw,
       currentUsers: 0,
