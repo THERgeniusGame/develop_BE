@@ -43,7 +43,7 @@ class SocketLogin {
         
         //room 검사
         if (this.roomListCheck(data.room, roomList)) {
-          let roomInfo = await this.roomIdCheck(data.room);
+          var roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
             throw("Wrong-Url");
           } else {
@@ -126,7 +126,7 @@ class SocketLogin {
           socketId: socket.id,
         }
         let room_send_data = {
-          //roomTitle
+          roomTitle:roomInfo.roomTitle,
           room: socket.room,
           owner: roomList[index].owner,
           userList: roomList[index].userList,
