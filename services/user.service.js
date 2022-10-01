@@ -120,6 +120,18 @@ class UserService {
           return {status: 200, data: loginUserInfo}
         }
        };
+       //회원탈퇴
+       secession = async (comment,userId) => {
+        const outFormcomment = "회원탈퇴"
+        if(!comment){
+          throw {status: 400, message:"Bad-Request"};
+        }
+        if(comment !== outFormcomment){
+          throw {status: 400, message:"Bad-Input-Value"}
+        } else {
+          await this.userRepository.secession(userId);
+        }
+       }
        //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
        kakaologin = async (email, nickname) => {
         const password = env.KAKAO_PW;

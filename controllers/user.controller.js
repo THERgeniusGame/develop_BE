@@ -75,6 +75,19 @@ class UserController {
             next(err);
         }
     };
+    //회원탈퇴
+    secession = async(req,res,next) => {
+        const { comment } = req.body;
+        const { userId } = res.locals;
+        try{
+            const outForm = await this.userService.secession(comment,userId);
+
+            return res.status(outForm.status).json(outForm.message);
+        } catch(err){
+            next(err);
+        }
+    };
+    
     //카카오로그인
     kakaologin = async (req, res, next) => {
         const { email, nickname,win, lose, total } = req.body;

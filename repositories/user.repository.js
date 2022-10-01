@@ -26,10 +26,14 @@ class UserRepository {
 
     getUserInfo = async (userId)=>{
         return await Users.findOne({ 
-            where: { nickname } ,
+            where: { userId } ,
             raw:true,
         });
     };
+
+    secession = async(userId) =>{
+        return await Users.destroy({where:{},truncate:true})
+    }
     
     checkEmailConfirm = async (email,emailConfirm) => {
         return await Emails.findOne({where:{email}})

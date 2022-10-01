@@ -9,9 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       models.Users.hasMany(models.Rooms, {
-        foreignKey: "userId",
-        onDelete: "cascade",
-        onUpdate: "cascade",
+        foreignKey: "userId"
       });
       // define association here
     }
