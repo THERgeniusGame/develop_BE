@@ -32,7 +32,7 @@ class UserRepository {
     };
 
     secession = async(userId) =>{
-        return await Users.destroy({where:{},truncate:true})
+        return await Users.destroy({where:{userId}})
     }
     
     checkEmailConfirm = async (email,emailConfirm) => {

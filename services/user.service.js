@@ -130,6 +130,7 @@ class UserService {
           throw {status: 400, message:"Bad-Input-Value"}
         } else {
           await this.userRepository.secession(userId);
+          throw {status: 200, message:"secession-success"};
         }
        }
        //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
@@ -143,14 +144,18 @@ class UserService {
               nickname: userInfo.nickname,
               win: userInfo.win,
               lose: userInfo.lose,
-              total: userInfo.total
+              total: userInfo.total,
+              kakao: userInfo.kakao
             }; 
             const token = jwt.sign(payload, env.SECRET_KEY,{
               expiresIn: '2h', //토큰 유효시간 2시간
             });
-            
             return { status: 201, data: token };
-        }else{
+          }
+            if(userInfo.kakao===false){
+              throw{status:400, message:"Email-signer"};
+            }
+        else{
             if( userInfo.nickname == nickname ){//프로필 변경은 업데이트 하지않음
             const payload = {
               userId: userInfo.userId,
