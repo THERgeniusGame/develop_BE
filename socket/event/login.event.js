@@ -42,8 +42,8 @@ class SocketLogin {
         }
         
         //room 검사
+        let roomInfo = await this.roomIdCheck(data.room);
         if (this.roomListCheck(data.room, roomList)) {
-          var roomInfo = await this.roomIdCheck(data.room);
           if (roomInfo === undefined || roomInfo===null) {
             throw("Wrong-Url");
           } else {
