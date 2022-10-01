@@ -3,9 +3,9 @@ require("dotenv").config();
 const env = process.env;
 
 module.exports = (req, res, next) => {
-    const { authorization } = req.headers;
-    const [tokenType, tokenValue] = authorization.split(" ");
     if (!req.headers.authorization) return res.send("Not-Login");
+    const { authorization } = req.headers;
+    const [tokenType, tokenValue] = (authorization||"").split(" ");
     if (tokenType !== "Bearer") return res.send("Not-Exist-Token");
     try {
       const userInfo = jwt.verify(tokenValue, env.SECRET_KEY);
