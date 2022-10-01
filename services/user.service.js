@@ -128,9 +128,14 @@ class UserService {
         }
         if(comment !== outFormcomment){
           throw {status: 400, message:"Bad-Input-Value"}
-        } else {
+        } 
+        const usercheck = await this.userRepository.usercheck(userId)
+        console.log(usercheck)
+        if(!usercheck){
+          throw {status: 400, message:"Not-Exist-User"}
+        } else{
           await this.userRepository.secession(userId);
-          throw {status: 200, message:"secession-success"};
+          return {status: 200, message:"secession-success"};
         }
        }
        //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
