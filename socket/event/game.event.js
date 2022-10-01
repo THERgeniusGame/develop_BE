@@ -168,7 +168,6 @@ class Game{
             socket.on("gameEnd", async(data) => {
                 if(data.name!==undefined){
                     let result=await gameService.surrenderGame(data.name,data.owner,data.guest);
-                    await gameService.EndGameWinLose(data.owner,data.guest);
                     io.to(socket.room).emit("gameEnd",{
                         winner:result.winner,
                         loser:result.loser,
