@@ -21,6 +21,6 @@ module.exports = function (message) {
     }
     return { sendMsg, msg: "badword" };
   } else {
-    return { message, msg: "goodword" };
+    return { sendMsg, msg: "goodword" };
   }
 };
