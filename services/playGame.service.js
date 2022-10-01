@@ -20,12 +20,13 @@ class Service {
     err.status = status;
     return err;
   };
-  createGame = async (roomId, owner, guest) => {
+  createGame = async (roomId, turn,owner, guest) => {
     try {
       let ownerInfo = this.game.setPlayer(owner);
       let guestInfo = this.game.setPlayer(guest);
       const createGame = await this.gameRepo.createGame(
         roomId,
+        turn,
         ownerInfo,
         guestInfo
       );
@@ -66,9 +67,9 @@ class Service {
   setUseCard = async (gameId, userInfo, card, turn) => {
     this.game.setUseCard(card, userInfo);
     if (turn === "owner") {
-      var update = await this.gameRepo.setOwnerInfo(gameId, userInfo, turn);
+      var update = await this.gameRepo.setOwnerInfo(gameId, userInfo);
     } else {
-      var update = await this.gameRepo.setGuestInfo(gameId, userInfo, turn);
+      var update = await this.gameRepo.setGuestInfo(gameId, userInfo);
     }
     return update;
   };
@@ -86,28 +87,37 @@ class Service {
     return updateResult;
   };
 
-  getGameInfo = async (gameId, turn) => {
+  getGameInfo = async (gameId) => {
     try {
       const getInfo = await this.gameRepo.getGameInfo(gameId);
       if (getInfo === null) {
         return null;
       }
-      getInfo.turn = turn;
+      if(getInfo.turn==="owner"){
+        getInfo.turn=["owner","guest"]
+      }else if(getInfo.turn==="guest"){
+        getInfo.turn=["guest","owner"]
+      }
       return getInfo;
     } catch (err) {
       throw err;
     }
   };
-
-  EndGame = async (p1, p2) => {
+  EndGameWinLose=async(p1,p2)=>{
     let result = this.game.endGame(p1, p2);
     let total1 = await this.userService.upTotal(p1.userId);
     let total2 = await this.userService.upTotal(p2.userId);
     if (result.winner === p1.nickname) {
       const win1 = await this.userService.upWin(p1.userId);
+      const lose2 = await this.userService.uplose(p2.userId);
     } else if(result.winner === p2.nickname){
       const win2 = await this.userService.upWin(p2.userId);
+      const lose1 = await this.userService.uplose(p1.userId);
     }
+  }
+
+  EndGame = async (p1, p2) => {
+    let result = this.game.endGame(p1, p2);
     // await this.userRepo.
     return result;
   };
@@ -118,8 +128,10 @@ class Service {
     let total2 = await this.userService.upTotal(p2.userId);
     if (result.winner === p1.nickname) {
       const win1 = await this.userService.upWin(p1.userId);
+      const lose2 = await this.userService.uplose(p2.userId);
     } else if(result.winner === p2.nickname){
       const win2 = await this.userService.upWin(p2.userId);
+      const lose1 = await this.userService.uplose(p1.userId);
     }
     // await this.userRepo.
     return result;
@@ -137,6 +149,14 @@ class Service {
       throw error;
     }
   };
+
+  //턴바꾸기
+  turnUpdate=async(gameId)=>{
+    //턴바꾸기 db
+    const update = await this.gameRepo.turnUpdate(gameId);
+    const gameInfo=await this.getGameInfo(gameId);
+    return gameInfo
+  }
 }
 
 module.exports = Service;

@@ -15,9 +15,9 @@ class GameRule{
 
     randomTurn=()=>{
         if(Math.round(Math.random())===1){
-            return ["guest","owner"];
+            return "guest";
         }else{
-            return ["owner","guest"];
+            return "owner";
         }
     }
 

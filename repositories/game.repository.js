@@ -2,9 +2,10 @@ const RoomController = require("../controllers/room.controller");
 const { Games, Rooms } = require("../models");
 
 module.exports = class GameRepository {
-  createGame = async (roomId, owner, guest) => {
+  createGame = async (roomId,turn, owner, guest) => {
     const createGame = await Games.create({
       roomId: roomId,
+      turn:turn,
       round: 1,
       batting: 0,
       owner: owner,
@@ -112,6 +113,33 @@ module.exports = class GameRepository {
     } catch (error) {
       throw error;
     }
+  };
+
+  //턴바꾸기
+  turnUpdate=async(gameId)=>{
+    const info=await Games.findOne({
+        where:{
+            gameId:gameId
+        },
+        raw:true
+    })
+    let turn="";
+    if(info.turn=="owner"){
+      turn="guest";
+    }else if(info.turn=="guest"){
+      turn="owner";
+    }
+    const updateTurn = await Games.update(
+      {
+        turn:turn
+      },
+      {
+        where: {
+          gameId: gameId,
+        },
+      }
+    );
+    return updateTurn;
   };
 };
 

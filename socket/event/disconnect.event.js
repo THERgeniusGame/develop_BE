@@ -1,7 +1,9 @@
 const RoomRepository = require("../../repositories/room.repository");
+const RoomService = require("../../services/room.service");
 const { error } = require("../middlewares/error");
 const { errorRoom } = require("../middlewares/error");
 const roomRepository = new RoomRepository();
+const roomService = new RoomService();
 
 module.exports = (io, socket,roomList) => {
     
@@ -25,8 +27,7 @@ module.exports = (io, socket,roomList) => {
                 await roomRepository.downCurrentUsers(socket.room);
                 if(roomList[index].userCount<=0 || roomList[index].ownerId==socket.userId){
                     roomList.splice(index,1);
-                    const result=await roomRepository.deleteRoom(socket.room)
-                    if(result){
+                    if(socket.gameId===undefined || socket.gameId===null){
                         throw("None-Room")
                     }
                 }else{
