@@ -26,10 +26,14 @@ class UserRepository {
 
     getUserInfo = async (userId)=>{
         return await Users.findOne({ 
-            where: { nickname } ,
+            where: { userId } ,
             raw:true,
         });
     };
+
+    secession = async(userId) =>{
+        return await Users.destroy({where:{userId}})
+    }
     
     checkEmailConfirm = async (email,emailConfirm) => {
         return await Emails.findOne({where:{email}})
@@ -67,7 +71,15 @@ class UserRepository {
         const up = await user.increment("total", { by: 1 });
         return up;
     }
-    
+    uplose=async(userId)=>{
+        const user = await Users.findOne({
+            where:{
+                userId:userId
+            }
+        });
+        const up = await user.increment("lose", { by: 1 });
+        return up;
+    }
 };
 
 module.exports = UserRepository;

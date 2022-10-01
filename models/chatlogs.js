@@ -12,13 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.ChatLogs.belongsTo(models.Games, {
         foreignKey: "gameId",
-        onDelete: "cascade",
-        onUpdate: "cascade",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       });
       models.ChatLogs.belongsTo(models.Rooms, {
         foreignKey: "roomId",
-        onDelete: "cascade",
-        onUpdate: "cascade",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       });
       // define association here
     }

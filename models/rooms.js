@@ -10,13 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.Rooms.belongsTo(models.Users, {
         foreignKey: "userId",
-        onDelete: "cascade",
-        onUpdate: "cascade",
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
       });
       models.Rooms.hasOne(models.ChatLogs, {
-          foreignKey: "roomId",
-          onDelete: "cascade",
-          onUpdate: "cascade",
+          foreignKey: "roomId"
       });
       // define association here
     }

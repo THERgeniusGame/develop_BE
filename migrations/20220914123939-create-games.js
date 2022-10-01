@@ -22,6 +22,10 @@ module.exports = {
         defaultValue: 0,
         allowNull: false,
       },
+      turn:{
+        type: DataTypes.String,
+        allowNull: false,
+      },
       owner: {
         type: Sequelize.JSON,
         allowNull: false,

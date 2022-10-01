@@ -3,6 +3,7 @@ const router = express.Router();
 const UserController = require("../controllers/user.controller");
 const headerMiddleware = require("../middlewares/header.middleware");
 const signupMiddleware = require("../middlewares/signup.middleware");
+const authMiddleware = require("../middlewares/auth.middleware");
 const userController = new UserController();
 
 /**
@@ -245,6 +246,8 @@ router.post("/checknickname", userController.checknickname);
  */
 //헤더 값
 router.get("/header", headerMiddleware, userController.userinfo);
+//회원탈퇴
+router.delete("/secession",authMiddleware, userController.secession);
 
 /**
  * @swagger
