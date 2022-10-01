@@ -24,10 +24,7 @@ module.exports = (io, socket,roomList) => {
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
             if(index!==-1){
                 roomList[index].userCount--;
-                const roomInfo=await roomService.getRoomsInfo(socket.room);
-                if(roomInfo !== null || roomInfo !== undefined){
-                    await roomRepository.downCurrentUsers(socket.room);
-                }
+                await roomRepository.downCurrentUsers(socket.room);
                 if(roomList[index].userCount<=0 || roomList[index].ownerId==socket.userId){
                     roomList.splice(index,1);
                     if(socket.gameId===undefined || socket.gameId===null){
