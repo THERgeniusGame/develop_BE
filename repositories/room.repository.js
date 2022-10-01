@@ -190,7 +190,7 @@ module.exports = class RoomRepository {
       },
     });
     if(room!==null || room !== undefined){
-      const down = await room.increment("currentUsers", { by: -1 });
+      const down = await Rooms.decrement("currentUsers", { by: 1 ,where: { roomId: roomId }});
       return down;
     }
   };
