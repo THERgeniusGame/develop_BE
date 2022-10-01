@@ -93,7 +93,7 @@ module.exports = class RoomRepository {
   //roomId find
   findRoomId = async (roomId) => {
     const roomInfo = await Rooms.findOne({
-      attributes: ["roomId", "userId"],
+      attributes: ["roomId","roomTitle", "userId"],
       include: [
         {
           model: Users,
