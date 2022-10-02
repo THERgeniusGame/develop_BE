@@ -13,7 +13,7 @@ class UserRepository {
     };
     
     checkemail = async (email) => {
-        return await Users.findOne({ where: { email } });
+        return await Users.findOne({ where: { email,kakao:"false" } });
     };
 
     checknickname = async (nickname) => {
