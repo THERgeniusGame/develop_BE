@@ -5,13 +5,13 @@ const UserRepository = require("../repositories/user.repository");
 const env = process.env;
 
 module.exports = async(req, res, next) => {
+  try {
     const userRepository = new UserRepository();
     if (!req.headers.authorization) {
       throw {status:400, message:"Not-Login"}
     }
     const { authorization } = req.headers;
     const [tokenType, tokenValue] = (authorization||"").split(" ");
-    try {
     if (tokenType !== "Bearer") return res.send("Not-Exist-Token");
     
       const userInfo = jwt.verify(tokenValue, env.SECRET_KEY);
