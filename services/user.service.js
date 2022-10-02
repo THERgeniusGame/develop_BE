@@ -165,7 +165,9 @@ class UserService {
         const password = env.KAKAO_PW;
         const userInfo = await this.userRepository.kakaologin(email, password);
         const emailcheck = await this.userRepository.checkemail(email);
+
         if(emailcheck){
+
           throw {status:400, message:"Email-signer"}
         }
         if (!userInfo) {

@@ -5,22 +5,23 @@ const UserRepository = require("../repositories/user.repository");
 const env = process.env;
 
 module.exports = async(req, res, next) => {
+  try {
     const userRepository = new UserRepository();
-    try {
-    if (!req.headers.authorization) {
+    const { authorization } = req.headers;
+    if (authorization===null || authorization=== undefined) {
+
       throw {status:400, message:"Not-Login"}
     }
-    const { authorization } = req.headers;
     const [tokenType, tokenValue] = (authorization||"").split(" ");
-    
     if (tokenType !== "Bearer") return res.send("Not-Exist-Token");
     
       const userInfo = jwt.verify(tokenValue, env.SECRET_KEY);
 
-      const usercheck = await userRepository.usercheck(userInfo.userId);
       if(!userInfo.userId){
         throw { status:400, message:"Wrong-Approach"}
       }
+      const usercheck = await userRepository.usercheck(userInfo.userId);
+      
       if(!usercheck){
         throw {status:400, message:"Not-Exist-User"}
       }else{

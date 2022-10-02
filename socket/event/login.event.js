@@ -24,21 +24,27 @@ class SocketLogin {
         const room = data.room;
         const token = data.token;
         // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsIm5pY2tuYW1lIjoi7J2A64KY66y0Iiwid2luIjowLCJ0b3RhbCI6MCwiaWF0IjoxNjYyMDE5MjU2LCJleHAiOjE2NjI2MjQwNTZ9.iCKWK2ZXAlSwzErq6aARvIhPwlEiJnYTK3h6K0xWa_w";
-        if (room === undefined || token === undefined) {
+        if (room === undefined) {
           throw("Bad-Request");
         }
+        if(token===undefined){
+          throw("Expired-Token")
+        }
 
+        const userInfo = jwt.verify(token, env.SECRET_KEY);
         //전달받은 token 해체
-        try {
-          const userInfo = jwt.verify(token, env.SECRET_KEY);
+        if(!userInfo.userId){
+          throw { status:400, message:"Expired-Token"}
+        }
+        const usercheck = await this.userRepository.usercheck(userInfo.userId);
+        
+        if(!usercheck){
+          throw {status:400, message:"Expired-Token"}
+        }else{
           socket.userId = userInfo.userId;
           socket.nickname = userInfo.nickname;
           socket.win = userInfo.win;
           socket.total = userInfo.total;
-        } catch (err) {
-          if (err.name === "TokenExpiredError") {
-            throw("Expired-Token")
-          }
         }
         
         //room 검사
