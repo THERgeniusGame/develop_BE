@@ -130,7 +130,7 @@ class UserService {
           throw {status: 400, message:"Bad-Input-Value"}
         } 
         const usercheck = await this.userRepository.usercheck(userId)
-        console.log(usercheck)
+        
         if(!usercheck){
           throw {status: 400, message:"Not-Exist-User"}
         } else{
