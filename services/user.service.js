@@ -170,7 +170,7 @@ class UserService {
               total: userInfo.total
             }; 
             const token = jwt.sign(payload, env.SECRET_KEY);
-            return { status: 201, data: token };
+            return { status: 201, message: token };
             }else{
               const userInfo = await this.userRepository.kakaoupdate(email, nickname, password)
               const payload = {
@@ -184,7 +184,7 @@ class UserService {
               const token = jwt.sign(payload, env.SECRET_KEY,{
                 expiresIn: '2h', //토큰 유효시간 2시간
               });
-              return { status: 201, data: token };
+              return { status: 201, message: token };
             };
     
         };
