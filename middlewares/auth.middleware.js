@@ -16,10 +16,11 @@ module.exports = async(req, res, next) => {
     
       const userInfo = jwt.verify(tokenValue, env.SECRET_KEY);
 
-      const usercheck = await userRepository.usercheck(userInfo.userId);
       if(!userInfo.userId){
         throw { status:400, message:"Wrong-Approach"}
       }
+      const usercheck = await userRepository.usercheck(userInfo.userId);
+      
       if(!usercheck){
         throw {status:400, message:"Not-Exist-User"}
       }else{
