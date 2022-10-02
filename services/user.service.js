@@ -153,7 +153,6 @@ class UserService {
             throw { status: 400, message: "Bad-Input-Value" };
         }
         const usercheck = await this.userRepository.usercheck(userId);
-
         if (!usercheck) {
             throw { status: 400, message: "Not-Exist-User" };
         } else {
@@ -165,7 +164,7 @@ class UserService {
     kakaologin = async (email, nickname) => {
         const password = env.KAKAO_PW;
         const userInfo = await this.userRepository.kakaologin(email, password);
-        const emailcheck = await this.userRepository.emailcheck(email);
+        const emailcheck = await this.userRepository.checkemail(email);
         if(emailcheck===email){
           throw {status:400, message:"Email-signer"}
         }
@@ -209,7 +208,7 @@ class UserService {
                     password
                 );
                 const payload = {
-                    userId: userInfo.id,
+                    userId: userInfo.userId,
                     nickname: userInfo.nickname,
                     win: userInfo.win,
                     lose: userInfo.lose,

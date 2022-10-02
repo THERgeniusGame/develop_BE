@@ -15,8 +15,11 @@ module.exports = async(req, res, next) => {
     if (tokenType !== "Bearer") return res.send("Not-Exist-Token");
     
       const userInfo = jwt.verify(tokenValue, env.SECRET_KEY);
+
       const usercheck = await userRepository.usercheck(userInfo.userId);
-      console.log(usercheck)
+      if(!userInfo.userId){
+        throw { status:400, message:"Wrong-Approach"}
+      }
       if(!usercheck){
         throw {status:400, message:"Not-Exist-User"}
       }else{
