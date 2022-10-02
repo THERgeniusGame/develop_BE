@@ -7,10 +7,10 @@ const env = process.env;
 module.exports = async(req, res, next) => {
   try {
     const userRepository = new UserRepository();
-    if (!req.headers.authorization) {
+    const { authorization } = req.headers;
+    if (!authorization) {
       throw {status:400, message:"Not-Login"}
     }
-    const { authorization } = req.headers;
     const [tokenType, tokenValue] = (authorization||"").split(" ");
     if (tokenType !== "Bearer") return res.send("Not-Exist-Token");
     
