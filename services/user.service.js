@@ -158,9 +158,9 @@ class UserService {
             return { status: 201, data: token };
           }
             if(userInfo.kakao===false){
-              throw{status:400, message:"Email-signer"};
+              throw {status:400, message:"Email-signer"};
             }
-        else{
+            else{
             if( userInfo.nickname == nickname ){//프로필 변경은 업데이트 하지않음
             const payload = {
               userId: userInfo.userId,

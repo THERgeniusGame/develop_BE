@@ -47,7 +47,7 @@ class UserRepository {
         return await Users.findOne({ where: { email, password, kakao:"true" } });
     };
 
-    kakaosignup = async (email, nickname, password, win, lose, total) => {
+    kakaosignup = async (email, nickname, password) => {
         await Users.create({ email, nickname, password, win, lose, total, kakao:"true" });
         return await Users.findOne({ where: { email, password, kakao:"true" } });
     };
