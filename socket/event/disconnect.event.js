@@ -26,6 +26,7 @@ module.exports = (io, socket,roomList) => {
                 roomList[index].userCount--;
                 await roomRepository.downCurrentUsers(socket.room);
                 if(roomList[index].userCount<=0 || roomList[index].ownerId==socket.userId){
+                    await roomRepository.deleteRoom(socket.room)
                     roomList.splice(index,1);
                     if(socket.gameId===undefined || socket.gameId===null){
                         throw("None-Room")

@@ -20,7 +20,6 @@ const env = process.env;
 class App {
   app = express();
   constructor() {
-    this.app.use("/route/static", express.static("index.html"));
     this.setMiddleWare();
     this.setRouter();
     this.socketIO = new IO(this.app);

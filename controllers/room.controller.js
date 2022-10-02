@@ -1,4 +1,3 @@
-const { send } = require("express/lib/response");
 const RoomService = require("../services/room.service");
 //deploy test
 module.exports = class RoomController {
@@ -43,7 +42,7 @@ module.exports = class RoomController {
             .json({ message: "roomPw should be 20 or less" });
         }
       }
-      if (roomTitle.length >= 20) {
+      if (roomTitle.length > 15) {
         return res
           .status(400)
           .json({ message: "roomTitle should be 20 or less" });
