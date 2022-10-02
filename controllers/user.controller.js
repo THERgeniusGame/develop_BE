@@ -94,7 +94,7 @@ class UserController {
         try {
             const result = await this.userService.kakaologin(email, nickname);
             
-                return res.status(result.status).json(result.message);
+            return res.status(result.status).json(result.message);
             
         } catch (err){
             next(err);
