@@ -155,7 +155,7 @@ class UserService {
             const token = jwt.sign(payload, env.SECRET_KEY,{
               expiresIn: '2h', //토큰 유효시간 2시간
             });
-            return { status: 201, data: token };
+            return { status: 201, message: token };
           }
             if(userInfo.kakao===false){
               throw {status:400, message:"Email-signer"};
