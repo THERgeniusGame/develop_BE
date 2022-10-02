@@ -8,6 +8,8 @@ module.exports = class RoomService {
     try {
       const roomsInfo = await this.roomRepository.getRoomsInfo(offset);
       const roomNum = await this.roomRepository.getRoomsNum();
+      const unlockNum = await this.roomRepository.unlockNum();
+      const lockNum = await this.roomRepository.lockNum();
 
       if (roomsInfo.length === 0) {
         return { message: "No-Exist-roomInfo" };
@@ -31,7 +33,7 @@ module.exports = class RoomService {
         userId: roomInfo.userId,
         nickname: roomInfo["User.nickname"],
       }));
-      return { result, roomNum };
+      return { result, roomNum, unlockNum, lockNum };
     } catch (err) {
       throw err;
     }
