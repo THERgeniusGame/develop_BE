@@ -179,12 +179,12 @@ class UserService {
         const password = env.KAKAO_PW;
         const userInfo = await this.userRepository.kakaologin(email, password);
         const emailcheck = await this.userRepository.checkemail(email);
-        var emailRule = /^[!@#$%^&-_\.]*[0-9a-zA-Z]+[!@#$%^&-_\.]*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(email)
+        // var emailRule = /^[!@#$%^&-_\.]*[0-9a-zA-Z]+[!@#$%^&-_\.]*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(email)
         var pattern = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/.test(nickname);
         
-        if(!emailRule){
-            throw { status:400,message:"Email-Bad-Request" }
-        }
+        // if(!emailRule){
+        //     throw { status:400,message:"Email-Bad-Request" }
+        // }
         if(!pattern){
             throw { status:400, message:"Nickname-Bad-Request"}
         }
