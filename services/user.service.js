@@ -165,10 +165,13 @@ class UserService {
         const password = env.KAKAO_PW;
         const userInfo = await this.userRepository.kakaologin(email, password);
         const emailcheck = await this.userRepository.checkemail(email);
-
+        const nicknamecheck = await this.userRepository.nicknamecheck(nickname);
         if(emailcheck){
 
           throw {status:400, message:"Email-signer"}
+        };
+        if(nicknamecheck){
+            throw {status:400, message:"Exist-Nickname"}
         }
         if (!userInfo) {
             const userInfo = await this.userRepository.kakaosignup(
