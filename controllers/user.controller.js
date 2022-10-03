@@ -101,9 +101,9 @@ class UserController {
     
     //카카오로그인
     kakaologin = async (req, res, next) => {
-        const { email, nickname } = req.body;
+        const { email } = req.body;
         try {
-            const result = await this.userService.kakaologin(email, nickname);
+            const result = await this.userService.kakaologin(email,req);
             
             return res.status(result.status).json(result.message);
             
