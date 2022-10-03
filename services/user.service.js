@@ -180,7 +180,17 @@ class UserService {
         const userInfo = await this.userRepository.kakaologin(email, password);
         const emailcheck = await this.userRepository.checkemail(email);
         var emailRule = /^[!@#$%^&-_\.]*[0-9a-zA-Z]+[!@#$%^&-_\.]*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(email)
+        var pattern = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/.test(nickname);
         
+        if(!emailRule){
+            throw { status:400,message:"Email-Bad-Request" }
+        }
+        if(!pattern){
+            throw { status:400, message:"Nickname-Bad-Request"}
+        }
+        if(emailcheck){
+            throw {status:400, message:"Email-signer"}
+        };
         if(userInfo){
             const payload = {
                 userId: userInfo.userId,
@@ -196,16 +206,29 @@ class UserService {
             return { status: 200, message: token };
         }
         const nicknamecheck = await this.userRepository.checknickname(nickname);
-        if(!emailRule){
-            throw { status:400,message:"Bad-Request" }
-        }
-        if(emailcheck){
-
-          throw {status:400, message:"Email-signer"}
-        };
         if(nicknamecheck){
             throw {status:400, message:"Exist-Nickname"}
         }
+        if (!userInfo) {
+            const userInfo = await this.userRepository.kakaosignup(
+                email,
+                nickname,
+                password
+            );
+            const payload = {
+                userId: userInfo.userId,
+                nickname: userInfo.nickname,
+                win: userInfo.win,
+                lose: userInfo.lose,
+                total: userInfo.total,
+                kakao: userInfo.kakao,
+            };
+            const token = jwt.sign(payload, env.SECRET_KEY, {
+                expiresIn: "2h", //토큰 유효시간 2시간
+            });
+            return { status: 201, message: token };
+        }
+        
         if (!userInfo) {
             const userInfo = await this.userRepository.kakaosignup(
                 email,
