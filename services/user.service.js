@@ -164,7 +164,7 @@ class UserService {
     kakaouser = async(email) =>{
         const kakaouser = await this.userRepository.kakaouser(email)
         const emailcheck = await this.userRepository.checkemail(email);
-        console.log(kakaouser.nickname)
+        
         if(emailcheck){
             throw { status:200, message:"Email-signer"}
         }

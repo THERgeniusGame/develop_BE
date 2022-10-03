@@ -12,7 +12,7 @@ router.post("/", async (req, res, next) => {
     try {
         const { email } = req.body;
         const emailcheck = await Users.findOne({ where: { email } });
-
+        console.log(emailcheck)
         if (emailcheck === null) {
             var authNum = Math.random().toString().substr(2, 6);
             var emailTemplete;
