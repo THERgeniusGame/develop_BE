@@ -189,8 +189,8 @@ class UserService {
             throw { status:400, message:"Nickname-Bad-Request"}
         }
         if(emailcheck){
-            throw {status:400, message:"Email-signer"}
-        };
+            throw { status:400, message:"Email-signer"}
+        }
         if(userInfo){
             const payload = {
                 userId: userInfo.userId,
