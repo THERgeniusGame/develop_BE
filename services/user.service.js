@@ -170,8 +170,9 @@ class UserService {
         }
     }
     //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
-    kakaologin = async (email, nickname) => {
+    kakaologin = async (email,req) => {
         const password = env.KAKAO_PW;
+        const nickname = req.body;
         const userInfo = await this.userRepository.kakaologin(email, password);
         const emailcheck = await this.userRepository.checkemail(email);
         const nicknamecheck = await this.userRepository.checknickname(nickname);
