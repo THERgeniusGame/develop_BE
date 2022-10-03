@@ -160,14 +160,75 @@ class UserService {
             return { status: 200, message: "secession-success" };
         }
     };
+    //카카오유저확인
+    kakaouser = async(email) =>{
+        const kakaouser = await this.userRepository.kakaouser(email)
+        const emailcheck = await this.userRepository.checkemail(email);
+        console.log(kakaouser.nickname)
+        if(emailcheck){
+            throw { status:200, message:"Email-signer"}
+        }
+        if(kakaouser) {
+            return { status:200, message:"Exist-User" };
+        }else{
+            throw { status:400, message:"Not-Exist-User"};
+        }
+    }
     //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
-    kakaologin = async (email, nickname) => {
+    kakaologin = async (email,nickname) => {
         const password = env.KAKAO_PW;
         const userInfo = await this.userRepository.kakaologin(email, password);
         const emailcheck = await this.userRepository.checkemail(email);
-        if(emailcheck !== null){
-          throw {status:400, message:"Email-signer"}
+        // var emailRule = /^[!@#$%^&-_\.]*[0-9a-zA-Z]+[!@#$%^&-_\.]*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(email)
+        var pattern = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/.test(nickname);
+        
+        // if(!emailRule){
+        //     throw { status:400,message:"Email-Bad-Request" }
+        // }
+        if(!pattern){
+            throw { status:400, message:"Nickname-Bad-Request"}
         }
+        if(emailcheck){
+            throw { status:400, message:"Email-signer"}
+        }
+        if(userInfo){
+            const payload = {
+                userId: userInfo.userId,
+                nickname: userInfo.nickname,
+                win: userInfo.win,
+                lose: userInfo.lose,
+                total: userInfo.total,
+                kakao: userInfo.kakao,
+            };
+            const token = jwt.sign(payload, env.SECRET_KEY, {
+                expiresIn: "2h", //토큰 유효시간 2시간
+            });
+            return { status: 200, message: token };
+        }
+        const nicknamecheck = await this.userRepository.checknickname(nickname);
+        if(nicknamecheck){
+            throw {status:400, message:"Exist-Nickname"}
+        }
+        if (!userInfo) {
+            const userInfo = await this.userRepository.kakaosignup(
+                email,
+                nickname,
+                password
+            );
+            const payload = {
+                userId: userInfo.userId,
+                nickname: userInfo.nickname,
+                win: userInfo.win,
+                lose: userInfo.lose,
+                total: userInfo.total,
+                kakao: userInfo.kakao,
+            };
+            const token = jwt.sign(payload, env.SECRET_KEY, {
+                expiresIn: "2h", //토큰 유효시간 2시간
+            });
+            return { status: 201, message: token };
+        }
+        
         if (!userInfo) {
             const userInfo = await this.userRepository.kakaosignup(
                 email,
@@ -190,8 +251,8 @@ class UserService {
         if (userInfo.kakao === false) {
             throw { status: 400, message: "Email-signer" };
         } else {
-            if (userInfo.nickname == nickname) {
-                //프로필 변경은 업데이트 하지않음
+            if (userInfo.nickname) {
+                
                 const payload = {
                     userId: userInfo.userId,
                     nickname: userInfo.nickname,
@@ -200,26 +261,8 @@ class UserService {
                     total: userInfo.total,
                 };
                 const token = jwt.sign(payload, env.SECRET_KEY);
-                return { status: 201, message: token };
-            } else {
-                const userInfo = await this.userRepository.kakaoupdate(
-                    email,
-                    nickname,
-                    password
-                );
-                const payload = {
-                    userId: userInfo.userId,
-                    nickname: userInfo.nickname,
-                    win: userInfo.win,
-                    lose: userInfo.lose,
-                    total: userInfo.total,
-                    kakao: userInfo.kakao,
-                };
-                const token = jwt.sign(payload, env.SECRET_KEY, {
-                    expiresIn: "2h", //토큰 유효시간 2시간
-            });
-                return { status: 201, message: token };
-            }
+                return { status: 200, message: token };
+            } 
         }
     };
 

@@ -1,4 +1,4 @@
-###THER Genius
+### THER Genius
 
 ### Project Info
 항해 8기 F반 7조 실전프로젝트
