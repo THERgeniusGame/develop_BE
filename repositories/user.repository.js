@@ -43,6 +43,10 @@ class UserRepository {
         return await Emails.findOne({where:{email}})
     }
 
+    kakaouser = async(email) => {
+        return await Users.findOne({where:email, kakao:"true"})
+    }
+
     kakaologin = async (email, password) => {
         return await Users.findOne({ where: { email, password, kakao:"true" } });
     };

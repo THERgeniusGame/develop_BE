@@ -160,6 +160,15 @@ class UserService {
             return { status: 200, message: "secession-success" };
         }
     };
+    //카카오유저확인
+    kakaouser = async(email) =>{
+        const kakaouser = await this.userRepository.kakaouser(email)
+        if(kakaouser) {
+            return { status:200, message:"Exist-User" };
+        }else{
+            return { status:400, message:"Not-Exist-User"};
+        }
+    }
     //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
     kakaologin = async (email, nickname) => {
         const password = env.KAKAO_PW;
