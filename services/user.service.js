@@ -166,10 +166,10 @@ class UserService {
         const emailcheck = await this.userRepository.checkemail(email);
         
         if(emailcheck){
-            throw { status:200, message:"Email-signer"}
+            return { status:200, message:"Email-signer"}
         }
         if(kakaouser) {
-            return { status:200, message:"Exist-User" };
+            return { status:200, message:"Exist-User"};
         }else{
             throw { status:400, message:"Not-Exist-User"};
         }
