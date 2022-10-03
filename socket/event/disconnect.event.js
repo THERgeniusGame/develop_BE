@@ -16,10 +16,11 @@ module.exports = (io, socket,roomList) => {
                 throw("None-User")   
             }
             // chat emit
-            let chat={
-                nickname: socket.nickname,
+            let changeNick=socket.nickname.replace(" ","");
+            let chat = {
+                nickname: changeNick,
                 msg: "님이 퇴장하셨습니다.",
-            }
+            };
             io.to(socket.room).emit("chat",chat);
             const index=roomList.findIndex(ele=>ele.roomId==socket.room);
             if(index!==-1){
