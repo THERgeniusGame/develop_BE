@@ -43,8 +43,9 @@ module.exports = (io, socket) => {
       if(clear_Msg.msg==="badword"){
         data.msg=clear_Msg.sendMsg
       }
+      let changeNick=socket.nickname.replace(" ","");
       var msg = {
-        nickname: socket.nickname,
+        nickname: changeNick,
         msg: data.msg,
       };
       // 메시지를 전송한 클라이언트를 제외한 모든 클라이언트에게 메시지를 전송한다
