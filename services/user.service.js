@@ -163,7 +163,6 @@ class UserService {
     //카카오로그인(카카오API에서 받은 이메일과 닉네임값으로 토큰발급)
     kakaologin = async (email, nickname) => {
         const password = env.KAKAO_PW;
-        const nickname2 = nickname+" ";
         const userInfo = await this.userRepository.kakaologin(email, password);
         const emailcheck = await this.userRepository.checkemail(email);
 
@@ -174,7 +173,7 @@ class UserService {
         if (!userInfo) {
             const userInfo = await this.userRepository.kakaosignup(
                 email,
-                nickname2,
+                nickname,
                 password
             );
             const payload = {
@@ -193,7 +192,7 @@ class UserService {
         if (userInfo.kakao === false) {
             throw { status: 400, message: "Email-signer" };
         } else {
-            if (userInfo.nickname == nickname2) {
+            if (userInfo.nickname == nickname) {
                 //프로필 변경은 업데이트 하지않음
                 const payload = {
                     userId: userInfo.userId,
@@ -207,7 +206,7 @@ class UserService {
             } else {
                 const userInfo = await this.userRepository.kakaoupdate(
                     email,
-                    nickname2,
+                    nickname,
                     password
                 );
                 const payload = {
