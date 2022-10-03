@@ -205,7 +205,7 @@ class UserService {
                     total: userInfo.total,
                 };
                 const token = jwt.sign(payload, env.SECRET_KEY);
-                return { status: 201, message: token };
+                return { status: 200, message: token };
             } else {
                 const userInfo = await this.userRepository.kakaoupdate(
                     email,
