@@ -38,7 +38,12 @@ class RankService {
           total: user.total,
           winavg: Math.floor((user.win / user.total) * 100),
         }))
-        .sort((a, b) => b.win - a.win);
+        .sort((a, b) => {
+          if (b.win < a.win) return -1;
+          if (b.win > a.win) return 1;
+          if (b.winavg > a.winavg) return 1;
+          if (b.winavg < a.winavg) return -1;
+        });
       let ranking = [];
       for (let i = 0; i < rankWithAvg.length; i++) {
         ranking.push({
