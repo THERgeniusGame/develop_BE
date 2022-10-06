@@ -87,12 +87,24 @@ class UserController {
             next(err);
         }
     };
+
+    //카카오로그인유저확인
+    kakaouser = async(req,res,next) => {
+        const { email } = req.body;
+        try{
+            const kakaouser = await this.userService.kakaouser(email);
+            return res.status(kakaouser.status).json(kakaouser.message);
+        } catch(err){
+            next(err);
+        }
+    }
     
     //카카오로그인
     kakaologin = async (req, res, next) => {
-        const { email, nickname } = req.body;
+        const { email,nickname } = req.body;
+        
         try {
-            const result = await this.userService.kakaologin(email, nickname);
+            const result = await this.userService.kakaologin(email,nickname);
             
             return res.status(result.status).json(result.message);
             

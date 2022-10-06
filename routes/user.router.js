@@ -272,6 +272,8 @@ router.delete("/secession",authMiddleware, userController.secession);
  *       400:
  *           description: Something is wrong
  */
+//카카오유저확인
+router.post("/kakaouser",userController.kakaouser);
 //카카오 로그인
 router.post("/kakao", userController.kakaologin);
 
