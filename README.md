@@ -4,6 +4,10 @@
 항해 8기 F반 7조 실전프로젝트
 TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 즐길 수 있도록 웹 게임으로 만들었습니다.
 게임은 Socket.io 를 기반으로 한 1대1 방식으로 진행되며 흑 과 백을 모티브로 한 웹 보드게임 "THERGenius"입니다.
+
+###  <img src="https://img.shields.io/badge/프로젝트발표영상-000000?style=flat-square&logo=YouTube&logoColor=FF0000"/>
+[최종발표](https://youtu.be/ESSO1rTWOhY)
+
 ###  <img src="https://img.shields.io/badge/.ENV-ECD53F?style=flat-square&logo=.ENV&logoColor=000000"/>
 
 
@@ -13,8 +17,8 @@ TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 
  MYSQL_DATABASE     데이터베이스 저장소
  MYSQL_HOST         데이터베이스 이름
  SECRET_KEY         JWT 토큰키
- NODEMAILER_USER    이메일
- NODEMAILER_PASS    이메일 비밀번호
+ NODEMAILER_USER    메일 발송 이메일
+ NODEMAILER_PASS    메일 발송 이메일 비밀번호
  PORT               포트 번호
  REPORT_PAGE_COUNT  신고페이지목록 개수
  ADMIN_USERID       관리자 유저 번호
@@ -43,7 +47,7 @@ Class : Pascal Case
 
 ```
 ### 서비스 아키텍쳐
-![image](https://user-images.githubusercontent.com/108967786/192097106-93a2af0f-e8b3-460d-af08-6065f354bf28.png)
+![image](https://user-images.githubusercontent.com/108967786/194686606-b3952d1d-bf06-48fa-b971-6c4a919e0438.png)
 
 ### <img src="https://img.shields.io/badge/와이어그램-B8DBE4?style=flat-square&logo=Pixabay&logoColor=000000"/>
 
