@@ -1,5 +1,7 @@
 ### THER Genius
 
+<img width="622" alt="Screen Shot 2022-10-03 at 5 11 09 PM" src="https://user-images.githubusercontent.com/108967786/194691739-b1f3648c-3780-4494-aff8-1de942c3fc1b.png">
+
 ### Project Info
 항해 8기 F반 7조 실전프로젝트
 TVN "더 지니어스"에 방송된 흑과 백 보드게임을 여러 사람과 즐길 수 있도록 웹 게임으로 만들었습니다.
